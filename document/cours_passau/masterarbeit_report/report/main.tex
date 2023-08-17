@@ -4,7 +4,7 @@
 
 % VSCODE word wrap: ALT + Z
 % COMPILE WITH:
-% `latexmk`
+% `latexmk` 
 % latexmk -pdf main.tex
 % You need pdflatex and biber (in all TeXLive distributions)
 
@@ -31,6 +31,7 @@
 \usepackage{multirow}
 \usepackage[]{scrlayer-scrpage}
 \usepackage[titletoc]{appendix}
+\usepackage{comment}
 
 % quotes and bibliography: https://www.overleaf.com/learn/latex/Typesetting_quotations
 \usepackage{csquotes}
@@ -58,6 +59,8 @@
 \usepackage{hyperref}
 \usepackage[acronym, toc]{glossaries} 
 \makeglossaries
+\newacronym{vmi}{VMI}{Virtual Machine Introspection}
+\begin{comment}
 \newglossaryentry{nodes}
 {
     name=nodes,
@@ -79,6 +82,7 @@
 \newacronym{gnn}{GNN}{Graph Neural Network}
 \newacronym{gcn}{GCN}{Graph Convolutional Networks}
 %\input{glossaries.tex} % acronyms definitions, failed to make in work on a separate file!!!
+\end{comment}
 
 % custom commands
 % escape char in latex: https://tex.stackexchange.com/questions/34580/escape-character-in-latex
@@ -102,12 +106,12 @@
 \cfoot[\pagemark]{\pagemark}
 
 % document info
-\newcommand{\thetitle}{What is a Knownledge Graph?}
-\newcommand{\theauthor}{Rascoussier, Florian Guillaume Pierre}
+\newcommand{\thetitle}{Structure embeddings for OpenSSH heap dump analysis}
+\newcommand{\theauthor}{Lahoche, Clément Claude Martial}
 
 \title{\thetitle}
 \author{\theauthor}
-\date{April-Mai 2023}
+\date{\today}
 
 % document content
 \begin{document}
@@ -119,28 +123,22 @@
 
 % -- ABSTRACT
 \section*{Abstract}
-Knowledge graphs (\acrshort{kg}s) represent a powerful approach to organizing and structuring real-world information by modeling entities, their properties, and the relationships between them. As an enabling technology that has seen major developments in the last decade, \acrshort{kg}s have gained significant traction in various domains such as \acrshort{nlp}, information retrieval, recommendation systems, and semantic search.
-
-By facilitating advanced querying, reasoning, and knowledge discovery, KGs have become instrumental in numerous applications. The integration of KGs with machine learning techniques, such as graph neural networks and entity embeddings, has further bolstered their capabilities in prediction and pattern recognition. In the industry, major technology companies, including Google, or Amazon have embraced KGs to enhance search engines, virtual assistants, and social media platforms. Major open-source projects are centered around KGs  Despite the considerable progress, challenges persist in areas such as data validation, real-time updates, privacy preservation, and usability. 
-
-The current report discusses what are Knowledge Graphs, and introduces related concepts like construction, embedding methods as well as reasoning techniques. As a seminar report, it is based on several papers and also include the questions raised during the presentation.  
 
 % -- Acknowledgements
 \section*{Acknowledgements}
-I would like to express my sincere gratitude to all the participants of the seminar on Knowledge Graph for their valuable insights, discussions, and contributions. 
 
-A special acknowledgment goes to my monitor, Prof. Dr. Alsayed Algergawy, for his support, encouragement, and inspiration throughout the course of this work, especially for the selection of relevant papers to review. His knowledge and experience in the field have been invaluable in this seminar. I would also like to thank Andreas Einwiller for his guidance and feedback before and during the presentation and discussion session.
 
 \newpage
 
 % table of content with list of figures & tables
 \tableofcontents
-%\listoffigures
-%\listoftables
+\listoffigures
+\listoftables
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagenumbering{arabic} % reset page numbering of main matter sections
+\begin{comment}
 \section{Introduction and History}
 
 \subsection{Motivation}
@@ -340,6 +338,7 @@ This report has provided a comprehensive review of three key papers in the field
 The second paper, \citetitle{CKG23} \cite*{CKG23}, offers a state-of-the-art review of KG construction, highlighting the need for more open-source toolsets and good data management. However, it is still a preprint and lacks practical examples. The section 3.2 of the third paper, \citetitle{KGKE22} \cite*{KGKE22}, provides valuable insights into the history and evolution of knowledge engineering.
 
 In conclusion, the field of KG have been rapidly evolving especially over the course of the last decade, with significant contributions being made in both theoretical concepts and practical applications. The reviewed papers provide valuable insights into this field and highlight areas for future research and improvement. This report has aimed to critically evaluate these papers and provide a comprehensive overview of the current state of KGs.
+\end{comment}
 
 \include{tex/chapters/introduction}
 \include{tex/chapters/background}
@@ -357,11 +356,11 @@ In conclusion, the field of KG have been rapidly evolving especially over the co
 
 % glossary and acronyms
 \newpage
-% \printglossary[type=\acronymtype, title=Acronymes]
+\printglossary[type=\acronymtype, title=Acronymes]
 % \printglossary[title=Glossaire]
-\printglossary[type=\acronymtype]
+%\printglossary[type=\acronymtype]
 
-\printglossary
+%\printglossary
 
 % biblio
 \newpage
