@@ -9,3 +9,7 @@ To build the acronym, you must run the command :
 ```shell
 make build
 ```
+
+# ChatGpt
+
+To use chatGPT effisciently, here is a prompt to reformule text : `can you reformulate as quillbot ?`
