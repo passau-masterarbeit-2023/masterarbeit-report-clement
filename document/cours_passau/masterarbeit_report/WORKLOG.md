@@ -1,5 +1,21 @@
 # Logs
 
+## 23/08/23
+
+
+1. **Sutskever, I., Vinyals, O., & Le, Q. V. (2014).** Sequence to sequence learning with neural networks. In Advances in neural information processing systems (pp. 3104-3112).
+   * This paper introduces a general end-to-end approach to sequence learning that makes minimal assumptions on the sequence structure, using multilayered Long Short-Term Memory (LSTM) networks.
+2. **Chung, J., Gulcehre, C., Cho, K., & Bengio, Y. (2014).** Empirical evaluation of gated recurrent neural networks on sequence modeling. arXiv preprint arXiv:1412.3555.
+   * This paper evaluates the performance of Gated Recurrent Units (GRUs) and their variants on various sequence modeling tasks.
+3. **Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... & Polosukhin, I. (2017).** Attention is all you need. In Advances in neural information processing systems (pp. 5998-6008).
+   * This paper introduces the Transformer model, which solely relies on attention mechanisms to draw global dependencies between input and output, making it suitable for various sequence-to-sequence tasks.
+4. **Hochreiter, S., & Schmidhuber, J. (1997).** Long short-term memory. Neural computation, 9(8), 1735-1780.
+   * A foundational paper that introduces the LSTM architecture, designed to handle long sequences and their long-range dependencies.
+5. **Bai, S., Kolter, J. Z., & Koltun, V. (2018).** An empirical evaluation of generic convolutional and recurrent networks for sequence modeling. arXiv preprint arXiv:1803.01271.
+   * This paper provides an empirical evaluation of convolutional networks for sequence modeling and compares them to canonical recurrent networks.
+6. **Lai, S., Xu, L., Liu, K., & Zhao, J. (2015).** Recurrent convolutional neural networks for text classification. In Twenty-ninth AAAI conference on artificial intelligence.
+   * This paper combines RNNs and CNNs for text classification, which can be seen as a form of sequence embedding.
+
 ## 21/08/2023
 
 finish the introduction, beginning of embedding state of the art (chatGpt):

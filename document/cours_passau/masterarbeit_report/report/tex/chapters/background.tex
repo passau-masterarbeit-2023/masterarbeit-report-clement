@@ -1,4 +1,29 @@
 \section{Background}\label{chap:background}
 
 
-Introduce the related state-of-the-art and background information in order to understand the method developed in the thesis. 
+\paragraph*{}In the complex world of cybersecurity and digital forensics, innovative approaches are crucial for revealing hidden or encrypted information. OpenSSH stands out as a key instrument for ensuring secure communication. The memory snapshots, or heap dumps, of OpenSSH are treasure troves of data. Through graph generation from these dumps, we can uncover the detailed connections between data structures, identified by their malloc headers, and their associated pointers.
+
+\paragraph*{}This research delves deep into the smart embedding of these connections, aiming to use machine learning classifiers to identify structures that contain OpenSSH keys. The journey is not just about representing data through graphs but also about understanding the raw sequences of bytes in the heap dump. Classical techniques like Shannon entropy, Byte Frequency Distribution (\acrshort{bfd}), and bigram frequencies provide foundational knowledge. However, the rapidly evolving domain of deep learning opens up a plethora of avenues. Models such as Recurrent Neural Networks (\acrshort{rnn}s) \cite{lai_recurrent_2015} (like Long Short-Term Memory (\acrshort{ltsm}) \cite{hochreiter_long_1997} and Gated Recurrent Units (\acrshort{gru})\cite{chung_empirical_2014}) and sequence-to-sequence learning \cite{sutskever_sequence_2014} offer unique perspectives on raw byte embedding. The transformative power of attention mechanisms, as highlighted by the transformer architecture\cite{vaswani_attention_2017}. Furthermore, the efficacy of convolutional approaches (\acrshort{cnn}), both standalone and in conjunction with recurrent networks, for sequence modeling is well-documented \cite{bai_empirical_2018}. Notably, the application of neural networks in file fragment classification, especially with lossless representations, has shown promising results \cite{hiester_file_2018}.
+
+\paragraph*{}The aim of this background section is to provide a comprehensive overview of graph creation from heap dumps, techniques for raw byte embedding, and their role in identifying OpenSSH key structures. By merging age-old techniques with modern approaches, we strive to highlight the most effective methods for analyzing OpenSSH heap dump.
+
+\subsection{Graph Generation from Heap Dumps}
+    \subsubsection{Introduction to heap dumps in OpenSSH}
+    \subsubsection{Definitions : Structures, Pointers, and the role of malloc headers}
+\subsection{Traditional Statistical Embedding}
+    \subsubsection{Shannon entropy and its application in byte sequence analysis}
+    \subsubsection{Byte Frequency Distribution (BFD) and its significance}
+    \subsubsection{Bigram, trigram frequencies}
+\subsection{Deep Learning Models for Raw Byte Embedding}
+    \subsubsection{Introduction to the role of deep learning in byte sequence analysis}
+    \subsubsection{RNNs : Understanding sequence data}
+    \subsubsection{CNNs : Pattern detection in raw bytes}
+    \subsubsection{Autoencoders}
+    \subsubsection{Transformers}
+\subsection{Graph Embedding Methods}
+    \subsubsection{Introduction to graph embedding}
+    \subsubsection{Popular embedding techniques}
+        \paragraph{Node2Vec, GraphSAGE, and others}
+    \subsubsection{Applications and significance in OpenSSH heap dump analysis}
+
+\subsection{Conclusion and Transition to the Next Section}
