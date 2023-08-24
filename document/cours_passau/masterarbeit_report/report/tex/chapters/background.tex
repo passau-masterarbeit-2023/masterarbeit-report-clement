@@ -8,7 +8,50 @@
 \paragraph*{}The aim of this background section is to provide a comprehensive overview of graph creation from heap dumps, techniques for raw byte embedding, and their role in identifying OpenSSH key structures. By merging age-old techniques with modern approaches, we strive to highlight the most effective methods for analyzing OpenSSH heap dump.
 
 \subsection{Graph Generation from Heap Dumps}
-    \subsubsection{Introduction to heap dumps in OpenSSH}
+    \subsubsection{Secure Shell Protocol (SSH)}
+
+        \paragraph*{}The Secure Shell Protocol (SSH) is designed to enable encrypted communication across potentially unsecured networks, ensuring the confidentiality of data during transmission. Each SSH session utilizes a specific set of session keys, encompassing six distinct keys:
+
+        \begin{itemize}
+            \item \textbf{Key A:} Client-to-server initialization vector (IV)
+            \item \textbf{Key B:} Server-to-client initialization vector (IV)
+            \item \textbf{Key C:} Client-to-server encryption key (EK)
+            \item \textbf{Key D:} Server-to-client encryption key (EK)
+            \item \textbf{Key E:} Client-to-server integrity key
+            \item \textbf{Key F:} Server-to-client integrity key
+        \end{itemize}
+
+        \paragraph*{}To decrypt the encrypted traffic within an SSH session, knowledge of the IV and EK pair (either Key A with Key C or Key B with Key D) is essential, assuming the presence of passive network monitoring tools. OpenSSH, a prevalent implementation of SSH, is the primary subject of this research, covering versions from V6\_0P1 to V8\_8P1. OpenSSH incorporates various encryption methodologies, including Advanced Encryption Standard (AES) Cipher Block Chaining (CBC), AES Counter (AES-CTR), and ChaCha20, with IV and EK key lengths varying between 12 and 64 bytes. This information is derived from the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}.
+
+    \subsubsection{heap dumps of OpenSSH}
+        \paragraph*{}Heap memory, distinct from local stack memory, is a dynamic memory allocation mechanism. While local stack memory is responsible for storing and deallocating local variables during function calls, heap memory requires explicit memory allocation and deallocation. This is achieved using operators such as \texttt{new} in Java and C++, or \texttt{malloc/calloc} in C.
+
+        \paragraph*{}OpenSSH, which is primarily written in C, employs \texttt{calloc} for memory block allocation. These blocks are designated to store session-related data, including the cryptographic keys. By leveraging this knowledge, one can deduce that if the heap of an active OpenSSH process is dumped at an opportune moment (for instance, during an ongoing SSH session), the resulting heap dump will encompass the SSH session keys. This information is also derived from the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}.
+
+    \subsubsection{Dataset}
+        \paragraph{}We use SSHKex\cite*{sentanoe_sshkex_2022} as the primary method to extract the SSH keys from the main memory. In addition, we add two features to SSHKex: automatically dump OpenSSH’s heap and add support for SSH client monitoring.
+
+        \paragraph{}For this paper, we are using four SSH scenarios: the client connects to the server and exits immediately, port-forward, secure copy, and SSH shared connection.
+        Two file formats, JSON and RAW, are utilized to store the generated logs. The JSON log file encompasses meta-information, including the encryption name, the virtual memory address of a key, and the key's value in hexadecimal representation (as depicted in Figure~\ref{fig:Background:json}). Conversely, the binary file captures the heap dump of the OpenSSH process (illustrated in Figure~\ref{fig:Background:xxd} using the \texttt{xxd} command).
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.6\textwidth]{img/background/json_annotation_for_1010-1644391327.png}
+            \caption{Json exemple}
+            \label{fig:Background:json}
+        \end{figure}
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.6\textwidth]{img/background/xxd.png}
+            \caption{Xxd exemple}
+            \label{fig:Background:xxd}
+        \end{figure}
+
+        \paragraph{}The dataset is structured into two primary directories: \texttt{training} and \texttt{validation}. Each of these directories is further segmented into subdirectories reflecting the specific scenario, such as OpenSSH, port-forwarding, or secure copy (SCP).
+
+        \paragraph{}Subdirectories under OpenSSH or SCP are categorized based on the software version responsible for the memory dump. These directories are further organized by the software version that generated the memory dump. The heaps are then classified based on their key lengths, with each key length possessing its dedicated directory beneath the version directory. These version-specific directories are further divided based on the different key lengths present in a heap.
+
+        \paragraph{}Accompanying every raw memory dump is a JSON file, distinguished by the same alphanumeric sequence, barring the ``-heap'' suffix. This JSON file encapsulates various encryption keys and additional metadata, such as the process ID and the offset of the heap. Consequently, the dataset's utility is not confined to extracting session keys but also extends to identifying crucial data structures harboring sensitive information. The dataset, along with the associated code and tools, is open-sourced. The dataset is accessible via a Zenodo repository\footnote{\url{https://zenodo.org/record/6537904}}. The code can be found in a public GitHub repository\footnote{Link to the GitHub repository}. This data is the same as the data used in the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}.
     \subsubsection{Definitions : Structures, Pointers, and the role of malloc headers}
 \subsection{Traditional Statistical Embedding}
     \subsubsection{Shannon entropy and its application in byte sequence analysis}
