@@ -33,6 +33,7 @@
 \usepackage[]{scrlayer-scrpage}
 \usepackage[titletoc]{appendix}
 \usepackage{comment}
+\usepackage{csquotes}% quote
 
 % quotes and bibliography: https://www.overleaf.com/learn/latex/Typesetting_quotations
 \usepackage{csquotes}
@@ -72,6 +73,21 @@
 \newacronym{gru}{GRU}{Gated Recurrent Units}
 \newacronym{rnn}{RNN}{Recurrent Neural Networks}
 \newacronym{cnn}{CNN}{Convolutional Neural Networks}
+
+% glossaries
+\newglossaryentry{pointer}
+{
+    name=pointer,
+    description={In our study, pointers are characterized as sequences of hexadecimal numbers that reference distinct memory addresses. These sequences can be recognized using the following regular expression: \texttt{"[0-9a-f]{12}0{4}"}}
+}
+
+\newglossaryentry{structure}
+{
+    name=structure,
+    description={In our study, structures are defined as a series of bytes that are allocated in the heap. These structures are allocated using the \texttt{calloc} function and begin everytime by a \textit{malloc header}}
+}
+
+
 \begin{comment}
 \newglossaryentry{nodes}
 {
@@ -372,7 +388,8 @@ In conclusion, the field of KG have been rapidly evolving especially over the co
 % \printglossary[title=Glossaire]
 %\printglossary[type=\acronymtype]
 
-%\printglossary
+\newpage
+\printglossary[title=Glossary]
 
 % biblio
 \newpage
