@@ -228,6 +228,30 @@
         \paragraph{}Dimensionality reduction techniques come to the rescue by striving to trim down the number of features while preserving the crux of the information. Techniques like \acrfull{pca} and \acrfull{t-sne} are employed to transform the data from its original high-dimensional space to a more manageable, lower-dimensional one. This transformation aims to retain the significant patterns and structures inherent in the data. By judiciously reducing the dimensionality, not only can models be trained more efficiently, but they often yield better performance by focusing on the most pertinent features. This streamlined approach mitigates the challenges posed by the curse of dimensionality, ensuring models that are both robust and interpretable.
 
     \subsubsection{Imbalanced data}
+        \paragraph{}In machine learning, a frequent obstacle is the presence of datasets where one category vastly overshadows others\cite{ramyachitra_imbalanced_2014}. This imbalance can skew models towards predicting the dominant class, often neglecting the less prevalent but potentially more critical class.
 
+        \paragraph{}To counteract this, a variety of techniques have been devised:
+        \begin{itemize}
+        \item \textbf{Resampling:} This encompasses both increasing instances of the minority class (oversampling) and decreasing instances of the majority class (undersampling). A notable method for oversampling is the \acrfull{smote}, which generates artificial data points in the feature space.
+        \item \textbf{Weighted Loss:} This strategy involves assigning greater weights to the minority class during the training phase, ensuring the model gives it due consideration.
+        \item \textbf{Ensemble Methods:} Approaches such as bagging and boosting can be tailored to ensure a balanced class representation. For example, in bagging, each sample can be structured to maintain a balanced class ratio.
+        \item \textbf{Anomaly Detection:} This method reframes the task from classification to anomaly detection, viewing the minority class as an outlier or anomaly.
+        \end{itemize}
+        \paragraph{}Selecting an appropriate strategy hinges on the specific problem and dataset characteristics. It's also crucial to evaluate the model's efficacy using suitable metrics, ensuring it genuinely addresses the imbalance.
 
     \subsubsection{Some common models}
+
+        \paragraph{\textbf{Logistic Regression\cite{nick_logistic_2007} :}}
+        Despite its name, logistic regression is used for binary classification problems. It estimates the probability that a given instance belongs to a particular category.
+        
+        \paragraph{\textbf{Decision Trees\cite{kotsiantis_decision_2013} :}}
+        Decision trees split the data into subsets based on the value of input features. This process is repeated recursively, resulting in a tree-like model of decisions. They are intuitive and easy to visualize but can be prone to overfitting.
+        
+        \paragraph{\textbf{Random Forest\cite{probst_hyperparameters_2019} :}}
+        Random Forest is an ensemble method that creates a 'forest' of decision trees. Each tree is trained on a random subset of the data and makes its own predictions. The Random Forest algorithm then aggregates these predictions to produce a final result. This method is known for its high accuracy, ability to handle large datasets with higher dimensionality, and its capacity to manage missing values.
+        
+        \paragraph{\textbf{Support Vector Machines (SVM)\cite{wu_analysis_2006} :}}
+        SVMs are used for both regression and classification problems. They work by finding the hyperplane that best divides a dataset into classes. SVMs are effective in high-dimensional spaces and are versatile, as different Kernel functions can be specified for the decision function.
+        
+        \paragraph{\textbf{K-Nearest Neighbors (KNN)\cite{laaksonen_classification_1996} :}}
+        KNN is a simple, instance-based learning algorithm. To make a prediction for a new data point, the algorithm finds the 'k' training examples that are closest to the point and returns the most common output value among them.
