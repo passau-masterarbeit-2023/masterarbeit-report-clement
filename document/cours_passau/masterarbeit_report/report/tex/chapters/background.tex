@@ -110,13 +110,13 @@
         \label{eq:standard_deviation}
         \end{equation}
 
-        \paragraph{Skewness}Skewness measures the asymmetry of the distribution of byte values around the mean. A positive value indicates a distribution that is skewed to the right, while a negative value indicates a distribution skewed to the left. It provides insights into the shape of the distribution of byte values. It is given by:
+        \paragraph{Skewness}Skewness\cite{wheeler_problems_2011} measures the asymmetry of the distribution of byte values around the mean. A positive value indicates a distribution that is skewed to the right, while a negative value indicates a distribution skewed to the left. It provides insights into the shape of the distribution of byte values. The Fisher’s skewness\cite{cain_univariate_2017} is :
         \begin{equation}
         \text{Skewness} = \frac{n}{(n-1)(n-2)} \sum_{i=1}^{n} \left( \frac{B_i - \text{Mean Byte Value}}{\text{Standard Deviation}} \right)^3
         \label{eq:skewness}
         \end{equation}
 
-        \paragraph{Kurtosis}Kurtosis measures the "tailedness" of the distribution of byte values. A higher kurtosis value indicates a distribution with heavier tails, while a lower value indicates lighter tails. It provides insights into the extremities of the distribution. It is defined as:
+        \paragraph{Kurtosis}Kurtosis\cite{wheeler_problems_2011} measures the "tailedness" of the distribution of byte values. A higher kurtosis value indicates a distribution with heavier tails, while a lower value indicates lighter tails. It provides insights into the extremities of the distribution. The Fisher’s kurtosis\cite{cain_univariate_2017} is :
         \begin{equation}
         \text{Kurtosis} = \frac{n(n+1)}{(n-1)(n-2)(n-3)} \sum_{i=1}^{n} \left( \frac{B_i - \text{Mean Byte Value}}{\text{Standard Deviation}} \right)^4 - \frac{3(n-1)^2}{(n-2)(n-3)}
         \label{eq:kurtosis}
@@ -193,14 +193,13 @@
         
         \paragraph{}Having explored the capabilities of CNNs and their sequence-to-sequence adaptations in raw byte embedding, it's pertinent to shift our focus to another transformative architecture in deep learning: autoencoders. 
     \subsubsection{Autoencoders}
-        \paragraph{}Autoencoders stand out as neural network models primarily tailored for compressing and subsequently reconstructing data. They pivot around two central components: the encoder and the decoder. The encoder's task is to condense the input data into a more compact form, often termed as the "latent space" or "embedding." This condensed representation encapsulates the key characteristics and structures of the input, making it especially useful for tasks that demand a streamlined representation of raw byte sequences.
+        \paragraph{}Autoencoders\cite{hinton_reducing_2006} are neural network designs specifically crafted for data compression and its subsequent reconstruction. They revolve around two main pillars: the encoder and the decoder. The encoder's role is to transform the input data into a tighter format, often labeled as the "latent space" or "embedding." This compacted version holds the essence and primary features of the input, proving invaluable for tasks that require a refined representation of raw byte sequences.
 
-        \paragraph{}What sets the encoder in an autoencoder apart is its innate capability to discern and capture the most significant aspects of the input data, all without specific instructions. In the context of raw bytes, this translates to the encoder's proficiency in pinpointing inherent patterns and connections within the byte sequences, crafting a detailed and meaningful embedding in the process.
+        \paragraph{}A distinguishing trait of the encoder within an autoencoder is its inherent ability to identify and encapsulate the most crucial elements of the input data, all without explicit guidance. When we talk about raw bytes, this means the encoder's adeptness at detecting intrinsic patterns and relationships in the byte sequences, leading to a comprehensive and insightful embedding.
+        
+        \paragraph{}Yet, a significant challenge with traditional autoencoders, even those adopting a \textit{sequence-to-sequence} pattern, is their constraint in managing inputs of varying sizes. Constructed with a set input size, they face difficulties when presented with sequences of diverse lengths, like raw byte sequences. This limitation can be problematic, especially when byte sequences differ considerably in length and may be not suitable for raw bytes embedding.
     \subsubsection{Transformers}
 \subsection{Graph Embedding Methods}
-    \subsubsection{Introduction to graph embedding}
-    \subsubsection{Popular embedding techniques}
-        \paragraph{Node2Vec, GraphSAGE, and others}
-    \subsubsection{Applications and significance in OpenSSH heap dump analysis}
+    Wait Onyr
 
 \subsection{Conclusion and Transition to the Next Section}
