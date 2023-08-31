@@ -232,26 +232,22 @@
 
         \paragraph{}To counteract this, a variety of techniques have been devised:
         \begin{itemize}
-        \item \textbf{Resampling:} This encompasses both increasing instances of the minority class (oversampling) and decreasing instances of the majority class (undersampling). A notable method for oversampling is the \acrfull{smote}, which generates artificial data points in the feature space.
-        \item \textbf{Weighted Loss:} This strategy involves assigning greater weights to the minority class during the training phase, ensuring the model gives it due consideration.
-        \item \textbf{Ensemble Methods:} Approaches such as bagging and boosting can be tailored to ensure a balanced class representation. For example, in bagging, each sample can be structured to maintain a balanced class ratio.
-        \item \textbf{Anomaly Detection:} This method reframes the task from classification to anomaly detection, viewing the minority class as an outlier or anomaly.
+            \item \textbf{Resampling:} This encompasses both increasing instances of the minority class (oversampling) and decreasing instances of the majority class (undersampling). A notable method for oversampling is the \acrfull{smote}, which generates artificial data points in the feature space.
+            \item \textbf{Weighted Loss:} This strategy involves assigning greater weights to the minority class during the training phase, ensuring the model gives it due consideration.
+            \item \textbf{Ensemble Methods:} Approaches such as bagging and boosting can be tailored to ensure a balanced class representation. For example, in bagging, each sample can be structured to maintain a balanced class ratio.
+            \item \textbf{Anomaly Detection:} This method reframes the task from classification to anomaly detection, viewing the minority class as an outlier or anomaly.
         \end{itemize}
         \paragraph{}Selecting an appropriate strategy hinges on the specific problem and dataset characteristics. It's also crucial to evaluate the model's efficacy using suitable metrics, ensuring it genuinely addresses the imbalance.
 
     \subsubsection{Some common models}
-
-        \paragraph{\textbf{Logistic Regression\cite{nick_logistic_2007} :}}
-        Despite its name, logistic regression is used for binary classification problems. It estimates the probability that a given instance belongs to a particular category.
+    \begin{itemize}
+        \item \textbf{Logistic Regression\cite{nick_logistic_2007} : }Logistic regression serves as a statistical technique tailored for binary classification tasks. While linear regression is designed to forecast continuous outcomes, logistic regression focuses on predicting the likelihood of a binary result. It leverages the logistic function to relate multiple independent variables to a binary outcome, ensuring the predicted values fall between 0 and 1. Typically, a 0.5 threshold is used to classify the final outcome. A key strength of logistic regression is its clarity and ease of interpretation, though it might face challenges with complex non-linear data unless further feature adjustments are made.
         
-        \paragraph{\textbf{Decision Trees\cite{kotsiantis_decision_2013} :}}
-        Decision trees split the data into subsets based on the value of input features. This process is repeated recursively, resulting in a tree-like model of decisions. They are intuitive and easy to visualize but can be prone to overfitting.
+        \item \textbf{Decision Trees\cite{kotsiantis_decision_2013} : }Decision trees are machine learning models designed for both classification and regression tasks. They segment data into subsets based on feature values, making decisions at each node. While their hierarchical structure offers easy visualization and interpretation, they can be prone to overfitting. However, strategies like pruning can help in refining the tree and mitigating overfitting.
         
-        \paragraph{\textbf{Random Forest\cite{probst_hyperparameters_2019} :}}
-        Random Forest is an ensemble method that creates a 'forest' of decision trees. Each tree is trained on a random subset of the data and makes its own predictions. The Random Forest algorithm then aggregates these predictions to produce a final result. This method is known for its high accuracy, ability to handle large datasets with higher dimensionality, and its capacity to manage missing values.
+        \item \textbf{Random Forest\cite{probst_hyperparameters_2019} : }Random Forest is an ensemble method that creates a 'forest' of decision trees. Each tree is trained on a random subset of the data and makes its own predictions. The Random Forest algorithm then aggregates these predictions to produce a final result. This method is known for its high accuracy, ability to handle large datasets with higher dimensionality, and its capacity to manage missing values.
         
-        \paragraph{\textbf{Support Vector Machines (SVM)\cite{wu_analysis_2006} :}}
-        SVMs are used for both regression and classification problems. They work by finding the hyperplane that best divides a dataset into classes. SVMs are effective in high-dimensional spaces and are versatile, as different Kernel functions can be specified for the decision function.
+        \item \textbf{\acrfull{svm}\cite{wu_analysis_2006} : }\acrshort{svm} are used for both regression and classification problems. They work by finding the hyperplane that best divides a dataset into classes. SVMs are effective in high-dimensional spaces and are versatile, as different Kernel functions can be specified for the decision function.
         
-        \paragraph{\textbf{K-Nearest Neighbors (KNN)\cite{laaksonen_classification_1996} :}}
-        KNN is a simple, instance-based learning algorithm. To make a prediction for a new data point, the algorithm finds the 'k' training examples that are closest to the point and returns the most common output value among them.
+        \item \textbf{\acrfull{knn}\cite{laaksonen_classification_1996} :}\acrshort{knn} is a simple, instance-based learning algorithm. To make a prediction for a new data point, the algorithm finds the 'k' training examples that are closest to the point and returns the most common output value among them.
+    \end{itemize}
