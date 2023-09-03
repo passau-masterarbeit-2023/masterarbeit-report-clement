@@ -1,5 +1,3 @@
-# build using pdflatex and biber
-
 default: build
 
 .DEFAULT_GOAL := default
