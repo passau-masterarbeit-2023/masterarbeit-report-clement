@@ -4,7 +4,7 @@ default: build
 .PHONY: default build
 
 build_pdf:
-	lualatex main.tex
+	latexmk main.tex
 
 build_bib:
 	biber main
