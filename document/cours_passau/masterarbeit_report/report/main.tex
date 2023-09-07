@@ -8,7 +8,7 @@
 % latexmk -pdf main.tex
 % You need pdflatex and biber (in all TeXLive distributions)
 
-\documentclass[11pt]{article} % text width
+\documentclass[11pt]{book} % text width
 \usepackage[utf8]{inputenc} % encode text to utf8
  
 
@@ -153,6 +153,8 @@
 \author{\theauthor}
 \date{\today}
 
+\setcounter{tocdepth}{3} % set depth of table of contents
+\setcounter{secnumdepth}{3}  % Numbering depth of sections
 
 % document content
 \begin{document}
@@ -384,6 +386,7 @@ In conclusion, the field of KG have been rapidly evolving especially over the co
 \include{tex/chapters/introduction}
 \include{tex/chapters/background}
 \include{tex/chapters/methods}
+\include{tex/chapters/embedding}
 \include{tex/chapters/results}
 \include{tex/chapters/discussion}
 \include{tex/chapters/conclusion}
