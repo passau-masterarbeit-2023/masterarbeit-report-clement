@@ -153,6 +153,14 @@
 \author{\theauthor}
 \date{\today}
 
+% title and section formatting
+\usepackage{titlesec}
+
+\titleclass{\chapter}{straight} % make chapters act like sections
+\titleformat{\chapter}
+  {\normalfont\Huge\bfseries}{\thechapter}{1em}{}
+\titlespacing*{\chapter}{0pt}{\parskip}{\parskip}
+
 \setcounter{tocdepth}{3} % set depth of table of contents
 \setcounter{secnumdepth}{3}  % Numbering depth of sections
 
