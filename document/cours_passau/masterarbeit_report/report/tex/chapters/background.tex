@@ -58,7 +58,7 @@
         \paragraph{}Accompanying every raw memory dump is a JSON file, distinguished by the same alphanumeric sequence, barring the ``-heap'' suffix. This JSON file encapsulates various encryption keys and additional metadata, such as the process ID and the offset of the heap. Consequently, the dataset's utility is not confined to extracting session keys but also extends to identifying crucial data structures harboring sensitive information. The dataset, along with the associated code and tools, is open-sourced. The dataset is accessible via a Zenodo repository\footnote{\url{https://zenodo.org/record/6537904}}. The code can be found in a public GitHub repository\footnote{\url{https://github.com/smartvmi/Smart-and-Naive-SSH-Key-Extraction}}.}
         
         \paragraph{}This data is the same as the data used in the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}. The dataset is still accessible~\cite{fellicious_machine_2022}.
-    
+     
     \subsection{Entropy's Role in SSH Key Identification}
 
         \paragraph{}Encryption keys\cite*{fellicious_smartkex_2022} inherently consist of predominantly random byte sequences. This characteristic stems from the foundational principle of ensuring security through transparency, which guarantees their high entropy. The paper explores the nuances of pinpointing these keys in memory dumps, underscoring the significance of entropy in this endeavor. This particularity can be used to identify the keys in the memory dump.
@@ -224,7 +224,7 @@
         \end{itemize}
 
         \subsubsection{Correlation tests}\label{seq:background:correlation_tests}
-            \paragraph{}To assess feature quality, various statistical measures come into play, including correlation tests that gauge the strength and direction of relationships between variables. Pearson, Kendall, and Spearman correlation coefficients are frequently employed to quantify linear or monotonic associations between each feature and the target variable \cite{StatisticalMethodsInPractice09}. A high absolute value of these coefficients indicates a robust relationship, aiding in feature selection.
+            \paragraph{}To assess feature quality, various statistical measures come into play, including correlation tests that gauge the strength and direction of relationships between variables. Pearson, Kendall, and Spearman correlation coefficients are frequently employed to quantify linear or monotonic associations between each feature and the target variable \cite{boddy_statistical_2009}. A high absolute value of these coefficients indicates a robust relationship, aiding in feature selection.
 
             \begin{itemize}
                 \item \textbf{Pearson Correlation:} This measures linear relationships between two variables, ranging from -1 to 1. -1 signifies a strong negative linear correlation, 1 suggests a strong positive linear correlation, and 0 implies no linear correlation.
@@ -234,7 +234,7 @@
                 \item \textbf{Spearman’s Rank:} Also non-parametric, it assesses how well an arbitrary monotonic function can describe the relationship between two variables without making assumptions about frequency distribution.
             \end{itemize}
         
-            \paragraph{}These techniques are valuable for evaluating relationships between each feature and generating correlation matrices, which, in turn, help identify redundant features. Univariate feature selection techniques allow the evaluation of each feature independently. In Python's scikit-learn library \cite{ScikitLearn}, methods like the F-test value and p-value are often used for this purpose.
+            \paragraph{}These techniques are valuable for evaluating relationships between each feature and generating correlation matrices, which, in turn, help identify redundant features. Univariate feature selection techniques allow the evaluation of each feature independently. In Python's scikit-learn library \cite{pedregosa_scikit-learn_2011}, methods like the F-test value and p-value are often used for this purpose.
 
             \begin{itemize}
                 \item \textbf{F-test value:} This measures the linear dependency between the feature variable and the target. A higher F-test value suggests a more useful feature.

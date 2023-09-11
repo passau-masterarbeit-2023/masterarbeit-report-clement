@@ -1,10 +1,12 @@
+# build using pdflatex and biber
+
 default: build
 
 .DEFAULT_GOAL := default
 .PHONY: default build
 
 build_pdf:
-	latexmk main.tex
+	pdflatex main.tex
 
 build_bib:
 	biber main
