@@ -1,5 +1,8 @@
 \chapter{Embedding}\label{chap:embedding}
 
+\section{Statistical embedding}
+    
+
 \section{Graph embedding}\label{sec:embedding:graph_embedding}
     \paragraph{}In this section, we shift our focus towards the creation and embedding of graphs derived from the heap dump data. The process of graph creation involves structuring the data in a way that captures the relationships and connections between the \glspl{structure} and their \glspl{pointer}. Subsequently, we will transform this graphs into low-dimensional vector representations, enabling the application of machine learning techniques to identifying \glspl{structure} containing ssh keys.
 
@@ -30,18 +33,45 @@
 
     \subsection{Graphs embedding}
 
-    \begin{algorithm}
-        \caption{Sorting Algorithm (e.g., Bubble Sort)}
+    \paragraph{}Our next step is to uncover deeper insights and semantic understanding from our constructed graph, focusing on semantic embedding. This is the process through which we reshape our graph into a low-dimensional vector space, with each vector acting as a repository for a \gls{structure}'s immediate neighborhood. Through this transformative journey, our aim is to forge vector representations that empower the application of cutting-edge machine learning techniques.
+
+    \paragraph{}To create a concise yet informative representation, considering both structure-to-member and pointer-based connections, we meticulously count the number of \glspl{pointer} and \glspl{structure} directly referencing a specific \gls{structure}'s members. This initial count provides valuable insights into the \gls{structure}'s immediate context. However, we doesn't stop there; we expand this representation by including counts of \glspl{pointer} and \glspl{structure} pointing to those preceding nodes, allowing us to capture deeper layers of context. This recursive process continues until we reach a predetermined depth. Furthermore, we initiate a parallel analysis in reverse, meticulously tracing connections by following \glspl{pointer} from the initial \gls{structure} to capture its children, recursively delving deeper until we reach the specified depth. We can see the algorithm here \ref{algo:embedding:generate_ancestor_children_embedding}. The result is a low-dimensional vector that intricately encodes the \gls{structure}'s neighborhood, offering a comprehensive view of its relationships and contextual significance within the graph.
+
+    \begin{algorithm}[H]
+        \caption{Generate Ancestor/Children Embedding}
+        \label{algo:embedding:generate_ancestor_children_embedding}
         \begin{algorithmic}
-            \State \textbf{INPUT} arr[] \Comment{An array to be sorted}
-            \State $n \gets$ length of arr[]
-            \For{$i \gets 0$ \textbf{to} $n-1$}
-                \For{$j \gets 0$ \textbf{to} $n-i-1$}
-                    \If{arr[$j$] $>$ arr[$j+1$]}
-                        \State swap(arr[$j$], arr[$j+1$]) \Comment{Swap elements if out of order}
-                    \EndIf
+            \Function{GenerateNeighborsDTN}{$structure\_node, dir$}
+                \State $ancestor\_nodes \gets$ an empty set
+                \State $children \gets$ graph.neighbors\_directed($structure\_node, OUT$) \Comment{Get members of the structure}
+                \For{$child$ \textbf{in} $children$}
+                    \State $ancestor\_nodes$.insert($child$)
                 \EndFor
-            \EndFor
-            \State \textbf{OUTPUT} arr[] \Comment{Sorted array}
+                \State $result \gets$ an empty list
+                \State $current\_nodes \gets$ an empty set
+                \For{$\_$ \textbf{in} $0$ \textbf{to} $DEPTH$}
+                    \State $current\_nodes \gets$ $ancestor\_nodes$ \Comment{switch ancestor nodes and current nodes}
+                    \State $ancestor\_nodes \gets$ an empty set
+                    \State $nb\_dtn \gets 0$
+                    \State $nb\_ptr \gets 0$
+                    \For{$current\_node$ \textbf{in} $current\_nodes$}
+                        \If{$node$ is DataStructureNode} \Comment{Update number of structures and pointers}
+                            \State $nb\_dtn \gets nb\_dtn + 1$
+                        \ElsIf{$node$ is PointerNode}
+                            \State $nb\_ptr \gets nb\_ptr + 1$
+                        \EndIf
+                        \Comment{Get neighbors of the current node}
+                        \For{$neighbor$ \textbf{in} graph.neighbors\_directed($current\_node, dir$)}
+                            \State $ancestor\_nodes$.insert($neighbor$) \Comment{Add neighbors to the next ancestor nodes}
+                        \EndFor
+                    \EndFor
+                    \State $result$.append($nb\_dtn$) \Comment{Add number of data structures}
+                    \State $result$.append($nb\_ptr$) \Comment{Add number of pointers}
+                \EndFor
+                \State \textbf{return} $result$
+            \EndFunction
         \end{algorithmic}
      \end{algorithm}
+     
+     \paragraph{}We can apply this algorithm to every \gls{structure} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{structure}, 8 for child \glspl{pointer}, and 8 for child \glspl{structure}. To accurately represent the \gls{structure}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the count of \glspl{pointer} in the members and the \gls{structure}'s dimensions. This results in a final embedding size of 34 - 32 for the neighborhood and an additional 2 for the \gls{structure} size and \gls{pointer} count.
+     
