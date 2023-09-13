@@ -205,7 +205,57 @@
 
         \paragraph{}To address this limitation, various techniques have been employed to normalize the size of the input data. One of the most common methods is \textbf{padding}, where shorter sequences are filled with predefined placeholder values (often zeros) until they match the length of the longest sequence in the dataset. This ensures that all sequences fed into the model have a uniform length. Another approach is \textbf{bucketing}, where sequences of similar lengths are grouped together, minimizing the amount of padding required. Additionally, \textbf{truncation} can be used to shorten sequences that exceed a certain length, although this might result in the loss of some information. While these techniques enable \acrshort{cnn}-based \acrfull{seq2seq} models to handle variable-sized inputs, it's crucial to ensure that the preprocessing steps do not introduce noise or distort the inherent patterns and relationships within the raw byte sequences.
 \section{Graph Embedding Methods}
-    Wait Onyr
+    \paragraph{}Graph embedding techniques focus on the mapping of nodes and edges within a graph onto vectors within a lower-dimensional space \cite{hogan_knowledge_2022}. The primary objective is to retain the structural properties of the graph, such as node connectivity and community structure, in this embedded space. These resulting vectors find application in diverse machine learning tasks, including clustering, classification, and link prediction. For a comprehensive exploration of these techniques, "Knowledge Graphs" offers a detailed overview. Some noteworthy techniques in this domain encompass:
+
+    \begin{enumerate}
+        \item \textbf{Translational Models:} These graph embedding techniques revolve around translational models that interpret edge labels as transformations from subject nodes to object nodes \cite{hogan_knowledge_2022}.
+        
+        \begin{itemize}
+            \item \textbf{TransE:} One of the earliest and straightforward translational models, TransE represents entities as points in a vector space and relations as translations between these points. The core idea is that for a valid triple (h, r, t), the equation $h+r = t$ should hold, with $h$ representing the head entity, $r$ denoting the relation, and $t$ standing for the tail entity. While simple and computationally efficient, this model has limitations in capturing complex relationships \cite{hogan_knowledge_2022}.
+            
+            \item \textbf{TransH:} Extending TransE, TransH introduces relation-specific hyperplanes. This extension allows the model to capture more intricate relationships by projecting entity embeddings onto these hyperplanes before performing translations \cite{hogan_knowledge_2022}.
+            
+            \item \textbf{TransR:} Going a step further than TransH, TransR not only introduces relation-specific hyperplanes but also relation-specific translations. This flexibility enables a more versatile representation of relations, accommodating various complexities \cite{hogan_knowledge_2022}.
+            
+            \item \textbf{Other Developments:} Noteworthy advancements include TransD and MuRP, highlighting the active research in this domain \cite{hogan_knowledge_2022}.
+        \end{itemize}
+
+        \item \textbf{Tensor Decomposition Models} These models represent entities and relations as vectors or matrices within a lower-dimensional space, grounded in the assumption that the relationship between entities can be expressed through a bilinear function. While they are computationally efficient and capable of capturing complex relationships, they do have limitations in modeling asymmetric and reflexive relations.
+
+        \begin{itemize}
+            \item \textbf{RESCAL:} RESCAL employs a bilinear model, where each relation is represented by a full-rank matrix. This approach allows for the representation of asymmetric and reflexive relations but comes at the cost of increased computational complexity \cite{hogan_knowledge_2022}.
+            
+            \item \textbf{DistMult:} DistMult simplifies RESCAL by assuming that the relation matrices are diagonal. This simplification reduces the number of parameters and computational complexity, making it a more scalable option \cite{hogan_knowledge_2022}.
+            
+            \item \textbf{ComplEx:} ComplEx extends DistMult by introducing complex-valued embeddings. This addition enables the model to effectively capture asymmetric relations while maintaining computational efficiency \cite{hogan_knowledge_2022}.
+        \end{itemize}
+
+        \item \textbf{Neural Models} Neural models leverage neural networks to acquire the features of entities and relations, offering a flexible and adaptive approach to graph embeddings.
+
+        \begin{itemize}
+            \item \textbf{ConvKB:} ConvKB employs a convolutional neural network to autonomously learn entity and relation features. While technically a translational model, it uses a convolutional layer to capture interactions between entities and relations, providing a flexible and adaptable approach to graph embeddings \cite{nguyen_novel_2018}.
+            
+            \item \textbf{RotatE:} RotatE introduces complex rotations in the embedding space to model relations. This neural model offers a more expressive approach to capturing relation semantics \cite{hogan_knowledge_2022}.
+            
+            \item \textbf{SDNE (Structural Deep Network Embedding):} SDNE uses a deep autoencoder to acquire complex and non-linear node embeddings while preserving first-order and second-order proximities. It is particularly effective in capturing intricate patterns and structures within the graph \cite{wang_structural_2016}.
+            
+            \item \textbf{R-GCN (Relational Graph Convolutional Networks):} R-GCNs combine the strengths of Graph Convolutional Networks (GCNs) and traditional embedding methods, capturing both topological and semantic information \cite{schlichtkrull_modeling_2018}. A recent study by Degraeve et al. highlights the importance of the message passing paradigm in R-GCN and introduces a variant called Random R-GCN (RR-GCN) \cite{degraeve_r-gcn_2022}.
+            
+            \item \textbf{ConvE:} ConvE employs convolutional layers to capture local and global interactions between entities and relations, offering a more expressive representation \cite{hogan_knowledge_2022}.
+        \end{itemize}
+
+        \item \textbf{Language Models}
+        Language models harness pre-trained language models to enrich embeddings with contextual information, tapping into recent advancements in language modeling to grasp the semantics of entities and relations.
+
+        \begin{itemize}
+            \item \textbf{BERT for KGE (Knowledge Graph Embedding):} This approach utilizes pre-trained BERT models, capitalizing on the capabilities of language models to enhance embeddings with contextual information \cite{yao_kg-bert_2019}.
+            
+            \item \textbf{BART KGE:} Bidirectional and Auto-Regressive Transformers (BART) serve as denoising autoencoders suitable for various NLP tasks. This method employs BART to acquire entity and relation embeddings, and the associated paper also compares it with other Large Language Models (LLMs) like GPT-2 \cite{liu_kg-bart_2021}.
+            
+            \item \textbf{It's worth noting that the field of NLP is continuously evolving, with ongoing developments and emerging approaches.}
+        \end{itemize}
+    \end{enumerate}
+
 
 \section{Machine learning}\label{seq:background:machine_learning}
     \paragraph{}Machine learning, an integral part of artificial intelligence, revolves around designing algorithms and statistical models that allow computers to perform tasks without being directly programmed. Instead of relying on detailed instructions for every task, machine learning techniques empower systems to learn from data and make data-driven decisions. A key method in this field is supervised learning, in which models are trained using data that comes with predefined labels. Here, each piece of data in the training set has an associated known output. The primary goal of supervised learning is to establish a relationship between inputs and outputs, enabling the model to predict or categorize new, unseen data based on this relationship.

@@ -107,7 +107,7 @@
 \newglossaryentry{pointer}
 { 
     name=pointer,
-    description={In our study, pointers are characterized as sequences of hexadecimal numbers that reference distinct memory addresses. These sequences can be recognized using the following regular expression: \texttt{"[0-9a-f]{12}0{4}"}}
+    description={In our study, pointers are characterized as sequences of hexadecimal numbers that reference distinct memory addresses. These sequences can be recognized using the following regular expression: \texttt{"[0-9a-f]\{12\}0\{4\}"}}
 }
 
 \newglossaryentry{structure}
@@ -139,6 +139,20 @@
 % customize the header and footer of the document
 \clearpairofpagestyles
 \cfoot[\pagemark]{\pagemark}
+
+% ------------------------------ code listing ------------------------------
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  frame=single,
+  language=bash,
+  numbers=left,
+  numberstyle=\tiny,
+  showstringspaces=false,
+  tabsize=4,
+  captionpos=b
+}
+
 
 % document info
 \newcommand{\thetitle}{Structure embeddings for OpenSSH heap dump analysis}
