@@ -35,8 +35,10 @@
 \usepackage{comment}
 \usepackage{csquotes}% quote
 \usepackage{url}
+\usepackage{xcolor}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
+\usepackage{tocloft} % merge list of algo and listling
 % title and section formatting
 \usepackage{titlesec}
 
@@ -149,11 +151,45 @@
   numbers=left,
   numberstyle=\tiny,
   showstringspaces=false,
-  tabsize=4,
-  captionpos=b
+  tabsize=1,
+  captionpos=b,
+  xleftmargin=0pt
+}
+
+\lstdefinelanguage{json}{
+   basicstyle=\normalfont\ttfamily,
+   numbers=left,
+   numberstyle=\scriptsize,
+   stepnumber=1,
+   numbersep=8pt,
+   showstringspaces=false,
+   breaklines=true,
+   frame=lines,
+   backgroundcolor=\color{white},
+   stringstyle=\color{blue},
+   keywordstyle=\color{purple},
+   commentstyle=\color{gray},
+   string=[s]{"}{"},
+   comment=[l]{//},
+   morecomment=[s]{/*}{*/},
+   keywords={true, false, null}
 }
 
 
+% rename listing to code in captions
+\renewcommand{\lstlistingname}{Code}
+
+% merge algorithm and listing lists in the table of listings
+\makeatletter
+\def\ext@algorithm{lol}% algorithm captions will be written to the .lol file
+% share the list making commands and redefine the heading
+\AtBeginDocument{%
+  \let\l@algorithm\l@lstlisting
+  \let\c@algorithm\c@lstlisting
+  \let\thealgorithm\thelstlisting
+  \renewcommand{\lstlistlistingname}{Algorithms and program code}% List of Algorithms -> List of Algorithms and program code
+}
+\makeatother
 % document info
 \newcommand{\thetitle}{Structure embeddings for OpenSSH heap dump analysis}
 \newcommand{\theauthor}{Lahoche, Clément Claude Martial}
@@ -193,7 +229,8 @@
 \tableofcontents
 \listoffigures
 \listoftables
-\listofalgorithms
+\lstlistoflistings
+
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
