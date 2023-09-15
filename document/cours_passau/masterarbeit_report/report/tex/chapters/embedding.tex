@@ -88,5 +88,7 @@
             \end{algorithmic}
         \end{algorithm}
         
-        \paragraph{}We can apply this algorithm to every \gls{structure} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{structure}, 8 for child \glspl{pointer}, and 8 for child \glspl{structure}. To accurately represent the \gls{structure}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the count of \glspl{pointer} in the members and the \gls{structure}'s dimensions. This results in a final embedding size of 34 - 32 for the neighborhood and an additional 2 for the \gls{structure} size and \gls{pointer} count.
+        \paragraph{}We can apply this algorithm to every \gls{structure} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{structure}, 8 for child \glspl{pointer}, and 8 for child \glspl{structure}. To accurately represent the \gls{structure}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the count of \glspl{pointer} in the members and the \gls{structure}'s dimensions. This results in a final embedding size of 34 - 32 for the neighborhood and an additional 2 for the \gls{structure} size and \gls{pointer} count. However, there are inherent challenges with this embedding. It tends to get polluted by the value node, which often lacks significant meaning. Moreover, the relationships between the structures are intricate, and there's potential to represent them in a more straightforward manner.
+
+        
         
