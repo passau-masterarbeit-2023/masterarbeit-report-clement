@@ -2,10 +2,28 @@
     \paragraph{}This research dives into the complexities of embedding byte sequences, focusing particularly on the extraction of structures containing SSH keys for machine learning purposes. The varied uses of OpenSSH introduce distinct challenges due to potential variations in the created embeddings. Given the wide array of SSH key dimensions and OpenSSH's intricate operations, maintaining the embeddings' stability and consistency is vital. In this methodological section, we will detail various embedding methods, present a framework for their assessment through a classifier model, and suggest another strategy to verify the embeddings' coherence between the different OpenSSH usage and key sizes.
 
     \section{hardware}
-    
+        \paragraph{}My primary workstation is an \textit{Aspire 5} laptop, equipped with:
+        \begin{itemize}
+            \item \textbf{CPU:} 11th Gen Intel i5-1135G7 (8) @ 4.200GHz 
+            \item \textbf{GPU:} Intel TigerLake-LP GT2 [Iris Xe Graphics]
+            \item \textbf{Memory:} 16GB
+        \end{itemize}
+        \paragraph{}However, this laptop, despite its decent specifications, proved inadequate for processing the entire dataset. Simple machine learning experiments using a Python script would have stretched over a week. Even when we transitioned to more optimized Rust programs, the processing time exceeded 10 hours. While I managed to run minor tasks and scripts on this laptop, the bulk of the experiments necessitated a more powerful server.
+        
+        \paragraph{}Recognizing this need, I was granted access to a high-performance development server in the later stages of the thesis, around August 2023. The server, an \textit{AS-4124GS-TNR}, boasts the following specifications:
+        \begin{itemize}
+            \item \textbf{CPU:} 2x AMD EPYC 7662 (256) @ 2.000GHz
+            \item \textbf{GPU:} NVIDIA Geforce RTX 3090 Ti
+            \item \textbf{RAM:} 512GB DDR4 3200MHz
+        \end{itemize}
+        \paragraph{}Operating on \textit{Ubuntu 20.04.6 LTS}, this server became the primary platform for the machine learning experiments, given its superior computational capabilities compared to the \textit{Aspire 5} laptop. This invaluable resource was generously provided by the Department of Computer Science at \textit{Universität Passau}, particularly under the guidance of the Chair of Data Science led by Prof. Dr. Michael Granitzer. I extend my sincere appreciation for their unwavering support.
+        
 
     \section{Dataset}
         \paragraph{}The dataset at the core of this thesis, as previously introduced (see \ref{seq:background:dataset}), consists of heap dump raw files related to different OpenSSH use cases and versions. Each heap dump file is paired with a JSON annotation file created by the dataset's creators. These JSON files provide extra information about the heap dump, especially regarding encryption keys. In this section, we will explain our exploration of the dataset, aiming to better comprehend its content and nuances.
+
+        \subsection{Origin}
+            \paragraph{}The dataset is derived from heap dumps that capture various OpenSSH usage scenarios. These scenarios encompass four distinct SSH interactions: a straightforward client connection to the server followed by an immediate exit, port-forwarding, secure copying, and SSH shared connection. The heap dumps span different OpenSSH versions and a range of key sizes, from 16 to 64 bytes. These dumps were generated using the SmartKex tool \cite{fellicious_smartkex_2022}. The data collection was conducted on a mini PC equipped with an AMD Ryzen 5500U processor, 16GB of RAM, and a 1TB NVMe SSD, running Debian 11 as its operating system.
 
         \subsection{Estimating the dataset balancing for key prediction}
             \paragraph{}In this part, our primary objective was to assess the balance of the dataset for key prediction and identify the challenges associated with it.
@@ -65,10 +83,49 @@
 
             \paragraph{}However, it's noteworthy that some of these annotation files may be corrupted. Therefore, it's imperative to verify the integrity of each file before its use. In instances where keys are corrupted, such as "KEY\_E" and "KEY\_F" having no recorded values in the extract found at \ref{methods:code:annotation_extract}, it's advised either to remove the corrupted keys or discard the entire file if the data cannot be salvaged. Armed with this understanding, the next logical step would be to leverage this dataset to formulate embeddings and subsequently evaluate their performance.
 
-        \subsection{Particularities of heap dumps}
-            **wait dataset information**
+        \subsection{Malloc header usage and structures detection}
+            \paragraph{}As discussed in \ref{seq:background:pointers_and_structures}, subsequent to an initial 8-byte block of zeros, we anticipate the allocation of the first data structure at the heap's commencement. As illustrated in \ref{fig:methods:malloc_header_detection_heap_start}, this data structure spans a size of $ 5102000000000000_{16LE} $ (in little-endian hexadecimal notation) or $ 593_{10} $ bytes. The presence of an odd number arises from the \acrshort{lsb} being set to 1, signifying that the block is allocated (as a flag). Consequently, the actual size of the structure is $ 593_{10} - 1_{10} = 592_{10} $ bytes, which aligns with an 8-byte boundary.
 
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=16cm]{background/structure_examples_1010-1644391327-heap_potential_malloc_header_highlight_heap_start.png}
+                \caption{Attempt at malloc header detection in \textit{Training/basic/V\_7\_8\_P1/16/5070-1643978841-heap.raw}, at heap start.}
+                \label{fig:methods:malloc_header_detection_heap_start}
+            \end{figure}
+
+            \paragraph{}Given the allocator's sequential chunk allocation approach, the subsequent chunk's anticipated allocation address is calculated as $ 5102000000000000_{16LE} + 592_{10} + 8_{10} $. The additional 8 accounts for the malloc header block, resulting in an address of $ 5882193a34560000_{16LE} $.
         
+            \paragraph{}In vim, since the address start at 0, we have to look at $ 592_{10} + 8_{10} = 258_{16} $. Let's have a look there \ref{fig:methods:malloc_header_detection_0x250}:
+    
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=16cm]{background/structure_examples_1010-1644391327-heap_potential_malloc_header_highlight_0x250.png}
+                \caption{Attempt at malloc header detection in \textit{Training/basic/V\_7\_8\_P1/16/5070-1643978841-heap.raw}, at index $ 592_{10} = 250_{16} $.}
+                \label{fig:methods:malloc_header_detection_0x250}
+            \end{figure}
+    
+            \paragraph{}At this point, we observe a zero block, succeeded by a potential malloc header at address $ 258_{16} $. By replicating this process, we can devise an algorithm to identify malloc headers, and consequently, the structures within the heap dump file.
+    
+            \begin{algorithm}[H]
+                \caption{Malloc Header Detection Algorithm}
+                \begin{algorithmic}[1]
+                \Procedure{MallocHeaderDetection}{$\text{heapDumpFile}$}
+                    \State $\text{position} \gets 0$
+                    \While{$\text{position} < \text{FileSize}(\text{heapDumpFile})$}
+                        \State $\text{block} \gets \text{Read8Bytes}(\text{heapDumpFile, position})$
+                        \If{$\text{block} \neq 0$}
+                            \State $\text{size} \gets \text{ConvertToSize}(\text{block}) - 1$ \Comment{$-1$ due to the flag}
+                            \State \textbf{Assert} $ \text{size} \mod 8 = 0$ \Comment{Check if the size is 8-bytes aligned}
+                            \State $\text{position} \gets \text{position} + 8 + \text{size}$ \Comment{Leap over data structure. + 8 for the header.}
+                        \Else
+                            \State $\text{position} \gets \text{position} + 8$
+                        \EndIf
+                    \EndWhile
+                \EndProcedure
+                \end{algorithmic}
+            \end{algorithm}
+    
+            \paragraph{}The underlying concept of the malloc header detection algorithm is straightforward. Beginning at the start of the heap dump file, we search for the initial non-zero block. Subsequently, we infer that the following block represents a malloc header. This block is converted into a size, allowing us to skip over both the data structure and its header. This procedure continues iteratively until the file's conclusion.
     \section{Embeddings}
         \paragraph{}From the Zenodo dataset\ref{seq:background:dataset}, we've isolated distinct memory structures within the raw heap dump files. These structures possess diverse sizes, necessitating the use of an embedding method for classification. Fortunately, a distinguishing feature of each memory structure is the presence of a header, containing vital information such as the structure's size in bytes. To precisely pinpoint the boundaries of each memory structure, we sequentially parse through the raw heap dump files. Beginning the parsing process from the first non-null byte, identified as the header, serves as a marker for the initiation of a new structure. The size data within this header is then leveraged to calculate the exact length of the structure, allowing for the extraction of its entire raw byte data while determining the start of the subsequent one.
         

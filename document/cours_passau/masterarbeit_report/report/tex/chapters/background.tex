@@ -64,10 +64,33 @@
         \paragraph{}Encryption keys\cite*{fellicious_smartkex_2022} inherently consist of predominantly random byte sequences. This characteristic stems from the foundational principle of ensuring security through transparency, which guarantees their high entropy. The paper explores the nuances of pinpointing these keys in memory dumps, underscoring the significance of entropy in this endeavor. This particularity can be used to identify the keys in the memory dump.
         
     \subsection{Definitions : Structures, Pointers, and the role of malloc headers}\label{seq:background:pointers_and_structures}
-    
-        \paragraph{}Through the use of the regular expressions (\acrshort{regex}) \texttt{"[0-9a-f]\{12\}0\{4\}"}, we identified potential \glspl{pointer} within the dump. This heuristic approach acts as a sieve, filtering the extensive data to spotlight possible \gls{pointer} candidates. Nonetheless, it's crucial to understand that while many \glspl{pointer} might be correctly pinpointed, some detected sequences may not be authentic \glspl{pointer}.
+        \subsubsection{Pointers}
+            \paragraph{}Through the use of the regular expressions (\acrshort{regex}) \texttt{"[0-9a-f]\{12\}0\{4\}"}, we identified potential \glspl{pointer} within the dump. This heuristic approach acts as a sieve, filtering the extensive data to spotlight possible \gls{pointer} candidates. Nonetheless, it's crucial to understand that while many \glspl{pointer} might be correctly pinpointed, some detected sequences may not be authentic \glspl{pointer}.
 
-        \paragraph{}One notable characteristic of the heap dump is the \textit{malloc header} found at the start of allocated \glspl{structure}. This header, often the initial non-null bytes in a series, signifies the size of the following \gls{structure}. By sequentially reading the heap dump and identifying these headers, it becomes feasible to determine the dimensions and limits of every allocated \gls{structure}, thereby methodically dividing the heap dump into distinct \glspl{structure}.
+        \subsubsection{Malloc header}
+            
+            \paragraph{}Given that OpenSSH is developed in C, it's anticipated that the heap dump files will contain C data \glspl{structure}. In C, memory allocation is typically achieved using the \lstinline[language=c]|malloc| function. This function, when invoked, requires the size of the data \gls{structure} to be allocated and subsequently returns a pointer to the allocated memory space. An examination of the \lstinline[language=c]|malloc| code\footnote{The dataset was generated on a \texttt{x86\_64} architecture. For illustrative purposes, we've considered the \lstinline[language=c]|malloc| implementation from uClibc: \url{https://git.busybox.net/uClibc/tree/libc/stdlib/malloc/malloc.c}} reveals:
+                
+            \begin{minipage}{\dimexpr\linewidth-20pt}
+                \begin{lstlisting}[language=c, caption={uclibc's Malloc Implementation}]
+                /* Additional space to account for the size of the allocated block. */
+                size += MALLOC_HEADER_SIZE;
+                \end{lstlisting}
+            \end{minipage}
+            
+            \paragraph{}A call to \lstinline[language=c]|malloc| typically results in the allocation of a memory block that's the sum of the data \gls{structure}'s size and an additional 8 bytes. This extra allocation is attributed to the metadata that \lstinline[language=c]|malloc| stores about the memory block, which is housed in the bytes allocated beyond the data \gls{structure}'s size. Consequently, heap dump files are likely to contain 8-byte aligned blocks, which, while not pointers, emerge from a \lstinline[language=c]|malloc| invocation. Identifying these \textit{malloc headers} is instrumental in detecting potential data \glspl{structure} within the heap dump.
+            
+            \paragraph{}While the exact \lstinline[language=c]|malloc| implementation used for the OpenSSH programs that generated the dataset remains uncertain, it's plausible that it mirrors the one in uclibc—a streamlined C library prevalent in embedded systems.
+            
+            \paragraph{}On a \texttt{x86\_64} Linux architecture, the \lstinline[language=c]|malloc| function typically employs a block (or chunk) header to retain metadata about each allocated segment. Positioned right before the user-returned memory block, this header's layout might differ based on the C library in use (e.g., glibc, musl). However, it generally encompasses:
+            
+            \begin{itemize}
+                \item \textbf{Block Size}: The allocated block's size, typically measured in bytes. This often accounts for the header's size and might be aligned to 8 or 16 bytes.
+                \item \textbf{Flags}: Various indicators that reflect the block's status—whether it's free or allocated, or if the preceding block is free or allocated. These flags are frequently stored in the size field's least significant bits, leveraging the alignment-induced zeroed least significant bits.
+            \end{itemize}
+            
+            \paragraph{}Given the system's endianness, the heap dump file is expected to present the malloc header in a little-endian format.
+            
         
 \section{Traditional Statistical Embedding}\label{seq:background:traditional_statistical_embedding}
 
