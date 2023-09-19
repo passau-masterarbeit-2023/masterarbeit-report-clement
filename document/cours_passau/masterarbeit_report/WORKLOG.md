@@ -1,7 +1,28 @@
 # Logs
 
-## 23/08/23
+## 19/09
 
+To do :
+
+* [ ] mail to elod to have tuter INSA
+* [ ] mail to security team to have info on dataset
+* [ ] script to see the corruption of the dataset
+
+Rapport (christopher meeting) to do :
+
+* split backgound into related work and background
+* take care to exactly explain the think used
+* make a part assumption into background to define concept
+* make a ressource section with hardware
+* make full question into introduction
+* enter more in details into background part
+
+---
+
+* into the statistical embedding, make byte wise and reduce the dimension after
+* use under sampling, not over sampling
+
+## 23/08/23
 
 1. **Sutskever, I., Vinyals, O., & Le, Q. V. (2014).** Sequence to sequence learning with neural networks. In Advances in neural information processing systems (pp. 3104-3112).
    * This paper introduces a general end-to-end approach to sequence learning that makes minimal assumptions on the sequence structure, using multilayered Long Short-Term Memory (LSTM) networks.
@@ -50,3 +71,4 @@ finish the introduction, beginning of embedding state of the art (chatGpt):
 ## Tue 8 Aug 2023
 
 Started to create the report template.
+

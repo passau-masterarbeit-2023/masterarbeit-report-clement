@@ -2,5 +2,5 @@
 * [X] inscription passau
 * [ ] inscription insa (attendre le mail de redoublement)
 * [ ] bourse erasmus cloture (attendre certif + ola final)
-* [ ] bourse ufa (trucs a fair ?)
-* [ ] bourse dse (A FAIRE quand le site est up)
+* [X] bourse ufa (trucs a fair ?) rien a faire
+* [X] bourse dse (A FAIRE quand le site est up)
