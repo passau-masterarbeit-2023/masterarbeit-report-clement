@@ -90,7 +90,16 @@
             \end{algorithmic}
         \end{algorithm}
         
-        \paragraph{}We can apply this algorithm to every \gls{structure} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{structure}, 8 for child \glspl{pointer}, and 8 for child \glspl{structure}. To accurately represent the \gls{structure}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the count of \glspl{pointer} in the members and the \gls{structure}'s dimensions. This results in a final embedding size of 34 - 32 for the neighborhood and an additional 2 for the \gls{structure} size and \gls{pointer} count. However, there are inherent challenges with this embedding. It tends to get polluted by the value node, which often lacks significant meaning. Moreover, the relationships between the structures are intricate, and there's potential to represent them in a more straightforward manner.
+        \paragraph{}We can apply this algorithm to every \gls{structure} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{structure}, 8 for child \glspl{pointer}, and 8 for child \glspl{structure}. To accurately represent the \gls{structure}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the count of \glspl{pointer} in the members and the \gls{structure}'s dimensions. This results in a final embedding size of 34 - 32 for the neighborhood and an additional 2 for the \gls{structure} size and \gls{pointer} count. However, there are inherent challenges with this embedding. It tends to get polluted by the value node, which often lacks significant meaning. Moreover, the relationships between the structures are intricate, and there's potential to represent them in a more straightforward manner, as show in the next section.
 
-        
+    \subsubsection{Updated graph}
+
+        \paragraph{}Recognizing these challenges and the need for a clearer representation, we embarked on a series of refinements. Our approach focuses on enhancing the last graph by preserving the structure nodes and their interconnections via pointers. To simplify the visualization, we've decided to eliminate both the value nodes and the pointer nodes. In addition, the relationships that previously connected the pointer nodes to the value nodes will now link directly to the structure nodes, with the added detail of weighted edges. This strategy is driven by our aspiration to offer a more lucid graph, significantly reducing any extraneous noise, as show in the figure \ref{fig:graph_embedding:updated_graph}, the representation of the file \textit{14911-1644326802}.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.9\textwidth]{img/graph_embeding/updated_graph_14911-1644326802-heap.png}
+            \caption{Updated graph}
+            \label{fig:graph_embedding:updated_graph}
+        \end{figure}
         

@@ -34,6 +34,9 @@
         \begin{lstlisting}[caption={pretty print JSON}, label=methods:code:pretty_print_json, language=bash]
             python3 -m json.tool file.json
         \end{lstlisting}
+
+        \noindent
+        \begin{minipage}{\linewidth}
         \begin{lstlisting}[language=json, caption={An extract of the JSON annotations}, label=methods:code:annotation_extract]
         {
             /* file ./Training/client/V_7_8_P1/16/13116-1644920217.json*/
@@ -55,6 +58,7 @@
             "HEAP_START": "5619dd7e3000"
         }
         \end{lstlisting}
+        \end{minipage}
 
         \paragraph{}Within these annotation files, several critical pieces of information are present. The ``SSH\_STRUCT\_ADDR'' and ``SESSION\_STATE\_ADDR'' denote the addresses of vital openSSH \glspl{structure}. These addresses are pivotal in gauging the embedding coherence across different openSSH uses and key sizes. If the embeddings of these \glspl{structure} display similarity across various key sizes and openSSH usages, it signifies the embedding's coherence.
 
