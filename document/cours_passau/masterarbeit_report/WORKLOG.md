@@ -16,6 +16,7 @@ Rapport (christopher meeting) to do :
 * make a ressource section with hardware
 * make full question into introduction
 * enter more in details into background part
+* Take care to not cut code on 2 pages
 
 ---
 
@@ -71,4 +72,3 @@ finish the introduction, beginning of embedding state of the art (chatGpt):
 ## Tue 8 Aug 2023
 
 Started to create the report template.
-
