@@ -20,96 +20,12 @@
 % 2-gram > bi-gram
 
 
-\paragraph*{}In the complex world of cybersecurity and digital forensics, innovative approaches are crucial for revealing hidden or encrypted information. OpenSSH stands out as a key instrument for ensuring secure communication. The memory snapshots, or heap dumps, of OpenSSH are treasure troves of data. Through graph generation from these dumps, we can uncover the detailed connections between data structures, identified by their malloc headers, and their associated pointers.
+\paragraph*{}Building upon our exploration of SSH key detection, we recognize that OpenSSH plays a pivotal role in secure communication. The heap dumps of OpenSSH, essentially memory snapshots, are rich reservoirs of data. By generating graphs from these dumps, intricate connections between data structures, identified via their malloc headers, and their corresponding pointers are revealed.
 
-\paragraph*{}This research delves deep into the smart embedding of these connections, aiming to use machine learning classifiers to identify structures that contain OpenSSH keys. The journey is not just about representing data through graphs but also about understanding the raw sequences of bytes in the heap dump. Classical techniques like Shannon entropy, \acrfull{bfd}, and bigram frequencies provide foundational knowledge. However, the rapidly evolving domain of deep learning opens up a plethora of avenues. Models such as \acrfull{rnn} \cite{lai_recurrent_2015} (\acrfull{lstm}\cite{hochreiter_long_1997} and \acrfull{gru}\cite{chung_empirical_2014}) and sequence-to-sequence learning \cite{sutskever_sequence_2014} offer unique perspectives on raw byte embedding. Furthermore, the efficacy of convolutional approaches (\acrshort{cnn}), both standalone\cite{lecun_gradient-based_1998} and in conjunction with recurrent networks, for sequence modeling is well-documented \cite{bai_empirical_2018}. Notably, the application of neural networks in file fragment classification, especially with lossless representations, has shown promising results \cite{hiester_file_2018}.Finally, we will dive into transformers\cite{vaswani_attention_2017} and autoencoders.
+\paragraph*{}Our research delves into the intelligent embedding of connections derived from OpenSSH heap dumps. Beyond mere graph representations, it's essential to comprehend the raw byte sequences within these dumps. Traditional methods such as Shannon entropy, \acrfull{bfd}, and bigram frequencies form the foundation. However, the rise of deep learning has ushered in a range of sophisticated techniques. Models like \acrfull{rnn} \cite{lai_recurrent_2015} (including \acrfull{lstm}\cite{hochreiter_long_1997} and \acrfull{gru}\cite{chung_empirical_2014}), sequence-to-sequence learning \cite{sutskever_sequence_2014}, and convolutional approaches (\acrshort{cnn})\cite{lecun_gradient-based_1998} offer novel perspectives on raw byte embedding. The integration of \acrshort{cnn} with recurrent networks has proven effective in sequence modeling \cite{bai_empirical_2018}. Furthermore, neural networks, especially in lossless representations, have shown promise in file fragment classification \cite{hiester_file_2018}. Our exploration also encompasses the potential of transformers\cite{vaswani_attention_2017} and autoencoders.
 
+\paragraph*{}To identify structures containing OpenSSH keys, we employ machine learning classifiers. Among the standard models, the Random Forest classifier stands out for its versatility and accuracy. Balancing strategies are crucial, especially when dealing with imbalanced datasets, to ensure that the classifier doesn't exhibit bias towards the majority class. In addition to classification, our research emphasizes clusterization techniques to group similar data points and ensure coherence. Algorithms such as DBSCAN and OPTICS are at the forefront of our clusterization approach, providing insights into the inherent groupings within the OpenSSH heap dump data.
 \paragraph*{}The aim of this background section is to provide a comprehensive overview of graph creation from heap dumps, techniques for raw byte embedding, and their role in identifying OpenSSH key structures. By merging age-old techniques with modern approaches, we strive to highlight the most effective methods for analyzing OpenSSH heap dump.
-
-\section{Graph Generation from Heap Dumps}
-    \subsection{Secure Shell (SSH)}
-    
-        \paragraph*{}\enquote{The \acrfull{ssh} is designed to enable encrypted communication across potentially unsecured networks, ensuring the confidentiality of data during transmission. Each \acrshort{ssh} session utilizes a specific set of session keys, encompassing six distinct keys:
-
-        \begin{itemize}
-            \item \textbf{Key A:} Client-to-server initialization vector (IV)
-            \item \textbf{Key B:} Server-to-client initialization vector (IV)
-            \item \textbf{Key C:} Client-to-server encryption key (EK)
-            \item \textbf{Key D:} Server-to-client encryption key (EK)
-            \item \textbf{Key E:} Client-to-server integrity key
-            \item \textbf{Key F:} Server-to-client integrity key
-        \end{itemize}
-
-        \paragraph*{}To decrypt the encrypted traffic within an \acrshort{ssh} session, knowledge of the IV and EK pair (either Key A with Key C or Key B with Key D) is essential, assuming the presence of passive network monitoring tools. OpenSSH, a prevalent implementation of \acrshort{ssh}, is the primary subject of this research, covering versions from V6\_0P1 to V8\_8P1. OpenSSH incorporates various encryption methodologies, including Advanced Encryption Standard (AES) Cipher Block Chaining (CBC), AES Counter (AES-CTR), and ChaCha20, with IV and EK key lengths varying between 12 and 64 bytes.}
-        
-        \paragraph*{}This information is derived from the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}.
-
-    \subsection{heap dumps of OpenSSH}
-        \paragraph*{}\enquote{Heap memory, distinct from local stack memory, is a dynamic memory allocation mechanism. While local stack memory is responsible for storing and deallocating local variables during function calls, heap memory requires explicit memory allocation and deallocation. This is achieved using operators such as \texttt{new} in Java and C++, or \texttt{malloc/calloc} in C.
-
-        \paragraph*{}OpenSSH, which is primarily written in C, employs \texttt{calloc} for memory block allocation. These blocks are designated to store session-related data, including the cryptographic keys. By leveraging this knowledge, one can deduce that if the heap of an active OpenSSH process is dumped at an opportune moment (for instance, during an ongoing SSH session), the resulting heap dump will encompass the \acrshort{ssh} session keys.}
-
-        \paragraph*{}This information is also derived from the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}.
-
-    \subsection{Dataset}\label{seq:background:dataset}
-        \paragraph{}\enquote{We use SSHKex\cite*{sentanoe_sshkex_2022} as the primary method to extract the \acrshort{ssh} keys from the main memory. In addition, we add two features to SSHKex: automatically dump OpenSSH’s heap and add support for \acrshort{ssh} client monitoring.
-
-        \paragraph{}For this paper, we are using four \acrshort{ssh} scenarios: the client connects to the server and exits immediately, port-forward, secure copy, and \acrshort{ssh} shared connection.
-        Two file formats, JSON and RAW, are utilized to store the generated logs. The JSON log file encompasses meta-information, including the encryption name, the virtual memory address of a key, and the key's value in hexadecimal representation (as depicted in Figure~\ref{fig:Background:json}). Conversely, the binary file captures the heap dump of the OpenSSH process (illustrated in Figure~\ref{fig:Background:xxd} using the \texttt{xxd} command).
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.6\textwidth]{img/background/json_annotation_for_1010-1644391327.png}
-            \caption{Json exemple}
-            \label{fig:Background:json}
-        \end{figure}
-
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=0.6\textwidth]{img/background/xxd.png}
-            \caption{Xxd exemple}
-            \label{fig:Background:xxd}
-        \end{figure}
-
-        \paragraph{}The dataset is structured into two primary directories: \texttt{training} and \texttt{validation}. Each of these directories is further segmented into subdirectories reflecting the specific scenario, such as OpenSSH, port-forwarding, or secure copy (\acrshort{scp}).
-
-        \paragraph{}Subdirectories under OpenSSH or SCP are categorized based on the software version responsible for the memory dump. These directories are further organized by the software version that generated the memory dump. The heaps are then classified based on their key lengths, with each key length possessing its dedicated directory beneath the version directory. These version-specific directories are further divided based on the different key lengths present in a heap.
-
-        \paragraph{}Accompanying every raw memory dump is a JSON file, distinguished by the same alphanumeric sequence, barring the ``-heap'' suffix. This JSON file encapsulates various encryption keys and additional metadata, such as the process ID and the offset of the heap. Consequently, the dataset's utility is not confined to extracting session keys but also extends to identifying crucial data structures harboring sensitive information. The dataset, along with the associated code and tools, is open-sourced. The dataset is accessible via a Zenodo repository\footnote{\url{https://zenodo.org/record/6537904}}. The code can be found in a public GitHub repository\footnote{\url{https://github.com/smartvmi/Smart-and-Naive-SSH-Key-Extraction}}.}
-        
-        \paragraph{}This data is the same as the data used in the paper titled \citetitle*{fellicious_smartkex_2022} \cite{fellicious_smartkex_2022}. The dataset is still accessible~\cite{fellicious_machine_2022}.
-     
-    \subsection{Entropy's Role in SSH Key Identification}
-
-        \paragraph{}Encryption keys\cite*{fellicious_smartkex_2022} inherently consist of predominantly random byte sequences. This characteristic stems from the foundational principle of ensuring security through transparency, which guarantees their high entropy. The paper explores the nuances of pinpointing these keys in memory dumps, underscoring the significance of entropy in this endeavor. This particularity can be used to identify the keys in the memory dump.
-        
-    \subsection{Definitions : Structures, Pointers, and the role of malloc headers}\label{seq:background:pointers_and_structures}
-        \subsubsection{Pointers}
-            \paragraph{}Through the use of the regular expressions (\acrshort{regex}) \texttt{"[0-9a-f]\{12\}0\{4\}"}, we identified potential \glspl{pointer} within the dump. This heuristic approach acts as a sieve, filtering the extensive data to spotlight possible \gls{pointer} candidates. Nonetheless, it's crucial to understand that while many \glspl{pointer} might be correctly pinpointed, some detected sequences may not be authentic \glspl{pointer}.
-
-        \subsubsection{Malloc header}
-            
-            \paragraph{}Given that OpenSSH is developed in C, it's anticipated that the heap dump files will contain C data \glspl{structure}. In C, memory allocation is typically achieved using the \lstinline[language=c]|malloc| function. This function, when invoked, requires the size of the data \gls{structure} to be allocated and subsequently returns a pointer to the allocated memory space. An examination of the \lstinline[language=c]|malloc| code\footnote{The dataset was generated on a \texttt{x86\_64} architecture. For illustrative purposes, we've considered the \lstinline[language=c]|malloc| implementation from uClibc: \url{https://git.busybox.net/uClibc/tree/libc/stdlib/malloc/malloc.c}} reveals:
-                
-            \begin{minipage}{\dimexpr\linewidth-20pt}
-                \begin{lstlisting}[language=c, caption={uclibc's Malloc Implementation}]
-                /* Additional space to account for the size of the allocated block. */
-                size += MALLOC_HEADER_SIZE;
-                \end{lstlisting}
-            \end{minipage}
-            
-            \paragraph{}A call to \lstinline[language=c]|malloc| typically results in the allocation of a memory block that's the sum of the data \gls{structure}'s size and an additional 8 bytes. This extra allocation is attributed to the metadata that \lstinline[language=c]|malloc| stores about the memory block, which is housed in the bytes allocated beyond the data \gls{structure}'s size. Consequently, heap dump files are likely to contain 8-byte aligned blocks, which, while not pointers, emerge from a \lstinline[language=c]|malloc| invocation. Identifying these \textit{malloc headers} is instrumental in detecting potential data \glspl{structure} within the heap dump.
-            
-            \paragraph{}While the exact \lstinline[language=c]|malloc| implementation used for the OpenSSH programs that generated the dataset remains uncertain, it's plausible that it mirrors the one in uclibc—a streamlined C library prevalent in embedded systems.
-            
-            \paragraph{}On a \texttt{x86\_64} Linux architecture, the \lstinline[language=c]|malloc| function typically employs a block (or chunk) header to retain metadata about each allocated segment. Positioned right before the user-returned memory block, this header's layout might differ based on the C library in use (e.g., glibc, musl). However, it generally encompasses:
-            
-            \begin{itemize}
-                \item \textbf{Block Size}: The allocated block's size, typically measured in bytes. This often accounts for the header's size and might be aligned to 8 or 16 bytes.
-                \item \textbf{Flags}: Various indicators that reflect the block's status—whether it's free or allocated, or if the preceding block is free or allocated. These flags are frequently stored in the size field's least significant bits, leveraging the alignment-induced zeroed least significant bits.
-            \end{itemize}
-            
-            \paragraph{}Given the system's endianness, the heap dump file is expected to present the malloc header in a little-endian format.
-            
         
 \section{Traditional Statistical Embedding}\label{seq:background:traditional_statistical_embedding}
 
@@ -365,6 +281,46 @@
         
         \item \textbf{\acrfull{knn}\cite{laaksonen_classification_1996} :}\acrshort{knn} is a simple, instance-based learning algorithm. To make a prediction for a new data point, the algorithm finds the 'k' training examples that are closest to the point and returns the most common output value among them.
     \end{itemize}
+
+
+    \subsection{Random Forest classifier model}\label{seq:background:random_forest}
+
+        \paragraph{}Random Forest, as introduced earlier, is an ensemble learning method that operates by constructing multiple decision trees during training and outputting the mode of the classes for classification tasks or mean prediction for regression tasks. Let's delve deeper into its workings, advantages, and disadvantages.
+
+        \subsubsection{How Random Forest Works}
+
+        \begin{enumerate}
+            \item \textbf{Bootstrap Aggregating (Bagging):} Random Forest begins by creating multiple datasets using bagging. It randomly selects samples from the original dataset with replacement, ensuring diversity in the datasets.
+            
+            \item \textbf{Constructing Decision Trees:} For each of these datasets, a decision tree is constructed. However, instead of using all features to make a decision at a node, a random subset of features is chosen. This introduces further randomness into the model and ensures that the trees are uncorrelated.
+            
+            \item \textbf{Aggregation:} Once all the trees are constructed, predictions are made by each tree. For classification, the mode of all the predictions is taken as the final prediction.
+        \end{enumerate}
+
+        \subsubsection{Advantages of Random Forest}
+
+        \begin{itemize}
+            \item \textbf{Accuracy:} Random Forests often produce highly accurate predictions as they combine the output of multiple decision trees.
+            
+            \item \textbf{Overfitting:} The model is less prone to overfitting due to the randomness introduced in its construction.
+            
+            \item \textbf{Handling Missing Data:} Random Forest can handle missing values by either using median values to replace continuous variables or computing the proximity-weighted average of missing values.
+            
+            \item \textbf{Feature Importance:} It provides insights into the importance of different features in making predictions.
+        \end{itemize}
+
+        \subsubsection{Disadvantages of Random Forest}
+
+        \begin{itemize}
+            \item \textbf{Complexity:} Random Forest creates a lot of trees (unlike only one tree in the case of decision tree) and combines their outputs. This makes the model more complex and computationally intensive.
+            
+            \item \textbf{Longer Training Time:} Due to the construction of multiple trees, the training time can be longer compared to other algorithms.
+            
+            \item \textbf{Less Intuitive:} While individual decision trees are simple and can be visualized, a forest is more challenging to interpret due to its ensemble nature.
+        \end{itemize}
+
+        \paragraph{}In conclusion, while Random Forest offers high accuracy and is robust against overfitting, it comes with increased complexity and training time. However, its advantages often outweigh the disadvantages, making it a popular choice for various machine learning tasks.
+
 \section{Clustering}
     \paragraph{}Clustering is a key technique in unsupervised machine learning, aiming to group similar data points together. It's all about ensuring that items within a cluster are more alike than those in different clusters. This approach is great for uncovering hidden patterns in data. When it comes to checking the quality of an embedding, clustering can be a handy tool. By forming clusters from embedded data, we can see how effectively similar structures come together. A top-notch embedding should make sure that data points from the same structure cluster closely. So, by looking at how well clustering works, we can gauge the strength of the embedding.
 
@@ -375,3 +331,350 @@
         \paragraph*{}DBSCAN~\cite{ester_density-based_1996} is a clustering method that identifies dense regions in data, considering sparse areas as outliers. Unlike K-Means, DBSCAN doesn't need a pre-defined number of clusters. It works on the principle that a cluster is a high-density area in data, surrounded by less dense regions. The algorithm is steered by two key parameters: the minimum points needed for a region to be dense and a distance measure determining how close points should be to create a cluster. DBSCAN shines in handling datasets where clusters have varying shapes but similar densities.
     \subsection{Spectral Clustering}
         \paragraph{}Spectral clustering\cite{von_luxburg_tutorial_2007} is a method that emphasizes reducing the dimensionality of data using the eigenvalues of a similarity matrix. By constructing a similarity graph, where nodes represent data points and edges carry weights based on point similarities, the technique transforms the original space. Utilizing the eigenvectors of the graph's Laplacian, it creates a more compact and manageable representation. In this reduced space, traditional clustering methods like K-Means become more effective. Spectral clustering's strength lies in its ability to handle complex cluster structures, especially non-convex clusters, making it a valuable tool for diverse applications.
+
+    \subsection{OPTICS Clustering}\label{seq:background:optics}
+
+        \paragraph{}\acrfull{optics}~\cite{ankerst_optics_1999} is an advanced density-based clustering algorithm that was introduced as an extension to DBSCAN. The primary motivation behind \acrshort{optics} was to address some of the limitations of DBSCAN, especially its sensitivity to the global density parameter. Let's dive deeper into the workings, advantages, and disadvantages of \acrshort{optics}.
+        
+        \subsubsection{How OPTICS Works}
+        
+        \begin{enumerate}
+            \item \textbf{Ordering of Data Points:} \acrshort{optics} begins by processing each data point in the dataset. For each point, it computes its reachability distance with respect to other points. This distance is based on the density of the data, and it gives an indication of how close or far a point is from a dense region.
+            
+            \item \textbf{Reachability Plot:} The reachability distances for all points are then used to create a reachability plot. This plot provides a visualization of the density-based clustering structure of the data. Peaks in the plot represent sparse regions, while valleys correspond to dense clusters.
+            
+            \item \textbf{Cluster Extraction:} Clusters can be extracted from the reachability plot by analyzing its valleys. Points within a valley belong to the same cluster. The depth and shape of a valley give insights into the density and shape of the cluster.
+        \end{enumerate}
+        
+        \subsubsection{Advantages of OPTICS}
+        
+        \begin{itemize}
+            \item \textbf{Varying Densities:} Unlike DBSCAN, which struggles with clusters of varying densities, \acrshort{optics} can identify clusters that have different density levels within the same dataset.
+            
+            \item \textbf{No Global Density Parameter:} \acrshort{optics} does not require a global density threshold, making it more adaptive to the data's inherent structure.
+            
+            \item \textbf{Visualization:} The reachability plot provides a visual representation of the clustering structure, aiding in the interpretation of results.
+        \end{itemize}
+        
+        \subsubsection{Disadvantages of OPTICS}
+        
+        \begin{itemize}
+            \item \textbf{Complexity:} \acrshort{optics} is computationally more intensive than DBSCAN due to the ordering of data points and the generation of the reachability plot.
+            
+            \item \textbf{Interpretation:} While the reachability plot provides a visual representation, extracting clusters from it can be challenging and may require additional heuristics or methods.
+        \end{itemize}
+        
+        \subsubsection{Parameters of OPTICS}
+        
+            \paragraph{}The \acrshort{optics} algorithm also provides a range of parameter choices to cater to different clustering needs:
+
+            \begin{itemize}
+                \item \textbf{clusterization method:}
+                \begin{itemize}
+                    \item \texttt{"xi"}: The $\xi$ method, often referred to as the "steepness" method, is designed to extract clusters from the reachability plot generated by the \acrshort{optics} algorithm. The reachability plot is a visualization where data points are plotted based on their reachability distances. In this plot, clusters manifest as valleys, and the depth or steepness of these valleys indicates the density of the cluster. The $\xi$ method works by:
+
+                    \begin{itemize}
+                        \item Identifying regions in the reachability plot where there is a significant change in the reachability distance, indicating potential cluster boundaries.
+                        
+                        \item Determining the "steepness" of these regions. A region is considered steep if the relative change in reachability distance exceeds a threshold, typically denoted by the parameter $\xi$. 
+                        
+                        \item Extracting clusters based on these steep regions. Clusters are formed by connecting steep upward regions (representing the start of a cluster) with steep downward regions (indicating the end of a cluster).
+                        
+                        \item Handling noise: Points that do not belong to any of the identified steep regions are typically considered as noise or outliers.
+                    \end{itemize}
+                    
+                    The advantage of the $\xi$ method is its ability to detect clusters of varying densities without the need for specifying the number of clusters in advance. However, the choice of the $\xi$ parameter can influence the granularity of the clustering, with smaller values leading to more fine-grained clusters and larger values resulting in coarser clusters.
+
+                    \item Other methods: Include the DBSCAN-equivalent method and others, each offering a unique approach to cluster extraction.
+                \end{itemize}
+                
+                \item \textbf{clusterization metrics:}
+                \begin{itemize}
+                    \item \texttt{"cosine"}: Cosine similarity is a metric used to determine the cosine of the angle between two non-zero vectors in an inner product space. It is especially suitable for high-dimensional datasets, such as text data represented as vector space models or TF-IDF vectors. The cosine similarity, \( \text{sim}(A, B) \), between two vectors \( A \) and \( B \) is given by:
+
+                    
+                    \begin{equation}
+                    \text{sim}(A, B) = \cos(\theta) = \frac{A \cdot B}{\|A\| \|B\|}
+                    \end{equation}
+                    
+                    where:
+                    \begin{itemize}
+                        \item \( \theta \) is the angle between vectors \( A \) and \( B \).
+                        \item \( A \cdot B \) represents the dot product of the vectors.
+                        \item \( \|A\| \) and \( \|B\| \) denote the magnitudes (or norms) of vectors \( A \) and \( B \), respectively.
+                    \end{itemize}
+
+                    \begin{itemize}
+                        \item \textbf{Advantages}:
+                        \begin{itemize}
+                            \item \textit{Scalability}: Cosine similarity is less affected by the magnitude of vectors, making it advantageous for data that doesn't scale linearly. This means that even if the data is not normalized, cosine similarity can still provide meaningful results.
+                            
+                            \item \textit{High-dimensional data}: In high-dimensional spaces, Euclidean distances can become inflated, a phenomenon known as the "curse of dimensionality." Cosine similarity, on the other hand, remains robust in such scenarios, making it a preferred choice for datasets with many features.
+                            
+                            \item \textit{Sparse data}: For datasets where vectors are sparse (i.e., have many zeros), cosine similarity can be more efficient and meaningful than other distance metrics. This is because it focuses on the orientation (angle) between vectors rather than their absolute differences.
+                        \end{itemize}
+                    \end{itemize}
+
+                    \item Other metrics: Include Euclidean, Manhattan, Jaccard, and more, each with its distinct advantages.
+                \end{itemize}
+                
+                \item \textbf{clusterization algorithm:}
+                \begin{itemize}
+                    \item \texttt{"brute"}: Employs the brute-force approach to compute pairwise distances, ensuring exact distance calculations (allow cosine metrics).
+                    \item Other algorithms: Such as "kd-tree" or "ball-tree", which can offer faster computations for specific datasets.
+                \end{itemize}
+            \end{itemize}
+
+            \paragraph{}In conclusion, \acrshort{optics} offers a more flexible approach to density-based clustering compared to DBSCAN. Its ability to handle clusters of varying densities and its adaptive nature make it a powerful tool for clustering tasks. However, its increased computational complexity and challenges in cluster extraction require careful consideration.
+
+\section{Dataset}\label{seq:background:dataset}
+    \paragraph{}SmartKex has enriched the research domain by curating an extensive annotated dataset of OpenSSH heap memory dumps, which is publicly accessible on Zenodo\footnote{\url{https://zenodo.org/record/6537904}} \cite{fellicious_smartkex_2022}.
+
+    \begin{minipage}{\dimexpr\linewidth-20pt}
+        The dataset is systematically structured into three primary directories: $Training$, $Validation$, and $Performance\_Test$. Both the $Training$ and $Validation$ directories are further segmented based on distinct SSH scenarios, including immediate exit, port-forward, secure copy, and shared connection. Each scenario directory is then subdivided according to the OpenSSH version that produced the memory dump. Within these version-specific directories, heap dumps are organized by their respective key lengths, offering a hierarchical structure that facilitates targeted research explorations.
+
+        \begin{figure}[H]
+            \centering
+            \caption{Schematic Representation of the Dataset's Directory Hierarchy}
+            \label{fig:dataset_structure}
+            \begin{minipage}{0.6\textwidth}
+            \dirtree{%
+            .1 /.
+            .2 Performance\_Test.
+            .3 V\_7\_1\_P1.
+            .4 16.
+            .4 24.
+            .4 32.
+            .3 ....
+            .2 Training.
+            .3 basic.
+            .4 V\_6\_0\_P1.
+            .5 16.
+            .5 24.
+            .5 32.
+            .4 ....
+            .3 ....
+            .2 Validation.
+            .3 basic.
+            .4 V\_6\_0\_P1.
+            .5 16.
+            .5 24.
+            .5 32.
+            .4 ....
+            .3 ....
+            }
+        \end{minipage}
+        \end{figure}
+    \end{minipage}
+
+    \paragraph{}The dataset predominantly employs two file formats: JSON and RAW. While the JSON files encapsulate meta-data such as the encryption technique, the virtual memory address of the key, and its hexadecimal representation, the RAW files house the actual memory dump of the OpenSSH process.
+
+    \subsection{Details of the Dataset Production System}\label{sec:background:dataset:production_system_information}
+        \paragraph{}While the \cite{fellicious_smartkex_2022} paper and the associated dataset do not explicitly detail the hardware and software configurations used during its creation, such information is pivotal. This is especially true as our analysis delves into allocated raw bytes, which are influenced by the underlying system and the C library in use. To bridge this information gap, we reached out to the authors directly.
+
+        \paragraph{}In correspondence with Dr. Hans Reiser, we were provided with specifics about the system used to generate the dataset. The system's configuration was ascertained using the following command outputs:
+
+        \begin{minipage}{\dimexpr\linewidth-20pt}
+        \begin{lstlisting}[language=bash, caption={C-library version utilized during dataset generation}]
+            root@debian10:~# ldd --version
+            ldd (Debian GLIBC 2.28-10) 2.28
+            Copyright (C) 2018 Free Software Foundation, Inc.
+            This is free software; see the source for copying conditions.  There is NO
+            warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+            Written by Roland McGrath and Ulrich Drepper.
+        \end{lstlisting}
+        \end{minipage}
+
+        \begin{minipage}{\dimexpr\linewidth-20pt}
+        \begin{lstlisting}[language=bash, caption={Linux Standard Base Release details}]
+            root@debian10:~# lsb_release -a
+            No LSB modules are available.
+            Distributor ID:     Debian
+            Description:        Debian GNU/Linux 10 (buster)
+            Release:            10
+            Codename:           buster
+        \end{lstlisting}
+        \end{minipage}
+
+        \begin{minipage}{\dimexpr\linewidth-20pt}
+        \begin{lstlisting}[language=bash, caption={Operating system and kernel version details}]
+            root@debian10:~# uname -a
+            Linux debian10 4.19.0-16-amd64 #1 SMP Debian 4.19.181-1 (2021-03-19) x86_64 GNU/Linux
+        \end{lstlisting}
+        \end{minipage}
+
+        \paragraph{}Dr. Reiser further mentioned that the dataset was produced on a system powered by an Intel Xeon CPU, specifically either the E5-2609 or the E3-1230 model. Based on the provided commands, we can summarize the system's key attributes as:
+
+        \begin{itemize}
+            \item \textbf{CPU architecture:} \lstinline[language=bash]|x86_64|
+            \item \textbf{Operating System:} \lstinline[language=bash]|Debian GNU/Linux 10 (buster)|
+            \item \textbf{Kernel version:} \lstinline[language=bash]|4.19.0-16-amd64|
+            \item \textbf{C library version:} \lstinline[language=bash]|Debian GLIBC 2.28-10|
+        \end{itemize}
+
+    \subsection{C structures and chunks allocation understanding}
+
+        \paragraph{}Given that the dataset encompasses entire heap dump files, it presents an opportunity to identify potential data structures within these dumps. Identifying these structures involves searching for patterns within the heap dump. However, when it comes to data structures, our insights into the C library in use become invaluable, guiding our search.
+
+        \paragraph{}OpenSSH, being crafted in C, naturally embeds C data structures within its heap dumps. In C, memory allocation for data structures is typically handled by the \lstinline[language=c]|malloc| function. This function, when invoked, allocates memory corresponding to the size of the specified data structure and returns a pointer to this allocated space (also call chunks). Given our knowledge that the dataset was generated with \texttt{GLIBC 2.28} \ref{sec:background:dataset:production_system_information}, a dive into the \lstinline[language=c]|malloc| function within \texttt{GLIBC 2.28} reveals a noteworthy detail. The comments within the code mention that each allocated chunk carries a minimal overhead, either 4 or 8 bytes, which holds size and status details \cite{gloger_malloc_2001}. This overhead is what we term the \textit{malloc header}. Consequently, we can anticipate the presence of 8-byte aligned blocks within the heap dump that aren't pointers but are remnants of a \lstinline[language=c]|malloc| invocation. Recognizing these \textit{malloc headers} paves the way for detecting potential data structures within the heap dumps.
+
+        \paragraph{}On a Linux system with a \texttt{x86\_64} architecture, the \lstinline[language=c]|malloc| function typically employs a block (or chunk) header to store metadata about each allocated segment. Positioned right before the memory block returned to the user, the specifics of this header can vary based on the C library's implementation (e.g., glibc, musl). However, it generally encapsulates:
+
+        \begin{itemize}
+            \item \textbf{Size of the Block}: This represents the allocated block's size, typically denoted in bytes. Often, this size encompasses the header's size and might be aligned to multiples of 8 or 16 bytes.
+            \item \textbf{Flags}: These are a set of indicators that shed light on the block's status. They can signify if the block is free or allocated, or even if the preceding block is free or allocated. Ingeniously, these flags are often stashed in the size field's least significant bits, leveraging the alignment of the size which zeroes out these bits.
+        \end{itemize}
+
+    \subsection{Understanding \texttt{malloc} in Heap Memory Allocation}
+
+        \paragraph{}The \texttt{malloc} function, as implemented in GLIBC 2.28, employs a boundary tag methodology to oversee memory chunks. Each of these chunks incorporates metadata essential for both memory allocation and deallocation \cite{gloger_malloc_2001} \cite{delorie_malloc_2023}. 
+        
+        \paragraph{}A chunk represents a continuous memory segment, typically comprising multiple 8-byte blocks, managed by \texttt{malloc}. The structure of a chunk encompasses the following elements \cite{delorie_malloc_2023} \cite{unknown_how_2023}:
+        
+        \begin{enumerate}
+            \item \textbf{Size of Previous Chunk}: Present only if the preceding chunk is free (with its \texttt{P} (PREV\_INUSE) bit unset), this field assists in locating the start of the prior chunk.
+            
+            \item \textbf{Size of Chunk}: This captures the chunk's byte size and integrates three flags: \texttt{A} (NON\_MAIN\_ARENA), \texttt{M} (IS\_MMAPPED), and \texttt{P} (PREV\_INUSE). These flags reside in the size field's last three \acrshort{lsb}s. This block is often referred to as the \textit{malloc header} block in subsequent discussions.
+            
+            \item \textbf{User Data}: The actual memory segment returned for user utilization.
+            
+            \item \textbf{Size of Next Chunk}: Represents the size of the succeeding contiguous chunk.
+            
+            \item \textbf{Foot}: Mirrors the chunk's size and is reserved for application data.
+            
+            \item \textbf{Flags}:
+            \begin{itemize}
+                \item \texttt{A} (NON\_MAIN\_ARENA): Denotes if the chunk resides in the primary or a thread-specific arena.
+                \item \texttt{M} (IS\_MMAPPED): Flags if the chunk was allocated via \texttt{mmap}.
+                \item \texttt{P} (PREV\_INUSE): Signifies if the preceding chunk is occupied. If unset, the prior chunk is free.
+            \end{itemize}
+        \end{enumerate}
+        
+        \paragraph{}The chunk allocation mechanism is underpinned by:
+        
+        \begin{enumerate}
+            \item \textbf{Initialization}: The inaugural chunk allocated invariably has its \texttt{P} bit activated to avert accessing non-existent memory.
+            
+            \item \textbf{Free Chunks}: These chunks are cataloged in circular doubly-linked lists, encompassing forward and backward pointers for navigation.
+            
+            \item \textbf{Mmapped Chunks}: Such chunks, identifiable by the \texttt{M} bit in their size fields, are allocated individually.
+            
+            \item \textbf{Fastbins}: Regarded as allocated chunks, their consolidation is executed collectively.
+            
+            \item \textbf{Top Chunk}: A unique chunk that perpetually exists. If it dwindles below \texttt{MINSIZE} bytes, it undergoes replenishment.
+        \end{enumerate}
+        
+        \paragraph{}The code comments offer a detailed chunk representation, comprising 8-byte blocks \cite{gloger_malloc_2001}. It's worth noting that this representation is tailored to align with our forensic analysis needs. A subtle distinction lies in the \texttt{footer}'s portrayal, which, for our purposes, is deemed part of the succeeding chunk rather than the current one. The footer of the prior chunk essentially corresponds to the \texttt{mchunkptr} address. As elucidated in the GlicC wiki, a "chunk pointer" or \texttt{mchunkptr} doesn't point to the chunk's commencement but to the terminal word in the preceding chunk. This implies that the initial field in \texttt{mchunkptr} is valid only when the prior chunk is free \cite{delorie_malloc_2023}. Given the interplay between free and allocated chunks, it's more intuitive to perceive the footer as an element of the next chunk. This schematic representation divergence doesn't alter the actual data structure but merely offers a clearer visualization.
+        
+
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[scale=0.99, every node/.style={scale=0.8}]
+                % image from (0,0) to (16,12)
+                
+                % Draw rectangles
+                \draw (4,1) rectangle (12,2);
+                \draw (4,2) rectangle (12,3); % chunk-> Size of previous chunk
+                \draw (4,3) rectangle (12,4); % malloc header (size of chunk)
+                \draw (4,4) rectangle (12,5); %  mem-> user data starts here
+                \draw (4,5) rectangle (12,6);
+                \draw (4,6) rectangle (12,7);
+                \draw (4,7) rectangle (12,8);
+                \draw (4,8) rectangle (12,9); % nextchunk-> (app size of chunk)
+                \draw (4,9) rectangle (12,10); % Size of next chunk
+                \draw (4,10) rectangle (12,11);
+        
+                \draw[dashed] (3,3) rectangle (13,9);
+                
+                % after the rectangle step, the coordinates of the y axis are reversed ???
+                % Dotted lines for user data
+                \draw[dotted] (0,8) -- (16,8);
+                \draw[dotted] (0,4) -- (16,4);
+        
+                % Dotted lines for memory band of 8 byte blocks
+                \draw[dashed] (4,0) -- (4,12);
+                \draw[dashed] (12,0) -- (12,12);
+                
+                % Labels
+                \node[anchor=west] at (0,9.5) {-last-footer-};
+                \node[anchor=west] at (0,8.5) {-malloc-header-};
+                \node[anchor=west] at (0,7.5) {-chunk-user-data-};
+                \node[anchor=west] at (0,3.5) {-chunk-footer-};
+                \node[anchor=west] at (0,2.5) {-next-malloc-header-};
+        
+                \node[anchor=west] at (14,8.5) {in-use chunk};
+                
+                % Text inside rectangles
+                \node[text width=14cm, align=center] at (8,9.5) {Size of previous chunk. If unallocated, next P=0};
+                \node[text width=14cm, align=center] at (8,8.5) {Malloc header block: Size of chunk, in bytes |A|M|P};
+                \node[text width=14cm, align=center] at (8,7.5) {User data starts here...};
+                \node[text width=14cm, align=center] at (8,3.5) {(size of chunk, but used for application data)};
+                \node[text width=14cm, align=center] at (8,2.5) {Size of next chunk, in bytes |A|0|1};
+            \end{tikzpicture}
+            \caption{Diagram of an allocated chunk in GLIBC 2.28 \cite{gloger_malloc_2001}.}
+            \label{fig:allocated_chunk}
+        \end{figure}
+        
+        \paragraph{}In GLIBC 2.28, the \texttt{malloc} function employs a boundary tag approach to oversee memory chunks. These chunks integrate metadata essential for memory allocation and deallocation \cite{gloger_malloc_2001} \cite{delorie_malloc_2023}. The library organizes available chunks into circular doubly-linked lists, termed \say{bins}, facilitating rapid retrieval of free memory chunks of specific sizes. However, these bins are not directly accessible in the heap dump file. To discern if a particular chunk is occupied or available, several techniques can be employed. Primarily, the \texttt{P} bit in the malloc header serves as an indicator. A value of 1 denotes an occupied chunk, while 0 signifies a free chunk.
+
+        \paragraph{}It's noteworthy that certain heap dump files appear truncated, with the concluding block being incomplete and filled with zeros. An instance of this can be observed in the final chunk of \textit{Training/basic/V\_7\_1\_P1/24/17016-1643962152-heap.raw}.
+
+        \begin{lstlisting}[language=bash, caption={Logs from chunk exploration script, highlighting the last chunk of the file \textit{Training/basic/V\_7\_1\_P1/24/17016-1643962152-heap.raw}. }]
+            WARN: Chunk [94022266975200] Chunk(block_index=10876, size=48176, flags=[A=False, M=False, P=True]) is out of bounds. Last block index: 16895 Iteration index: 16896 
+            WARN: Chunk [94022266975200] Chunk(block_index=10876, size=48176, flags=[A=False, M=False, P=True]) is out of bounds. Last block index: 16895 Iteration index: 16897
+            Chunk(block_index=10876, size=48176) is only composed of zeros.
+        \end{lstlisting}
+
+        \paragraph{}A free chunk, as per the code documentation \cite{gloger_malloc_2001}, incorporates pointers to the subsequent and preceding free chunks within the heap for its designated bin. The following provides a representation of a free chunk:
+
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[scale=0.99, every node/.style={scale=0.8}]
+                % image from (0,0) to (16,12)
+                
+                % Draw rectangles
+                \draw (4,1) rectangle (12,2);
+                \draw (4,2) rectangle (12,3); % chunk-> Size of previous chunk
+                \draw (4,3) rectangle (12,4); % malloc header (size of chunk)
+                \draw (4,4) rectangle (12,5); %  mem-> user data starts here
+                \draw (4,5) rectangle (12,6);
+                \draw (4,6) rectangle (12,7);
+                \draw (4,7) rectangle (12,8);
+                \draw (4,8) rectangle (12,9); % nextchunk-> (app size of chunk)
+                \draw (4,9) rectangle (12,10); % Size of next chunk
+                \draw (4,10) rectangle (12,11);
+        
+                \draw[dashed] (3,3) rectangle (13,9);
+                
+                % after the rectangle step, the coordinates of the y axis are reversed ???
+                % Dotted lines for user data
+                \draw[dotted] (0,8) -- (16,8);
+                \draw[dotted] (0,4) -- (16,4);
+        
+                % Dotted lines for memory band of 8 byte blocks
+                \draw[dashed] (4,0) -- (4,12);
+                \draw[dashed] (12,0) -- (12,12);
+                
+                % Labels
+                \node[anchor=west] at (0,9.5) {-last-footer-};
+                \node[anchor=west] at (0,8.5) {-malloc-header-};
+                \node[anchor=west] at (0,3.5) {-chunk-footer-};
+                \node[anchor=west] at (0,2.5) {-next-malloc-header-};
+    
+                \node[anchor=west] at (0,7.5) {-forward-bin-pointer-};
+                \node[anchor=west] at (0,6.5) {-backward-bin-pointer-};
+        
+                \node[anchor=west] at (14,8.5) {free chunk};
+                
+                % Text inside rectangles
+                \node[text width=14cm, align=center] at (8,9.5) {Size of previous chunk. If unallocated, next P=0};
+                \node[text width=14cm, align=center] at (8,8.5) {Malloc header block: Size of chunk, in bytes |A|0|P};
+                \node[text width=14cm, align=center] at (8,7.5) {Forward pointer to next chunk in list};
+                \node[text width=14cm, align=center] at (8,6.5) {Back pointer to previous chunk in list};
+                \node[text width=14cm, align=center] at (8,5.5) {Unused space (may be 0 bytes long)};
+                \node[text width=14cm, align=center] at (8,3.5) {(size of chunk, but used for application data)};
+                \node[text width=14cm, align=center] at (8,2.5) {Size of next chunk, in bytes |A|0|0};
+            \end{tikzpicture}
+            \caption{Diagram of a free chunk in GLIBC 2.28 \cite{gloger_malloc_2001}.}
+            \label{fig:free_chunk}
+        \end{figure}
