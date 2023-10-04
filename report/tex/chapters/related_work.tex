@@ -1,1 +1,62 @@
 \chapter{Related work}\label{chap:related_work}
+
+\paragraph{}The embedding of memory heap dumps for the detection of SSH keys is a niche yet crucial area of research, especially in the context of cybersecurity and digital forensics. This section reviews two seminal papers that have significantly influenced our work: \textit{SSHKex}, which delves into \acrfull{vmi} and memory forensics, and \textit{SmartKex}, which employs machine learning techniques for SSH key detection.
+
+\section{Virtual Machine Introspection and Memory Forensics: SSHKex}
+
+    \paragraph{}\textbf{SSHKex} is an initiative that delves into the intricacies of analyzing encrypted SSH traffic. By harnessing the capabilities of \acrshort{vmi}, Sentanoe and Reiser spearheaded this project to discreetly extract SSH keys and decrypt SSH network communications, ensuring the preservation of evidence \cite{sentanoe_sshkex_2022}.
+
+    \paragraph{}The methodology adopted by \textbf{SSHKex} seamlessly integrates conventional network traffic monitoring with dynamic SSH session key retrieval. A pivotal assumption is the familiarity with the SSH server's implementation, which is vital for the extraction process. Tools such as LibVMI and Volatility, under the VMI umbrella, are employed to provide an unaltered perspective of the guest VM's state, enabling the efficient pinpointing of SSH session keys within a Linux system's primary memory.
+
+
+    \paragraph{}Outlined below is the \textbf{SSHKex} key extraction procedure:
+
+    \begin{enumerate}
+        \item \textbf{Data Structure Insights}: The technique capitalizes on in-depth understanding of the data structures housing the keys. Debugging symbols, tailored to the SSH version on the target, offer crucial offset values, aiding in key material extraction. Key structures encompass \texttt{struct ssh}, \texttt{struct session\_state}, \texttt{struct newkeys}, and \texttt{struct sshenc}, which collectively house details like IP addresses, session statuses, and encryption keys.
+        \item \textbf{OpenSSH Function Tracing}: This step involves tracing functions to accurately locate data structures and timely key extraction. Emphasis is on \texttt{kex\_derive\_keys} (for key generation initiation) and \texttt{do\_authentication2} (triggering user authentication).
+        \item \textbf{Breakpoint Implementation}: For debugging purposes, software breakpoints are strategically embedded in the program's execution. Using VMI, SSHKex introduces these breakpoints at the starting points of the two pivotal functions mentioned above.
+        \item \textbf{Extraction of Keys}: The \texttt{kex\_derive\_keys} function's invocation prompts SSHKex to initially capture the \texttt{ssh struct}'s address. The subsequent call to the \texttt{do\_authentication2} function facilitates the extraction of actual keys, adhering to recognized structures.
+        \item \textbf{Key Classification}: OpenSSH designates distinct indices in the \texttt{newkeys} structure for client-to-server and vice versa keys. SSHKex's extraction is based on these specific indices.
+        \item \textbf{Managing Multiple Sessions}: OpenSSH handles numerous SSH sessions by initiating child processes. SSHKex broadens its extraction approach to each child process, identifying them via their distinct process IDs.
+    \end{enumerate}
+
+    \paragraph{}A standout feature of \textbf{SSHKex} is its commitment to discretion, conservation, and maintaining evidence authenticity. The methodology is crafted to minimize intrusiveness, ensuring no alterations to the scrutinized system. This is paramount in forensic scenarios where evidence sanctity is of utmost importance.
+
+
+\section{Machine Learning for SSH Key Detection: SmartKex}
+
+    \paragraph{}\textbf{SmartKex} builds upon the foundation of extracting SSH keys from heap memory dumps, aiming to streamline and automate the process. The project stands out by integrating machine learning techniques, enhancing the efficiency and precision of key extraction. This contrasts with the more complex SSHKex approach, which necessitates in-depth SSH knowledge and breakpoint injections.
+
+    \paragraph{}\textbf{SmartKex} proposes two key extraction methods:
+    \begin{itemize}
+        \item \textit{Brute-Force Baseline Method}: A conventional method that sifts through heap memory, identifying potential keys based on recognized patterns.
+        \item \textit{Machine Learning-Assisted Method}: Utilizes a Random Forest algorithm, trained on an imbalanced dataset balanced using SMOTE. While this method offers high precision and recall, it's probabilistic, making it less exact than the brute-force approach.
+    \end{itemize}
+
+    \subsection{Baseline Brute-Force Method}
+
+    \paragraph{}The brute-force approach of \textbf{SmartKex} encompasses the following steps \cite{fellicious_smartkex_2022}:
+    \begin{enumerate}
+        \item \textit{Heap Dump Creation}: Binary files of the OpenSSH server process are generated (methodology unspecified in SmartKex) and are presumed to be based on a linux-x86\_64 architecture.
+        \item \textit{Data Trimming}: The method trims irrelevant memory pages based on Hamming distance to reduce heap size.
+        \item \textit{Key Search}: The algorithm scans the heap, considering a 128-byte length as a potential key, iterating until the heap's end.
+        \item \textit{Decryption Trials}: Each potential key undergoes decryption attempts on network packets. Failed attempts lead to the next potential key.
+    \end{enumerate}
+    \paragraph{}Despite its exactness, the brute-force method is resource-intensive and is less efficient when keys are towards the heap dump's end.
+
+    \subsection{Machine Learning-Assisted Method}
+
+    \paragraph{}\textbf{SmartKex}'s innovation lies in its machine learning methodology, which, while sacrificing exactness, offers speed and accuracy. The method also reduces the heap to under 2\% of its original size. The steps include:
+    \begin{enumerate}
+        \item \textit{Heap Dump Inputs}: As with the brute-force method, binary files from OpenSSH are the primary inputs.
+        \item \textit{Data Preprocessing}: The heap dump is reshaped into an N × 8 matrix. High entropy sections, potential encryption keys, are flagged using logical operations on byte differences.
+        \item \textit{Model Training}: A Random Forest algorithm is trained on 128-byte segments of the processed heap. Given the dataset's imbalance, a stacked classifier approach is employed.
+        \item \textit{Key Detection}: Predictions on potential key-containing slices are made using the model, followed by a brute-force extraction.
+    \end{enumerate}
+    \paragraph{}\textbf{SmartKex} not only outperforms the brute-force method in speed but also excels in accuracy. Its applications span across cybersecurity and memory forensics. The adaptability of its machine learning methodology makes it a valuable asset for both researchers and professionals. The project's open-source nature further enhances its accessibility, with the code available on GitHub.
+    
+
+\subsection{Our Contribution}
+
+Building upon the foundational work of \textit{SSHKex} and \textit{SmartKex}, our research aims to further the field by [Your Contribution Here: e.g., "developing a hybrid approach that combines the strengths of both VMI and machine learning for more accurate and efficient SSH key detection in memory heap dumps."]
+
