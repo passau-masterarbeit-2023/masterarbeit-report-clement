@@ -64,48 +64,21 @@
 
         \paragraph{}Other significant annotations such as ``KEY\_A\_ADDR'', ``KEY\_A\_LEN'', ``KEY\_A\_REAL\_LEN'', and ``KEY\_A'' detail the address, length, and value of the key A. In general, six of these annotations can be found for each heap dump. Notably, the ``HEAP\_START'' annotation, along with the length of the heap dump, is of paramount importance. This annotation signifies the starting address of the heap dump. This information not only aids in pinpointing addresses in the heap dump for \glspl{structure} and \glspl{pointer}, but also refines the heuristic used in detecting \glspl{pointer}. By leveraging the ``HEAP\_START'' information, one can verify if a \gls{pointer} is pointing within the heap dump boundaries. As a practical illustration, deducing the address of key A within the heap dump can be achieved by subtracting ``HEAP\_START'' from ``KEY\_A\_ADDR''.
 
-        \paragraph{}However, it's noteworthy that some of these annotation files may be corrupted. Therefore, it's imperative to verify the integrity of each file before its use. In instances where keys are corrupted, such as "KEY\_E" and "KEY\_F" having no recorded values in the extract found at \ref{methods:code:annotation_extract}, it's advised either to remove the corrupted keys or discard the entire file if the data cannot be salvaged. Armed with this understanding, the next logical step would be to leverage this dataset to formulate embeddings and subsequently evaluate their performance.
-
-    \subsection{Malloc header usage and structures detection}
-        \paragraph{}As discussed in, subsequent to an initial 8-byte block of zeros, we anticipate the allocation of the first data structure at the heap's commencement. As illustrated in \ref{fig:methods:malloc_header_detection_heap_start}, this data structure spans a size of $ 5102000000000000_{16LE} $ (in little-endian hexadecimal notation) or $ 593_{10} $ bytes. The presence of an odd number arises from the \acrshort{lsb} being set to 1, signifying that the block is allocated (as a flag). Consequently, the actual size of the structure is $ 593_{10} - 1_{10} = 592_{10} $ bytes, which aligns with an 8-byte boundary.
-
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=16cm]{background/structure_examples_1010-1644391327-heap_potential_malloc_header_highlight_heap_start.png}
-            \caption{Attempt at malloc header detection in \textit{Training/basic/V\_7\_8\_P1/16/5070-1643978841-heap.raw}, at heap start.}
-            \label{fig:methods:malloc_header_detection_heap_start}
-        \end{figure}
-
-        \paragraph{}Given the allocator's sequential chunk allocation approach, the subsequent chunk's anticipated allocation address is calculated as $ 5102000000000000_{16LE} + 592_{10} + 8_{10} $. The additional 8 accounts for the malloc header block, resulting in an address of $ 5882193a34560000_{16LE} $.
+        \paragraph{}However, it's noteworthy that some of these annotation files may be corrupted. Therefore, it's imperative to verify the integrity of each file before its use. In instances where keys are corrupted, such as "KEY\_E" and "KEY\_F" having no recorded values in the extract found at \ref{methods:code:annotation_extract}, it's advised either to remove the corrupted keys or discard the entire file if the data cannot be salvaged.
     
-        \paragraph{}In vim, since the address start at 0, we have to look at $ 592_{10} + 8_{10} = 258_{16} $. Let's have a look there \ref{fig:methods:malloc_header_detection_0x250}:
+    \subsection{Dataset Validation}
+        \paragraph{}The dataset primarily consists of heap dump RAW files, each corresponding to various use cases and versions of OpenSSH. Accompanying each heap dump is a JSON annotation file, crafted by the dataset's creators, to furnish supplementary details, particularly about encryption keys.
+        
+        \paragraph{}However, the dataset isn't without its flaws. Its application in machine learning has unveiled certain inconsistencies. For example, a few of these files are incomplete, lacking essential data. This poses a challenge since we rely on these annotations to pinpoint key addresses, crucial for annotating memory graphs in the embedding phase. If there's a discrepancy in the format, we'll deem the JSON annotation as corrupted and bypass it. This likely stems from the automated generation of annotations. A case in point is the file in \textit{Training/basic/V\_7\_8\_P1/16/}, which, being the dataset's first file, showcases an incomplete annotation with absent keys. It's vital to be cognizant of these limitations when utilizing the dataset for academic endeavors.
+        
+        \subsubsection{Annotation Integrity Verification}
+            \paragraph{}To accurately gauge the usability of the dataset for machine learning applications, we implemented a validation script named \texttt{check\_annotations.py}. This script is tailored to assess the annotations for their quality, completeness, and consistency.
 
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=16cm]{background/structure_examples_1010-1644391327-heap_potential_malloc_header_highlight_0x250.png}
-            \caption{Attempt at malloc header detection in \textit{Training/basic/V\_7\_8\_P1/16/5070-1643978841-heap.raw}, at index $ 592_{10} = 250_{16} $.}
-            \label{fig:methods:malloc_header_detection_0x250}
-        \end{figure}
-
-        \paragraph{}At this point, we observe a zero block, succeeded by a potential malloc header at address $ 258_{16} $. By replicating this process, we can devise an algorithm to identify malloc headers, and consequently, the structures within the heap dump file.
-
-        \begin{algorithm}[H]
-            \caption{Malloc Header Detection Algorithm}
-            \begin{algorithmic}[1]
-            \Procedure{MallocHeaderDetection}{$\text{heapDumpFile}$}
-                \State $\text{position} \gets 0$
-                \While{$\text{position} < \text{FileSize}(\text{heapDumpFile})$}
-                    \State $\text{block} \gets \text{Read8Bytes}(\text{heapDumpFile, position})$
-                    \If{$\text{block} \neq 0$}
-                        \State $\text{size} \gets \text{ConvertToSize}(\text{block}) - 1$ \Comment{$-1$ due to the flag}
-                        \State \textbf{Assert} $ \text{size} \mod 8 = 0$ \Comment{Check if the size is 8-bytes aligned}
-                        \State $\text{position} \gets \text{position} + 8 + \text{size}$ \Comment{Leap over data structure. + 8 for the header.}
-                    \Else
-                        \State $\text{position} \gets \text{position} + 8$
-                    \EndIf
-                \EndWhile
-            \EndProcedure
-            \end{algorithmic}
-        \end{algorithm}
-
-        \paragraph{}The underlying concept of the malloc header detection algorithm is straightforward. Beginning at the start of the heap dump file, we search for the initial non-zero block. Subsequently, we infer that the following block represents a malloc header. This block is converted into a size, allowing us to skip over both the data structure and its header. This procedure continues iteratively until the file's conclusion.
+            \paragraph{}The annotations (JSON files) are categorized as follows:
+            \begin{itemize}
+                \item \textbf{Complete and Accurate Files}: These files are devoid of missing keys and contain all keys with appropriate values.
+                \item \textbf{Malformed Files}: These are files that aren't valid JSON and hence cannot be loaded properly.
+                \item \textbf{Inconsistent Files}: Files that present conflicting information within their annotations.
+                \item \textbf{Files with Absent Keys}: These files lack certain keys in their annotations. For instance, a JSON file might have "KEY\_E": "", indicating the absence of key E and its corresponding address in the annotation, which poses challenges for accurate machine learning labeling.
+                \item \textbf{Files with Incomplete Keys}: These files contain keys but lack the corresponding addresses. An example would be a JSON file with "KEY\_E": "689e549a80ce4be95d8b742e36a229bf", signifying the presence of key E but the absence of its address in the annotation. This again complicates the labeling process for machine learning.
+            \end{itemize}

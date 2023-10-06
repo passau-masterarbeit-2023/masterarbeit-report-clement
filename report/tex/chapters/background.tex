@@ -516,9 +516,9 @@
 
         \paragraph{}Given that the dataset encompasses entire heap dump files, it presents an opportunity to identify potential data structures within these dumps. Identifying these structures involves searching for patterns within the heap dump. However, when it comes to data structures, our insights into the C library in use become invaluable, guiding our search.
 
-        \paragraph{}OpenSSH, being crafted in C, naturally embeds C data structures within its heap dumps. In C, memory allocation for data structures is typically handled by the \lstinline[language=c]|malloc| function. This function, when invoked, allocates memory corresponding to the size of the specified data structure and returns a pointer to this allocated space (also call chunks). Given our knowledge that the dataset was generated with \texttt{GLIBC 2.28} \ref{sec:background:dataset:production_system_information}, a dive into the \lstinline[language=c]|malloc| function within \texttt{GLIBC 2.28} reveals a noteworthy detail. The comments within the code mention that each allocated chunk carries a minimal overhead, either 4 or 8 bytes, which holds size and status details \cite{gloger_malloc_2001}. This overhead is what we term the \textit{malloc header}. Consequently, we can anticipate the presence of 8-byte aligned blocks within the heap dump that aren't pointers but are remnants of a \lstinline[language=c]|malloc| invocation. Recognizing these \textit{malloc headers} paves the way for detecting potential data structures within the heap dumps.
+        \paragraph{}OpenSSH, being crafted in C, naturally embeds C data structures within its heap dumps. In C, memory allocation for data structures is typically handled by the \lstinline[language=c]|malloc| function. This function, when invoked, allocates memory corresponding to the size of the specified data structure and returns a pointer to this allocated space (also call \glspl{chunk}). Given our knowledge that the dataset was generated with \texttt{GLIBC 2.28} \ref{sec:background:dataset:production_system_information}, a dive into the \lstinline[language=c]|malloc| function within \texttt{GLIBC 2.28} reveals a noteworthy detail. The comments within the code mention that each allocated \gls{chunk} carries a minimal overhead, either 4 or 8 bytes, which holds size and status details \cite{gloger_malloc_2001}. This overhead is what we term the \textit{malloc header}. Consequently, we can anticipate the presence of 8-byte aligned blocks within the heap dump that aren't pointers but are remnants of a \lstinline[language=c]|malloc| invocation. Recognizing these \textit{malloc headers} paves the way for detecting potential data structures within the heap dumps.
 
-        \paragraph{}On a Linux system with a \texttt{x86\_64} architecture, the \lstinline[language=c]|malloc| function typically employs a block (or chunk) header to store metadata about each allocated segment. Positioned right before the memory block returned to the user, the specifics of this header can vary based on the C library's implementation (e.g., glibc, musl). However, it generally encapsulates:
+        \paragraph{}On a Linux system with a \texttt{x86\_64} architecture, the \lstinline[language=c]|malloc| function typically employs a block (or \gls{chunk}) header to store metadata about each allocated segment. Positioned right before the memory block returned to the user, the specifics of this header can vary based on the C library's implementation (e.g., glibc, musl). However, it generally encapsulates:
 
         \begin{itemize}
             \item \textbf{Size of the Block}: This represents the allocated block's size, typically denoted in bytes. Often, this size encompasses the header's size and might be aligned to multiples of 8 or 16 bytes.
@@ -527,44 +527,44 @@
 
     \subsection{Understanding \texttt{malloc} in Heap Memory Allocation}
 
-        \paragraph{}The \texttt{malloc} function, as implemented in GLIBC 2.28, employs a boundary tag methodology to oversee memory chunks. Each of these chunks incorporates metadata essential for both memory allocation and deallocation \cite{gloger_malloc_2001} \cite{delorie_malloc_2023}. 
+        \paragraph{}The \texttt{malloc} function, as implemented in GLIBC 2.28, employs a boundary tag methodology to oversee memory \glspl{chunk}. Each of these \glspl{chunk} incorporates metadata essential for both memory allocation and deallocation \cite{gloger_malloc_2001} \cite{delorie_malloc_2023}. 
         
-        \paragraph{}A chunk represents a continuous memory segment, typically comprising multiple 8-byte blocks, managed by \texttt{malloc}. The structure of a chunk encompasses the following elements \cite{delorie_malloc_2023} \cite{unknown_how_2023}:
+        \paragraph{}A \gls{chunk} represents a continuous memory segment, typically comprising multiple 8-byte blocks, managed by \texttt{malloc}. The structure of a \gls{chunk} encompasses the following elements \cite{delorie_malloc_2023} \cite{unknown_how_2023}:
         
         \begin{enumerate}
-            \item \textbf{Size of Previous Chunk}: Present only if the preceding chunk is free (with its \texttt{P} (PREV\_INUSE) bit unset), this field assists in locating the start of the prior chunk.
+            \item \textbf{Size of Previous \gls{chunk}}: Present only if the preceding \gls{chunk} is free (with its \texttt{P} (PREV\_INUSE) bit unset), this field assists in locating the start of the prior \gls{chunk}.
             
-            \item \textbf{Size of Chunk}: This captures the chunk's byte size and integrates three flags: \texttt{A} (NON\_MAIN\_ARENA), \texttt{M} (IS\_MMAPPED), and \texttt{P} (PREV\_INUSE). These flags reside in the size field's last three \acrshort{lsb}s. This block is often referred to as the \textit{malloc header} block in subsequent discussions.
+            \item \textbf{Size of \gls{chunk}}: This captures the \gls{chunk}'s byte size and integrates three flags: \texttt{A} (NON\_MAIN\_ARENA), \texttt{M} (IS\_MMAPPED), and \texttt{P} (PREV\_INUSE). These flags reside in the size field's last three \acrshort{lsb}s. This block is often referred to as the \textit{malloc header} block in subsequent discussions.
             
             \item \textbf{User Data}: The actual memory segment returned for user utilization.
             
-            \item \textbf{Size of Next Chunk}: Represents the size of the succeeding contiguous chunk.
+            \item \textbf{Size of Next \gls{chunk}}: Represents the size of the succeeding contiguous \gls{chunk}.
             
-            \item \textbf{Foot}: Mirrors the chunk's size and is reserved for application data.
+            \item \textbf{Foot}: Mirrors the \gls{chunk}'s size and is reserved for application data.
             
             \item \textbf{Flags}:
             \begin{itemize}
-                \item \texttt{A} (NON\_MAIN\_ARENA): Denotes if the chunk resides in the primary or a thread-specific arena.
-                \item \texttt{M} (IS\_MMAPPED): Flags if the chunk was allocated via \texttt{mmap}.
-                \item \texttt{P} (PREV\_INUSE): Signifies if the preceding chunk is occupied. If unset, the prior chunk is free.
+                \item \texttt{A} (NON\_MAIN\_ARENA): Denotes if the \gls{chunk} resides in the primary or a thread-specific arena.
+                \item \texttt{M} (IS\_MMAPPED): Flags if the \gls{chunk} was allocated via \texttt{mmap}.
+                \item \texttt{P} (PREV\_INUSE): Signifies if the preceding \gls{chunk} is occupied. If unset, the prior \gls{chunk} is free.
             \end{itemize}
         \end{enumerate}
         
-        \paragraph{}The chunk allocation mechanism is underpinned by:
+        \paragraph{}The \gls{chunk} allocation mechanism is underpinned by:
         
         \begin{enumerate}
-            \item \textbf{Initialization}: The inaugural chunk allocated invariably has its \texttt{P} bit activated to avert accessing non-existent memory.
+            \item \textbf{Initialization}: The inaugural \gls{chunk} allocated invariably has its \texttt{P} bit activated to avert accessing non-existent memory.
             
-            \item \textbf{Free Chunks}: These chunks are cataloged in circular doubly-linked lists, encompassing forward and backward pointers for navigation.
+            \item \textbf{Free \glspl{chunk}}: These \glspl{chunk} are cataloged in circular doubly-linked lists, encompassing forward and backward pointers for navigation.
             
-            \item \textbf{Mmapped Chunks}: Such chunks, identifiable by the \texttt{M} bit in their size fields, are allocated individually.
+            \item \textbf{Mmapped \glspl{chunk}}: Such \glspl{chunk}, identifiable by the \texttt{M} bit in their size fields, are allocated individually.
             
-            \item \textbf{Fastbins}: Regarded as allocated chunks, their consolidation is executed collectively.
+            \item \textbf{Fastbins}: Regarded as allocated \glspl{chunk}, their consolidation is executed collectively.
             
-            \item \textbf{Top Chunk}: A unique chunk that perpetually exists. If it dwindles below \texttt{MINSIZE} bytes, it undergoes replenishment.
+            \item \textbf{Top \gls{chunk}}: A unique \gls{chunk} that perpetually exists. If it dwindles below \texttt{MINSIZE} bytes, it undergoes replenishment.
         \end{enumerate}
         
-        \paragraph{}The code comments offer a detailed chunk representation, comprising 8-byte blocks \cite{gloger_malloc_2001}. It's worth noting that this representation is tailored to align with our forensic analysis needs. A subtle distinction lies in the \texttt{footer}'s portrayal, which, for our purposes, is deemed part of the succeeding chunk rather than the current one. The footer of the prior chunk essentially corresponds to the \texttt{mchunkptr} address. As elucidated in the GlicC wiki, a "chunk pointer" or \texttt{mchunkptr} doesn't point to the chunk's commencement but to the terminal word in the preceding chunk. This implies that the initial field in \texttt{mchunkptr} is valid only when the prior chunk is free \cite{delorie_malloc_2023}. Given the interplay between free and allocated chunks, it's more intuitive to perceive the footer as an element of the next chunk. This schematic representation divergence doesn't alter the actual data structure but merely offers a clearer visualization.
+        \paragraph{}The code comments offer a detailed \gls{chunk} representation, comprising 8-byte blocks \cite{gloger_malloc_2001}. It's worth noting that this representation is tailored to align with our forensic analysis needs. A subtle distinction lies in the \texttt{footer}'s portrayal, which, for our purposes, is deemed part of the succeeding \gls{chunk} rather than the current one. The footer of the prior \gls{chunk} essentially corresponds to the \texttt{mchunkptr} address. As elucidated in the GlicC wiki, a "chunk pointer" or \texttt{mchunkptr} doesn't point to the chunk's commencement but to the terminal word in the preceding \gls{chunk}. This implies that the initial field in \texttt{mchunkptr} is valid only when the prior \gls{chunk} is free \cite{delorie_malloc_2023}. Given the interplay between free and allocated \glspl{chunk}, it's more intuitive to perceive the footer as an element of the next \gls{chunk}. This schematic representation divergence doesn't alter the actual data structure but merely offers a clearer visualization.
         
 
         \begin{figure}[H]
@@ -615,17 +615,17 @@
             \label{fig:allocated_chunk}
         \end{figure}
         
-        \paragraph{}In GLIBC 2.28, the \texttt{malloc} function employs a boundary tag approach to oversee memory chunks. These chunks integrate metadata essential for memory allocation and deallocation \cite{gloger_malloc_2001} \cite{delorie_malloc_2023}. The library organizes available chunks into circular doubly-linked lists, termed \say{bins}, facilitating rapid retrieval of free memory chunks of specific sizes. However, these bins are not directly accessible in the heap dump file. To discern if a particular chunk is occupied or available, several techniques can be employed. Primarily, the \texttt{P} bit in the malloc header serves as an indicator. A value of 1 denotes an occupied chunk, while 0 signifies a free chunk.
+        \paragraph{}In GLIBC 2.28, the \texttt{malloc} function employs a boundary tag approach to oversee memory \glspl{chunk}. These \glspl{chunk} integrate metadata essential for memory allocation and deallocation \cite{gloger_malloc_2001} \cite{delorie_malloc_2023}. The library organizes available \glspl{chunk} into circular doubly-linked lists, termed \say{bins}, facilitating rapid retrieval of free memory \glspl{chunk} of specific sizes. However, these bins are not directly accessible in the heap dump file. To discern if a particular \gls{chunk} is occupied or available, several techniques can be employed. Primarily, the \texttt{P} bit in the malloc header serves as an indicator. A value of 1 denotes an occupied \gls{chunk}, while 0 signifies a free \gls{chunk}.
 
-        \paragraph{}It's noteworthy that certain heap dump files appear truncated, with the concluding block being incomplete and filled with zeros. An instance of this can be observed in the final chunk of \textit{Training/basic/V\_7\_1\_P1/24/17016-1643962152-heap.raw}.
+        \paragraph{}It's noteworthy that certain heap dump files appear truncated, with the concluding block being incomplete and filled with zeros. An instance of this can be observed in the final \gls{chunk} of \textit{Training/basic/V\_7\_1\_P1/24/17016-1643962152-heap.raw}.
 
-        \begin{lstlisting}[language=bash, caption={Logs from chunk exploration script, highlighting the last chunk of the file \textit{Training/basic/V\_7\_1\_P1/24/17016-1643962152-heap.raw}. }]
-            WARN: Chunk [94022266975200] Chunk(block_index=10876, size=48176, flags=[A=False, M=False, P=True]) is out of bounds. Last block index: 16895 Iteration index: 16896 
-            WARN: Chunk [94022266975200] Chunk(block_index=10876, size=48176, flags=[A=False, M=False, P=True]) is out of bounds. Last block index: 16895 Iteration index: 16897
+        \begin{lstlisting}[language=bash, caption={Logs from \gls{chunk} exploration script, highlighting the last \gls{chunk} of the file \textit{Training/basic/V\_7\_1\_P1/24/17016-1643962152-heap.raw}. }]
+            WARN: chunk [94022266975200] Chunk(block_index=10876, size=48176, flags=[A=False, M=False, P=True]) is out of bounds. Last block index: 16895 Iteration index: 16896 
+            WARN: chunk [94022266975200] Chunk(block_index=10876, size=48176, flags=[A=False, M=False, P=True]) is out of bounds. Last block index: 16895 Iteration index: 16897
             Chunk(block_index=10876, size=48176) is only composed of zeros.
         \end{lstlisting}
 
-        \paragraph{}A free chunk, as per the code documentation \cite{gloger_malloc_2001}, incorporates pointers to the subsequent and preceding free chunks within the heap for its designated bin. The following provides a representation of a free chunk:
+        \paragraph{}A free \gls{chunk}, as per the code documentation \cite{gloger_malloc_2001}, incorporates pointers to the subsequent and preceding free \glspl{chunk} within the heap for its designated bin. The following provides a representation of a free \gls{chunk}:
 
         \begin{figure}[H]
             \centering

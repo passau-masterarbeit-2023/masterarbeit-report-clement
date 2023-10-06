@@ -1,8 +1,2 @@
 \chapter{Methods}\label{chap:methods}
     \paragraph{}This research dives into the complexities of embedding byte sequences, focusing particularly on the extraction of structures containing SSH keys for machine learning purposes. The varied uses of OpenSSH introduce distinct challenges due to potential variations in the created embeddings. Given the wide array of SSH key dimensions and OpenSSH's intricate operations, maintaining the embeddings' stability and consistency is vital. In this methodological section, we will detail various embedding methods, present a framework for their assessment through a classifier model, and suggest another strategy to verify the embeddings' coherence between the different OpenSSH usage and key sizes.
-
-    
-    \section{Embedding coherence}
-        \paragraph{}After completing the classification task, our focus shifts to evaluating the coherence of the embedding across different applications of OpenSSH and various key sizes. To accomplish this, we will utilize a clustering model, specifically DBSCAN, which is well-suited for scenarios where the number of clusters is uncertain. Our objective is to determine if the formed clusters demonstrate coherence, signifying the proximity of memory structures containing SSH keys. This analysis also encompasses an assessment of the underlying embedding method's consistency across various uses of SSH and key sizes, illustrating its ability to capture significant patterns and relationships related the the SSH keys.
-
-        \paragraph{}In the following section, we will delve deep into the methodologies and techniques utilized to construct these embeddings, offering a comprehensive insight into the fundamental building blocks of our study.*
