@@ -1,5 +1,7 @@
 # Logs
 
+> WARN : For the statistic embedding, the footer node is skip > not a value
+
 ## 19/09
 
 To do :

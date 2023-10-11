@@ -512,7 +512,7 @@
             \item \textbf{C library version:} \lstinline[language=bash]|Debian GLIBC 2.28-10|
         \end{itemize}
 
-    \subsection{C structures and chunks allocation understanding}
+    \subsection{C structures and chunks allocation understanding}\label{sec:background:dataset:c_structures_and_chunks_allocation_understanding}
 
         \paragraph{}Given that the dataset encompasses entire heap dump files, it presents an opportunity to identify potential data structures within these dumps. Identifying these structures involves searching for patterns within the heap dump. However, when it comes to data structures, our insights into the C library in use become invaluable, guiding our search.
 
@@ -678,3 +678,8 @@
             \caption{Diagram of a free chunk in GLIBC 2.28 \cite{gloger_malloc_2001}.}
             \label{fig:free_chunk}
         \end{figure}
+
+        \paragraph{}The principle of \textbf{chunk chaining}\label{seq:background:chunk_chaining} is pivotal for navigating the heap dump file. By adhering to the sequence of malloc headers, we can systematically traverse the allocated memory chunks within the heap dump. This methodology is corroborated by the source code, which contains a comment indicating that, given the address of the initial chunk (the one with the lowest address) in a heap, one can iterate over all the chunks by leveraging the size data.
+
+        \paragraph{}Throughout the development of scripts and tools for this thesis, we've integrated various checks and validations to ensure the consistency of this chunk chaining assumption. Should any discrepancies arise, the tools are designed to flag an error, and typically bypass the problematic data. Such a design choice aims to fortify the tools against unforeseen data structures and to bolster the reliability of the outcomes.
+

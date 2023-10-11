@@ -54,7 +54,7 @@
             "KEY_F_ADDR": "5619dd807fd0",
             "KEY_F_LEN": "0",
             "KEY_F_REAL_LEN": "0",
-            "KEY_F": "",
+/            "KEY_F": "",
             "HEAP_START": "5619dd7e3000"
         }
         \end{lstlisting}
@@ -82,3 +82,56 @@
                 \item \textbf{Files with Absent Keys}: These files lack certain keys in their annotations. For instance, a JSON file might have "KEY\_E": "", indicating the absence of key E and its corresponding address in the annotation, which poses challenges for accurate machine learning labeling.
                 \item \textbf{Files with Incomplete Keys}: These files contain keys but lack the corresponding addresses. An example would be a JSON file with "KEY\_E": "689e549a80ce4be95d8b742e36a229bf", signifying the presence of key E but the absence of its address in the annotation. This again complicates the labeling process for machine learning.
             \end{itemize}
+
+            \paragraph{}The script executes swiftly, processing all the 103,595 JSON annotation files and yields the following outcomes:
+
+            \begin{itemize}
+                \item \textbf{Correct and Complete Files}: 26,196 files.
+                \item \textbf{Broken Files}: 6 files are identified as broken. Closer inspection reveals these files to be empty.
+                \item \textbf{Incorrect Files}: 0 files.
+                \item \textbf{Files with Absent Keys}: 58,643 files exhibit missing keys.
+                \item \textbf{Files with Incomplete Keys}: 18,750 files display incomplete keys.
+            \end{itemize}
+
+            \paragraph{}Delving deeper into the keys:
+
+            \begin{itemize}
+                \item \textbf{Total SSH Keys}: 546,534 keys.
+                \item \textbf{Missing (Empty) SSH Keys}: 157,244 keys.
+                \item \textbf{Incompletely Annotated SSH Keys}: 37,500 keys.
+                \item \textbf{Incorrectly Annotated SSH Keys}: 0 keys.
+            \end{itemize}
+
+    \subsection{Structure of the Heap File}
+        \paragraph{}Heap files serve as the dynamic memory storage for applications, and understanding their structure is crucial for memory analysis. These files are organized in a specific manner, with memory sequences of bytes or "chunks" allocated and deallocated as needed by the application. The heap is 8-byte aligned, which means that we can consider sequences of memory in 8-byte \gls{block}. This alignment ensures efficient memory access and management. To visualize and interpret the heap's structure, tools like memory analyzers or debuggers can be employed.
+
+        \paragraph{}Within the heap, there are four primary types of byte sequences that can be identified with varying degrees of certainty:
+        
+        \begin{enumerate}
+            \item \textbf{Chunk, Malloc Header, and Footer}: We have already discussed these components in detail in an earlier section. In brief, they represent the primary building blocks of the heap, with each chunk being a segment of memory allocated for storing data. The malloc header contains essential metadata about the chunk, and footers, when present, replicate this information.
+            \item \textbf{Pointer}: Memory addresses that reference other locations within the heap or other memory segments.
+        \end{enumerate}
+        
+        \paragraph{}Any unidentified user data within these structures is termed as "value data." This data represents the actual content or payload stored within the allocated memory chunks.
+
+        \subsubsection{Chunk}
+        \paragraph{}In our exploration of the dataset, the chunk chaining assumption, as detailed in section \ref{seq:background:chunk_chaining}, plays a pivotal role. It's imperative to ensure the integrity of this assumption for accurate analysis. During the dataset refinement process, we identified five heap dumps that contain chunks with a size of 0 bytes, which could potentially violate this assumption. To maintain the reliability of our analyses, these specific dumps have been removed from the dataset. 
+        
+        \subsubsection{Pointer}
+            \paragraph{}Pointers are memory addresses that reference other locations within the heap or other segments of memory. In the context of the heap, pointers can indicate data structures, reference other chunks, or provide links in data structures like linked lists or trees. To identify potential pointers within the heap dump, one can utilize the following Reggex :
+            \begin{lstlisting}
+            1 :/[0-9a-f]\{12}0\{4}
+            \end{lstlisting}
+
+            \paragraph{}This command searches for sequences comprising 12 hexadecimal characters succeeded by 4 zeros. The rationale behind this is twofold: 
+            \begin{itemize}
+                \item The heap dump file's maximum possible addresses typically span around 12 hexadecimal digits.
+                \item Pointers' addresses are represented in little-endian format. Consequently, the address's last 4 bytes at 0 are its Most Significant Bytes (MSB).
+            \end{itemize}
+            \paragraph{}Furthermore, with knowledge of the heap's start addresses and the dump's size, we can enhance the precision of our search. By doing so, we can exclude potential pointers that point outside the boundaries of the dump. Another refinement can be made by verifying if the values pointed to by the potential pointers are 8 bytes aligned, as the heap is structured in 8-byte sequences. However, it's crucial to note that this approach remains heuristic in nature. As such, there's still a possibility of detecting blocks that aren't genuine pointers.
+        \subsubsection{Footer}
+            \paragraph{}In the GLIBC documentation, the footer of a chunk is expected to mirror the chunk's size as indicated in the malloc header. However, an inconsistency is observed: the size stated in the footer block doesn't always align with this expectation. This deviation is consistently seen across the refined dataset.
+    
+
+        
+
