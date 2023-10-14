@@ -117,7 +117,7 @@
         \subsubsection{Chunk}
         \paragraph{}In our exploration of the dataset, the chunk chaining assumption, as detailed in section \ref{seq:background:chunk_chaining}, plays a pivotal role. It's imperative to ensure the integrity of this assumption for accurate analysis. During the dataset refinement process, we identified five heap dumps that contain chunks with a size of 0 bytes, which could potentially violate this assumption. To maintain the reliability of our analyses, these specific dumps have been removed from the dataset. 
         
-        \subsubsection{Pointer}
+        \subsubsection{Pointer}\label{seq:methods:dataset:pointer}
             \paragraph{}Pointers are memory addresses that reference other locations within the heap or other segments of memory. In the context of the heap, pointers can indicate data structures, reference other chunks, or provide links in data structures like linked lists or trees. To identify potential pointers within the heap dump, one can utilize the following Reggex :
             \begin{lstlisting}
             1 :/[0-9a-f]\{12}0\{4}
