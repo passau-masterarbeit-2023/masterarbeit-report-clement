@@ -135,3 +135,50 @@
 
         
 
+    \subsection{Heap File Distribution}
+
+        
+            
+        \paragraph{}The dataset offers an in-depth perspective on heap dumps, systematically sorted by key size, OpenSSH version, and distinct use cases. This methodical arrangement streamlines the analytical process, enabling precise investigations tailored to particular criteria. In the subsequent sections, we'll delve into the distribution of the dataset, emphasizing the file count across different use cases, versions, and key sizes, to ensure its suitability for consistent testing.
+
+        
+        \subsubsection{Full Dataset}
+            \paragraph{}In our initial phase of exploration, we will concentrate on the full dataset. This comprehensive analysis will provide a holistic understanding of the data's structure, variations, and potential anomalies.
+
+
+
+            \begin{itemize}
+                \item A unique instance was observed where a folder was devoid of any content. This was in the Training section, specifically for the client use case, version V\_7\_8\_P1, and a key size of 64 bytes.
+                \item In the Training segment, which comprises 82 combinations of use cases, versions, and key sizes:
+                \begin{itemize}
+                    \item The minimum number of RAW files present is 923.
+                    \item The maximum stretches to 1095. The difference between these two extremes is calculated as:
+                    \begin{equation}
+                        \frac{\text{max} - \text{min}}{\text{min}} = 0.186
+                    \end{equation}
+                    This results in a 18.6\% difference.
+                \end{itemize}
+                \item For the Testing segment, which has 15 combinations:
+                \begin{itemize}
+                    \item The RAW files range from a minimum of 100 to a maximum of 101, marking a mere 1\% difference between the two.
+                \end{itemize}
+                \item The Validation segment, with its 82 combinations, shows:
+                \begin{itemize}
+                    \item A minimum of 151 RAW files.
+                    \item A maximum of 211 RAW files. The difference between these values is:
+                    \begin{equation}
+                        \frac{\text{max} - \text{min}}{\text{min}} = 0.397
+                    \end{equation}
+                    This presents a 39.7\% difference, yet the number of files remains substantial enough to validate any model effectively.
+                \end{itemize}
+            \end{itemize}
+            
+            \paragraph{}The dataset, with its meticulous organization and vast range, offers a robust platform for in-depth analysis and model validation.
+            
+        \subsubsection{Clean Dataset}
+            \paragraph{}Following our examination of the full dataset, we will shift our focus to the cleaned dataset. This refined subset, having undergone meticulous preprocessing and filtering, will offer insights into the most pertinent and reliable data points. Analyzing the cleaned dataset will ensure that our conclusions and subsequent actions are based on high-quality, accurate data.
+            
+            \begin{itemize}
+                \item Further details and analysis will be provided upon completion of the cleaning process.
+            \end{itemize}
+            
