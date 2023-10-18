@@ -86,7 +86,58 @@
 
     \paragraph{}In the area of data representation, deep learning is great for understanding raw byte sequences. Just like these models are good at understanding text, they're also good at understanding raw bytes. They can learn and show sequences on their own, which is really helpful for both text and raw bytes. In this section, we'll look at different deep learning models and how they work with raw byte embedding.
 
-    \paragraph{}We'll start with \acrfull{rnn}. Just like they're good with word sequences in text, \acrfull{rnn} are also good with raw byte sequences. Then, we'll look at \acrfull{cnn}, which can find patterns in raw bytes, just like they find patterns in text. After that, we'll talk about Autoencoders, which can learn in a special way. To finish this section, we'll discuss Transformers. They're good at understanding data over a long time, similar to how they understand text.
+    \paragraph{}Our exploration begins with Word2Vec, a renowned technique for textual representation. Next, we'll delve into \acrfull{rnn}. These networks, celebrated for their handling of word sequences in textual contexts, are equally adept with raw byte sequences. Moving forward, we'll discuss \acrfull{cnn}, recognized for identifying patterns in raw bytes, a skill reminiscent of their proficiency with text. We'll subsequently introduce Autoencoders, distinguished by their distinctive learning paradigm. To round off this section, we'll examine Transformers, lauded for their expertise in capturing extended data relationships, much like their prowess with textual content.
+
+    \subsection{Word2Vec: A Deep Dive into Word Embeddings}
+
+        \paragraph{}Word2Vec~\cite{mikolov_efficient_2013} is a groundbreaking algorithm in the realm of natural language processing (NLP) that transformed words into continuous vector spaces. Developed by Tomas Mikolov and his team at Google in 2013, this algorithm is based on the idea that the meaning of a word can be inferred by the context in which it appears.
+        
+        \subsubsection{Architectures}
+        
+            \paragraph{}Word2Vec operates using one of two neural network architectures:
+            
+            \begin{enumerate}
+                \item \textbf{Continuous Bag of Words (CBOW)}: This model predicts a target word based on its surrounding context. Given a context (a set of surrounding words), CBOW tries to predict the word that appears in the middle.
+                \item \textbf{Skip-Gram}: This is the inverse of CBOW. For a given word, the Skip-Gram model tries to predict the surrounding words (context). It can be visualized as predicting the 'context' from a 'word'.
+            \end{enumerate}
+        
+        \subsubsection{Mechanism}
+        
+            \paragraph{}Under the hood, Word2Vec uses a shallow neural network with a single hidden layer. However, the objective is not to achieve high accuracy in prediction but rather to learn rich word vector representations. Once trained, the weights of the hidden layer represent the word vectors.
+            
+            \paragraph{}Training proceeds as follows:
+            
+            \begin{itemize}
+                \item Start with large amounts of text data and construct a vocabulary.
+                \item For each word, create pairs of the word with its surrounding context words based on a defined window size.
+                \item Use these pairs as input-output mappings to train the neural network.
+            \end{itemize}
+        
+        \subsubsection{Key Concepts and Innovations}
+        
+            \begin{enumerate}
+                \item \textbf{Distributional Hypothesis}: Word2Vec thrives on the idea that words appearing in similar contexts have related meanings. By analyzing vast amounts of text, the algorithm detects patterns and semantic relationships.
+                \item \textbf{Vector Arithmetic}: One of the most exciting outcomes of Word2Vec is its ability to perform vector arithmetic that captures semantic relationships. For example, the operation : $\text{vector}(``king'') - \text{vector}(``man'') + \text{vector}(``woman'')$ results in a vector close to $\text{vector}(``queen'')$.
+                \item \textbf{Subsampling and Negative Sampling}: To make training more efficient, Word2Vec introduced techniques like subsampling frequent words and negative sampling. Subsampling reduces the occurrences of high-frequency words in training, while negative sampling changes the training objective to distinguish the target word from randomly sampled 'negative' words.
+                \item \textbf{Word Analogies}: Word2Vec embeddings capture various dimensions of word meanings, leading to the discovery of word analogies. For example, $man:woman::king:queen$ is a typical analogy captured by Word2Vec embeddings.
+            \end{enumerate}
+        
+        \subsubsection{Applications}
+        
+            \paragraph{}Word2Vec has paved the way for many NLP applications, including:
+            
+            \begin{itemize}
+                \item \textbf{Semantic Word Similarity}: Comparing the cosine similarity of word vectors provides a measure of semantic similarity.
+                \item \textbf{Information Retrieval}: Search engines can use word embeddings to better understand query intent and document content.
+                \item \textbf{Sentiment Analysis}: Word embeddings capture sentiment dimensions, making them useful for sentiment classification tasks.
+                \item \textbf{Machine Translation}: Word embeddings can act as a bridge between languages, aiding in tasks like machine translation.
+            \end{itemize}
+            
+        \subsubsection{Conclusion}
+
+            \paragraph{}Word2Vec was a significant leap forward in the domain of NLP, offering a mechanism to capture deep semantic word relationships in a computationally efficient manner. By viewing arbitrary long byte sequences as sentences, it becomes possible to adapt the Word2Vec algorithm for purposes beyond traditional text, broadening its applicability to our context.
+            
+    
 
     \subsection{RNNs : Understanding sequence data}
         \paragraph{}\acrfull{rnn} are great tools for text classification. They're good at understanding the deeper meanings in text. Unlike older models that use hand-made features, \acrshort{rnn} can learn and show sequences on their own. This makes them really useful for tasks that deal with sequences. When we think about embedding raw bytes, \acrshort{rnn}'s skill in understanding sequences is similar to how they handle word sequences in text. Here is a list of different \acrshort{rnn} models and their advantages and disadvantages.
@@ -162,63 +213,124 @@
         \paragraph{}Yet, a significant challenge with traditional \acrfull{seq2seq} models using \acrshort{cnn} is their constraint in managing inputs of varying sizes. Constructed with a set input size, they face difficulties when presented with sequences of diverse lengths, like raw byte sequences.
 
         \paragraph{}To address this limitation, various techniques have been employed to normalize the size of the input data. One of the most common methods is \textbf{padding}, where shorter sequences are filled with predefined placeholder values (often zeros) until they match the length of the longest sequence in the dataset. This ensures that all sequences fed into the model have a uniform length. Another approach is \textbf{bucketing}, where sequences of similar lengths are grouped together, minimizing the amount of padding required. Additionally, \textbf{truncation} can be used to shorten sequences that exceed a certain length, although this might result in the loss of some information. While these techniques enable \acrshort{cnn}-based \acrfull{seq2seq} models to handle variable-sized inputs, it's crucial to ensure that the preprocessing steps do not introduce noise or distort the inherent patterns and relationships within the raw byte sequences.
-\section{Graph Embedding Methods}
-    \paragraph{}Graph embedding techniques focus on the mapping of nodes and edges within a graph onto vectors within a lower-dimensional space \cite{hogan_knowledge_2022}. The primary objective is to retain the structural properties of the graph, such as node connectivity and community structure, in this embedded space. These resulting vectors find application in diverse machine learning tasks, including clustering, classification, and link prediction. For a comprehensive exploration of these techniques, "Knowledge Graphs" offers a detailed overview. Some noteworthy techniques in this domain encompass:
 
-    \begin{enumerate}
-        \item \textbf{Translational Models:} These graph embedding techniques revolve around translational models that interpret edge labels as transformations from subject nodes to object nodes \cite{hogan_knowledge_2022}.
+    \subsection{The Transformer Architecture}
+
+        \paragraph{}The Transformer~\cite{vaswani_attention_2017} brought a novel approach to handling sequential data without relying on traditional recurrent mechanisms. Instead, it leverages attention mechanisms to draw global dependencies between input and output, achieving state-of-the-art results in a variety of NLP tasks.
         
-        \begin{itemize}
-            \item \textbf{TransE:} One of the earliest and straightforward translational models, TransE represents entities as points in a vector space and relations as translations between these points. The core idea is that for a valid triple (h, r, t), the equation $h+r = t$ should hold, with $h$ representing the head entity, $r$ denoting the relation, and $t$ standing for the tail entity. While simple and computationally efficient, this model has limitations in capturing complex relationships \cite{hogan_knowledge_2022}.
+        \subsubsection{Architecture Overview}
+        
+            \paragraph{}The Transformer architecture is primarily composed of an encoder-decoder structure. Both the encoder and decoder consist of a series of identical layers, each with two primary components: multi-head self-attention and a position-wise feed-forward network.
+        
+        \subsubsection{Encoder}
+        
+            \begin{enumerate}
+                \item \textbf{Multi-Head Self-Attention}: This mechanism allows the model to focus on different parts of the input text simultaneously. It computes attention weights for different positions in the sequence, enabling the model to capture long-range dependencies.
+                \item \textbf{Position-wise Feed-Forward Networks}: After the attention scores are computed, they are passed through a feed-forward network, applied independently to each position.
+            \end{enumerate}
             
-            \item \textbf{TransH:} Extending TransE, TransH introduces relation-specific hyperplanes. This extension allows the model to capture more intricate relationships by projecting entity embeddings onto these hyperplanes before performing translations \cite{hogan_knowledge_2022}.
+        \subsubsection{Decoder}
             
-            \item \textbf{TransR:} Going a step further than TransH, TransR not only introduces relation-specific hyperplanes but also relation-specific translations. This flexibility enables a more versatile representation of relations, accommodating various complexities \cite{hogan_knowledge_2022}.
+            \paragraph{}The decoder has an additional layer compared to the encoder:
+            \begin{enumerate}
+                \item \textbf{Multi-Head Self-Attention}: Functions similarly to the encoder.
+                \item \textbf{Multi-Head Cross-Attention}: This attends to the encoder's output.
+                \item \textbf{Position-wise Feed-Forward Networks}.
+            \end{enumerate}
             
-            \item \textbf{Other Developments:} Noteworthy advancements include TransD and MuRP, highlighting the active research in this domain \cite{hogan_knowledge_2022}.
-        \end{itemize}
+        \subsubsection{Attention Mechanism}
+        
 
-        \item \textbf{Tensor Decomposition Models} These models represent entities and relations as vectors or matrices within a lower-dimensional space, grounded in the assumption that the relationship between entities can be expressed through a bilinear function. While they are computationally efficient and capable of capturing complex relationships, they do have limitations in modeling asymmetric and reflexive relations.
+            \paragraph{}At the core of the Transformer model lies the attention mechanism, a novel approach to capturing contextual information in sequences. This mechanism facilitates the model's ability to focus variably on different parts of the input, depending on the context. This context-sensitive focusing is achieved by computing a weighted sum of values, with the weights determined by the interaction between a query and a set of key-value pairs.
+        
+            \paragraph{}The Transformer employs a variant known as the "scaled dot-product attention". This attention mechanism can be understood through the following steps:
+        
+            \begin{enumerate}
+                \item \textbf{Dot Product}: For each query, its dot product with all keys is computed. This results in a score that signifies the relevance of the query with respect to each key. Higher dot product values imply higher relevance.
+                
+                \item \textbf{Scaling}: The scores obtained from the dot product are then scaled down by dividing them with the square root of the dimensionality of the query and key vectors. This scaling is crucial because for larger magnitudes of the dot products, the softmax~\ref{seq:background:softmax_function} function would squash its inputs causing a very small gradient – essentially a very hard softmax. Scaling counteracts this potential issue, ensuring a softer softmax where the gradient is larger.
+                
+                \item \textbf{Softmax Normalization}: The scaled scores for each query are then passed through a softmax operation. This operation ensures that the scores are normalized and lie between 0 and 1, making them interpretable as probabilities. These probabilities dictate how much attention should be given to each corresponding value in the sequence.
+                
+                \item \textbf{Weighted Sum of Values}: Lastly, the softmax normalized scores are used to take a weighted sum of the values. The result of this weighted sum gives the output of the attention mechanism for the given query. If a specific key is highly relevant to the query (i.e., has a high softmax score), then the corresponding value will have a larger weight in the final sum.
+            \end{enumerate}
+            
+            \paragraph{}The beauty of this mechanism is that it allows the Transformer to consider multiple parts of the input sequence when producing an output, rather than being limited to a fixed window or relying on recurrent state. By attending variably to different input parts based on context, the Transformer can capture complex patterns and long-range dependencies in the data.
+        
+        
+        \subsubsection{Multi-Head Attention}
+        
+            \paragraph{}Instead of performing a single set of attention computations, the Transformer utilizes multiple sets (or "heads"). Each head learns different attention weights, and their outputs are concatenated and linearly transformed to produce the final result.
+        
+        \subsubsection{Positional Encoding}
 
-        \begin{itemize}
-            \item \textbf{RESCAL:} RESCAL employs a bilinear model, where each relation is represented by a full-rank matrix. This approach allows for the representation of asymmetric and reflexive relations but comes at the cost of increased computational complexity \cite{hogan_knowledge_2022}.
+            \paragraph{}In traditional recurrent architectures such as RNNs and LSTMs, the inherent recurrence mechanism enables the model to naturally take into account the order or sequence of tokens. The Transformer architecture, in stark contrast, relies entirely on self-attention mechanisms which, in their basic form, are order-agnostic. This means that without any additional information, shuffling the input tokens would produce the same output. To address this limitation and introduce the notion of order or sequence into the architecture, positional encodings are ingeniously integrated into the Transformer's design.
             
-            \item \textbf{DistMult:} DistMult simplifies RESCAL by assuming that the relation matrices are diagonal. This simplification reduces the number of parameters and computational complexity, making it a more scalable option \cite{hogan_knowledge_2022}.
+            \paragraph{}The positional encodings are added to the initial embeddings of tokens before they are processed by the encoder and decoder stacks. These encodings are designed such that they can provide a unique representation for each token based on its position in the sequence, regardless of the token's actual value. This ensures that the model can distinguish between tokens not just based on their content, but also based on their positions.
+        
+            \paragraph{}The positional encodings utilize sinusoidal functions, specifically sine and cosine functions, of varying frequencies. For a position \(p\) and a dimension \(i\), the encoding is defined as:
+            \[
+            PE_{(p, 2i)} = \sin\left(\frac{p}{10000^{\frac{2i}{d}}}\right)
+            \]
+            and
+            \[
+            PE_{(p, 2i+1)} = \cos\left(\frac{p}{10000^{\frac{2i}{d}}}\right)
+            \]
+            where \(d\) is the dimension of the embeddings. This formulation ensures that each position produces a distinct and consistent encoding. Moreover, because of the geometric progression in the denominators, these functions create encodings that can be easily differentiated by the model across positions, providing a relative sense of position between tokens.
             
-            \item \textbf{ComplEx:} ComplEx extends DistMult by introducing complex-valued embeddings. This addition enables the model to effectively capture asymmetric relations while maintaining computational efficiency \cite{hogan_knowledge_2022}.
-        \end{itemize}
-
-        \item \textbf{Neural Models} Neural models leverage neural networks to acquire the features of entities and relations, offering a flexible and adaptive approach to graph embeddings.
-
-        \begin{itemize}
-            \item \textbf{ConvKB:} ConvKB employs a convolutional neural network to autonomously learn entity and relation features. While technically a translational model, it uses a convolutional layer to capture interactions between entities and relations, providing a flexible and adaptable approach to graph embeddings \cite{nguyen_novel_2018}.
+            \paragraph{}Using sinusoidal functions as positional encodings comes with the advantage that these encodings can be scaled to accommodate sequences of varying lengths, even beyond those seen during training. This is because the sum of the positional encoding and token embedding will result in a unique and consistent value, allowing the model to generalize to different sequence lengths. Intuitively, the sinusoidal nature of the encodings creates a pattern that the model can learn, helping it understand relative positions and distances between tokens in a sequence.
             
-            \item \textbf{RotatE:} RotatE introduces complex rotations in the embedding space to model relations. This neural model offers a more expressive approach to capturing relation semantics \cite{hogan_knowledge_2022}.
+        
+        \subsection{Benefits and Applications}
+        
+            \begin{itemize}
+                \item \textbf{Parallelization}: Without recurrent layers, the Transformer can process all tokens in the input sequence simultaneously, making it amenable to parallel processing and reducing training times.
+                \item \textbf{Long-range Dependencies}: The self-attention mechanism can, in theory, relate distant words in a sequence, capturing long-term dependencies without relying on the sequence's length.
+                \item \textbf{Flexibility}: The architecture is not inherently sequential, making it adaptable to a variety of tasks beyond NLP.
+            \end{itemize}
             
-            \item \textbf{SDNE (Structural Deep Network Embedding):} SDNE uses a deep autoencoder to acquire complex and non-linear node embeddings while preserving first-order and second-order proximities. It is particularly effective in capturing intricate patterns and structures within the graph \cite{wang_structural_2016}.
-            
-            \item \textbf{R-GCN (Relational Graph Convolutional Networks):} R-GCNs combine the strengths of Graph Convolutional Networks (GCNs) and traditional embedding methods, capturing both topological and semantic information \cite{schlichtkrull_modeling_2018}. A recent study by Degraeve et al. highlights the importance of the message passing paradigm in R-GCN and introduces a variant called Random R-GCN (RR-GCN) \cite{degraeve_r-gcn_2022}.
-            
-            \item \textbf{ConvE:} ConvE employs convolutional layers to capture local and global interactions between entities and relations, offering a more expressive representation \cite{hogan_knowledge_2022}.
-        \end{itemize}
-
-        \item \textbf{Language Models}
-        Language models harness pre-trained language models to enrich embeddings with contextual information, tapping into recent advancements in language modeling to grasp the semantics of entities and relations.
-
-        \begin{itemize}
-            \item \textbf{BERT for KGE (Knowledge Graph Embedding):} This approach utilizes pre-trained BERT models, capitalizing on the capabilities of language models to enhance embeddings with contextual information \cite{yao_kg-bert_2019}.
-            
-            \item \textbf{BART KGE:} Bidirectional and Auto-Regressive Transformers (BART) serve as denoising autoencoders suitable for various NLP tasks. This method employs BART to acquire entity and relation embeddings, and the associated paper also compares it with other Large Language Models (LLMs) like GPT-2 \cite{liu_kg-bart_2021}.
-            
-            \item \textbf{It's worth noting that the field of NLP is continuously evolving, with ongoing developments and emerging approaches.}
-        \end{itemize}
-    \end{enumerate}
-
+        \subsection{Conclusion}
+        
+            \paragraph{}The Transformer architecture, with its focus on attention mechanisms, has set new standards in the realm of deep learning for sequential data. It serves as the foundation for various state-of-the-art models in NLP, such as BERT, GPT, and T5, underscoring its significance and versatility in the field.
+        
 
 \section{Machine learning}\label{seq:background:machine_learning}
     \paragraph{}Machine learning, an integral part of artificial intelligence, revolves around designing algorithms and statistical models that allow computers to perform tasks without being directly programmed. Instead of relying on detailed instructions for every task, machine learning techniques empower systems to learn from data and make data-driven decisions. A key method in this field is supervised learning, in which models are trained using data that comes with predefined labels. Here, each piece of data in the training set has an associated known output. The primary goal of supervised learning is to establish a relationship between inputs and outputs, enabling the model to predict or categorize new, unseen data based on this relationship.
 
     \paragraph{}A cornerstone in this realm is feature engineering, which involves the meticulous process of selecting and transforming variables to optimize model performance. Another challenge frequently encountered by practitioners is dealing with datasets where some classes are overrepresented, which can skew model predictions. Among the myriad of machine learning models available, certain ones have gained prominence due to their versatility and effectiveness. We will provide an overview of some of these notable models.
+
+    \subsection{Softmax Function}\label{seq:background:softmax_function}
+
+        \paragraph{}The softmax function is an essential component in machine learning, especially for classification tasks. It is responsible for converting a vector of real numbers into a probability distribution.
+
+        \subsubsection{Definition}
+
+            \paragraph{}Given a vector \( \mathbf{z} = [z_1, z_2, ..., z_K] \) of real numbers, the softmax function \( S \) is defined for each element \( z_i \) as:
+
+            \begin{equation}
+            S(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
+            \end{equation}
+
+            \paragraph{}where:
+            \begin{itemize}
+                \item \( e \) is the base of natural logarithm.
+                \item \( K \) represents the number of classes or the dimensionality of the vector.
+            \end{itemize}
+
+        \subsubsection{Intuition}
+
+            \begin{enumerate}
+                \item \textbf{Exponentiation}: Each element of the vector is raised to the power of \( e \). This ensures that all resulting elements are non-negative and exaggerates the differences between them. A significantly larger value will have an exponentially greater value compared to a smaller one after this operation.
+                
+                \item \textbf{Normalization}: The exponential values are divided by their sum. This step ensures that the output values lie in the range [0, 1], and their total sums up to 1, hence forming a valid probability distribution.
+            \end{enumerate}
+
+        \subsubsection{Applications in Machine Learning}
+
+            \paragraph{}In classification problems, the raw outputs from a model (typically from the last layer of a neural network) are real numbers that do not necessarily sum up to one. The softmax function converts these raw scores into a probability distribution over the categories. In most cases, the category with the highest probability post the softmax operation is taken as the model's prediction.
+
+            \paragraph{}For instance, in a neural network tasked with recognizing handwritten digits ranging from 0 to 9, the final layer might produce a 10-dimensional vector. Applying softmax on this vector gives a probability distribution over these ten digits. The digit corresponding to the highest probability after softmax is then chosen as the model's prediction.
+
 
     \subsection{Features engineering}
         \paragraph{}Feature engineering\cite{khurana_feature_2017} is a cornerstone in the realm of machine learning. It involves the artful transformation of the given feature space to optimize the performance of predictive models. The significance of feature engineering cannot be overstated; it serves as a bridge between raw data and the predictive models, ensuring that the models are fed with the most relevant and informative features. Properly engineered features can drastically reduce modeling errors, leading to more accurate and reliable predictions. Here are some of the most common feature engineering techniques:
