@@ -179,6 +179,30 @@
             \paragraph{}Following our examination of the full dataset, we will shift our focus to the cleaned dataset. This refined subset, having undergone meticulous preprocessing and filtering, will offer insights into the most pertinent and reliable data points. Analyzing the cleaned dataset will ensure that our conclusions and subsequent actions are based on high-quality, accurate data.
             
             \begin{itemize}
-                \item Further details and analysis will be provided upon completion of the cleaning process.
+                \item In the Training segment, which comprises 82 combinations of use cases, versions, and key sizes:
+                
+                \begin{itemize}
+                    \item 63 subdirectories are empty, with no RAW files present.
+                    \item The minimum number of RAW files present is 923.
+                    \item The maximum stretches to 1079. The difference between these two extremes is calculated as:
+                    \begin{equation}
+                        \frac{\text{max} - \text{min}}{\text{min}} = 0.169
+                    \end{equation}
+                    This results in a 16.9\% difference.
+                \end{itemize}
+                \item For the Testing segment, which had 15 combinations : 0 subdirectories are empty, then no changes are observed.
+                \item The Validation segment, with its 82 combinations, shows:
+                \begin{itemize}
+                    \item 62 subdirectories are empty, with no RAW files present.
+                    \item A minimum of 151 RAW files.
+                    \item A maximum of 209 RAW files. The difference between these values is:
+                    \begin{equation}
+                        \frac{\text{max} - \text{min}}{\text{min}} = 0.384
+                    \end{equation}
+                    This presents a 38.4\% difference, yet the number of files remains substantial enough to validate any model effectively.
+                \end{itemize}
             \end{itemize}
             
+            \paragraph{}The specifics of the empty folders, including their exact locations and other details, will be cataloged comprehensively in the annex~\ref{sec:annexes:dataset_cleaning_results}. It's crucial to note that due to the invalid nature of the data in these folders, our coherence study on the embeddings will not factor in the OpenSSH version, use case, or key size involved. This decision ensures that our analysis remains rooted in valid and meaningful data, thereby enhancing the reliability of our findings.
+
+            \paragraph{}While the cleaning process did invalidate certain cases within the dataset, it's essential to emphasize that a significant portion remains intact and consequential. These preserved cases provide a robust foundation for our analysis, ensuring that our study is both comprehensive and grounded in meaningful data. The invalidated cases, though notable, do not diminish the overall value and depth of the dataset at our disposal.
