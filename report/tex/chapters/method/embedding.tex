@@ -1,6 +1,29 @@
 \section{Embedding}\label{chap:embedding}
         
     \paragraph{}Our next objective centers on the conversion of raw byte data into fixed-size embeddings (\ref{seq:background:traditional_statistical_embedding}, \ref{seq:background:deep_learning_models_for_raw_byte_embedding}), a pivotal step in preparing them for utilization in machine learning applications. Ensuring uniformity in embedding size across all memory structures holds paramount significance. Consistency in embedding dimensions is vital to empower machine learning algorithms for efficient data processing and analysis. This uniformity not only simplifies the integration of memory structures with varying sizes into a coherent classification framework but also acts as a defense against the adverse effects of the curse of dimensionality—a phenomenon that can introduce computational complexities and heighten the risk of overfitting in high-dimensional data spaces. Striking this equilibrium is essential, achieved by maintaining reasonably low embedding dimensions, fostering both efficient data processing and the preservation of essential information within the raw byte data. It's important to note that initially, each embedding will include the structure's file and the structure's address in the file. However, these details will be removed during the machine learning phase (quality or coherence) as the embedding aims to be free of key size or OpenSSH uses. Their presence will serve as a means to test coherence later in our analysis.
+
+\subsection{Basic Chunk Information}\label{seq:embedding:basic_chunk_information}
+
+    \paragraph{}Every chunk in the heap dump is equipped with a set of fundamental details that provide insights into its structure and content. These basic pieces of information are essential for understanding the layout and composition of each chunk.
+
+    \paragraph{}It's important to note that these foundational details are not exclusive to just the primary chunk nodes. Value nodes and pointer nodes, which might be considered as sub-components of a chunk, also inherit these basic attributes from their parent chunk node.
+
+    \paragraph{}The core information associated with each chunk includes:
+
+    \begin{itemize}
+        \item \textbf{block\_position\_in\_chunk}: This represents the position of a specific block within the chunk. For the primary chunk node, this value is always 0, indicating the start of the chunk.
+        
+        \item \textbf{chunk\_byte\_size}: This provides the total size of the chunk, measured in bytes.
+        
+        \item \textbf{chunk\_ptrs}: This denotes the total number of pointers present within the chunk.
+        
+        \item \textbf{chunk\_vns}: This indicates the total number of value nodes contained within the chunk.
+        
+        \item \textbf{chunk\_number\_in\_heap}: This value represents the index or position of the chunk within the entire heap, giving a relative placement of the chunk in the context of all chunks.
+    \end{itemize}
+
+    With these basic details, one can gain a comprehensive understanding of each chunk's structure, content, and relative position within the heap.
+
 \subsection{Statistical embedding}
     \paragraph{}Understanding the fundamental concepts of statistical embeddings enables us to delve deeper into the sophisticated processes and practical applications that underscore their significance in embedding tasks. By utilizing statistical techniques, data from high-dimensional spaces is condensed, preserving the inherent probabilistic connections and essential patterns as much as possible.
 
@@ -9,14 +32,17 @@
 
         \paragraph{}Switching to bit combinations aligns well with our objectives. Our main interest is in the frequency patterns of n-gram values rather than the specific n-gram values themselves. This is because our core aim is to identify SSH keys, which inherently display frequencies for all combinations due to their random nature.
 
-        \paragraph{}In our approach, we utilize 1-gram, 2-gram, and 3-gram values. As a result, our dimensional space is confined to 14 dimensions, as calculated by $2*2*2+2*2+2=14$. We believe this is an optimal trade-off, striking a balance between the size of the space and the richness of the information it encapsulates.
+        \paragraph{}In our approach, we utilize 1-gram, 2-gram, 3-gram, and 8-gram values (of bits). The inclusion of 8-gram is particularly significant as it captures larger sequences, providing a broader context and enhancing the ability to discern patterns and anomalies that shorter n-grams might miss. Specifically, the 8-gram contributes 256 values to the embedding vector. When combined with the 8 values from the 3-gram, 4 from the 2-gram, and 2 from the 1-gram, the total dimensionality for the n-gram embedding becomes 270. This comprehensive approach ensures a more robust representation of the data, aiding in the accurate identification of SSH keys. Importantly, by opting for an 8-gram, we avoid the exponential growth in dimensionality that a larger n-gram, such as a 16-gram, would introduce, ensuring that the embedding vector remains manageable and doesn't explode in size or in memory usage.
+        
 
     \subsubsection{Other statisticals values}
         \paragraph{}In our approach, several metrics are employed to analyze the data. Specifically, we utilize the mean as detailed in \ref{eq:mean_byte_value}, the standard deviation as found in \ref{eq:standard_deviation}, the MAD from \ref{eq:mad}, the skewness as outlined in \ref{eq:skewness}, the kurtosis referenced in \ref{eq:kurtosis}, and the Shannon entropy from \ref{eq:shannon_entropy}. These metrics, when collectively considered, provide a comprehensive understanding and embed a plethora of information about the data at hand.
 
         \paragraph{}It's imperative to note a particular aspect of our analysis concerning the standard deviation. There are instances where the standard deviation registers a value of zero. Such an occurrence is indicative of data consistency. Concurrently, in such scenarios, both the kurtosis and skewness are undefined. When faced with this situation, our course of action is to dismiss the \gls{chunk} from our analysis. The rationale behind this is straightforward: a consistent \gls{chunk} would likely not be pertinent to our exploration, especially when our aim is to identify patterns characteristic of an SSH key, wich are random by nature.
-    \subsubsection{Statistical embedding}
-        \paragraph{}We employ then a combination of n-gram values and other statistical metrics to construct the vectors for each \gls{chunk}. The n-gram approach contributes 14 distinct values to the vector. Simultaneously, the supplementary statistical metrics, which encapsulate measures of the mean, standard deviation, MAD, skewness, kurtosis, and Shannon entropy, introduce an additional 6 values. Consequently, the resultant vector for each structure comprises a total of 20 values.
+    \subsubsection{Statistical Embedding}
+
+        \paragraph{}For each \gls{chunk}, we construct vectors using a combination of n-gram values and other statistical metrics. The n-gram approach contributes 270 distinct values to the vector. Simultaneously, the supplementary statistical metrics, which encapsulate measures of the mean, standard deviation, MAD, skewness, kurtosis, and Shannon entropy, introduce an additional 6 values. Furthermore, as discussed in a preceding section~\ref{seq:embedding:basic_chunk_information}, the basic information associated with each chunk is also embedded into this vector. Consequently, the resultant vector for each structure comprises a total of 281 values, providing a comprehensive representation of the chunk's characteristics.
+    
     
 
 \subsection{Graph embedding}\label{sec:embedding:graph_embedding}
@@ -57,9 +83,9 @@
             \caption{Generate Ancestor/Children Embedding}
             \label{algo:embedding:generate_ancestor_children_embedding}
             \begin{algorithmic}
-                \Function{GenerateNeighborsDTN}{$structure\_node, dir$}
+                \Function{GenerateNeighborsCHN}{$chunk\_node, dir$}
                     \State $ancestor\_nodes \gets$ an empty set
-                    \State $children \gets$ graph.neighbors\_directed($structure\_node, OUT$) \Comment{Get members of the structure}
+                    \State $children \gets$ graph.neighbors\_directed($chunk\_node, OUT$) \Comment{Get members of the chunk}
                     \For{$child$ \textbf{in} $children$}
                         \State $ancestor\_nodes$.insert($child$)
                     \EndFor
@@ -68,11 +94,11 @@
                     \For{$\_$ \textbf{in} $0$ \textbf{to} $DEPTH$}
                         \State $current\_nodes \gets$ $ancestor\_nodes$ \Comment{switch ancestor nodes and current nodes}
                         \State $ancestor\_nodes \gets$ an empty set
-                        \State $nb\_dtn \gets 0$
+                        \State $nb\_chn \gets 0$
                         \State $nb\_ptr \gets 0$
                         \For{$current\_node$ \textbf{in} $current\_nodes$}
-                            \If{$node$ is DataStructureNode} \Comment{Update number of structures and pointers}
-                                \State $nb\_dtn \gets nb\_dtn + 1$
+                            \If{$node$ is ChunkHeaderNode} \Comment{Update number of chunks and pointers}
+                                \State $nb\_chn \gets nb\_dtn + 1$
                             \ElsIf{$node$ is PointerNode}
                                 \State $nb\_ptr \gets nb\_ptr + 1$
                             \EndIf
@@ -81,7 +107,7 @@
                                 \State $ancestor\_nodes$.insert($neighbor$) \Comment{Add neighbors to the next ancestor nodes}
                             \EndFor
                         \EndFor
-                        \State $result$.append($nb\_dtn$) \Comment{Add number of data structures}
+                        \State $result$.append($nb\_chn$) \Comment{Add number of data structures}
                         \State $result$.append($nb\_ptr$) \Comment{Add number of pointers}
                     \EndFor
                     \State \textbf{return} $result$
@@ -89,16 +115,18 @@
             \end{algorithmic}
         \end{algorithm}
         
-        \paragraph{}We can apply this algorithm to every \gls{chunk} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{chunk}, 8 for child \glspl{pointer}, and 8 for child \glspl{chunk}. To accurately represent the \gls{chunk}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the count of \glspl{pointer} in the members and the \gls{chunk}'s dimensions. This results in a final embedding size of 34 - 32 for the neighborhood and an additional 2 for the \gls{chunk} size and \gls{pointer} count. However, there are inherent challenges with this embedding. It tends to get polluted by the value node, which often lacks significant meaning. Moreover, the relationships between the structures are intricate, and there's potential to represent them in a more straightforward manner, as show in the next section.
+        \paragraph{}We can apply this algorithm to every \gls{chunk} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{chunk}, 8 for child \glspl{pointer}, and 8 for child \glspl{chunk}. To accurately represent the \gls{chunk}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the basic chunk information, which includes the block position in the chunk, chunk byte size, number of pointers in the chunk, number of value nodes in the chunk, and the chunk's index in the heap. This results in a final embedding size that is an aggregate of the neighborhood representation and the basic chunk information, summing up to 37 values. However, there are inherent challenges with this embedding. It tends to get polluted by the value node, which often lacks significant meaning. Moreover, the relationships between the structures are intricate, and there's potential to represent them in a more straightforward manner, as shown in the next section.
 
     \subsubsection{Updated graph}
 
-        \paragraph{}Recognizing these challenges and the need for a clearer representation, we embarked on a series of refinements. Our approach focuses on enhancing the last graph by preserving the structure nodes and their interconnections via \glspl{pointer}. To simplify the visualization, we've decided to eliminate both the value nodes and the \gls{pointer} nodes. In addition, the relationships that previously connected the \gls{pointer} nodes to the value nodes will now link directly to the \gls{chunk} nodes, with the added detail of weighted edges. This strategy is driven by our aspiration to offer a more lucid graph, significantly reducing any extraneous noise, as show in the figure \ref{fig:graph_embedding:updated_graph}, the representation of the file \textit{14911-1644326802}.
+        \paragraph{}Recognizing these challenges and the need for a clearer representation, we embarked on a series of refinements. Our approach focuses on enhancing the last graph by preserving the structure nodes and their interconnections via \glspl{pointer}. To simplify the visualization, we've decided to eliminate both the value nodes and the \gls{pointer} nodes. In addition, the relationships that previously connected the \gls{pointer} nodes to the value nodes will now link directly to the \gls{chunk} nodes, with the added detail of weighted edges. This strategy is driven by our aspiration to offer a more lucid graph, significantly reducing any extraneous noise, as show in the figure \ref{fig:graph_embedding:updated_graph}, the representation of the same file \path{./Validation/Validation/basic/V_8_1_P1/24/27107-1643980590-heap.raw}.
 
         \begin{figure}[H]
             \centering
-            \includegraphics[width=0.9\textwidth]{img/graph_embeding/updated_graph_14911-1644326802-heap.png}
+            \includegraphics[width=0.9\textwidth]{img/graph_embeding/updated_graph_27107-1643980590-heap.raw_dot_no_vn_chn_annotation_no_vn-sfdp.png}
             \caption{Updated graph}
             \label{fig:graph_embedding:updated_graph}
         \end{figure}
+
+        - the embedding now more straightforward : only the number of chunk node before and after the actual node
         
