@@ -11,6 +11,10 @@
         \paragraph{}To compute the entropy, we consider the minimal size of a key, which is 12 bytes as mentioned in section \ref{sec:methods:keys_analysis}. Given that a chunk has a minimum of 2 blocks, equivalent to 16 bytes as detailed in section \ref{sec:background:dataset:c_structures_and_chunks_allocation_understanding}, and the fact that keys are always positioned at the beginning of a chunk, we can extract the first 12 bytes of a chunk to compute its entropy.
         
         \paragraph{}Given the abundance of data at our disposal, it's feasible to focus solely on chunks with the highest entropy values. However, it's crucial to remember that this is a heuristic approach. There's a need to be vigilant and ensure that important nodes with slightly lower entropy, possibly due to random occurrences like two identical bytes in the initial 12 bytes, are not inadvertently excluded from the analysis.
+    \subsubsection{Chunk Size Filter}
+        \paragraph{}Our analysis of SSH key chunks has shown that they are always either 32, 48, or 64 bytes in size. This observation allows us to apply a filter based on chunk size, selecting only chunks of these specific sizes for further analysis and discarding the rest. This method of selection helps to streamline the analysis process and ensures that we are focusing on the most relevant chunks.
+        
+        \paragraph{}By combining the entropy-based approach and the chunk size filter, we can avoid the need for random subsampling. This is particularly advantageous as our dataset is not significantly imbalanced, provided that these filters are applied.
     
 
 \subsection{Basic Chunk Information}\label{seq:embedding:basic_chunk_information}
@@ -139,4 +143,21 @@
             \label{fig:graph_embedding:updated_graph}
         \end{figure}
 
-        \paragraph{}By eliminating the pointer nodes, we've embedded their information directly into the relationships between chunk nodes. The embedding captures 8 preceding depth chunk nodes, 8 subsequent depth chunk nodes, and 5 basic information values as discussed in section \ref{seq:embedding:basic_chunk_information}. This results in a concise representation of 21 values, making the embedding more straightforward and efficient. While the graph now conveys information more efficiently, the embedding is less rich. This raises a question: could this streamlined representation lead to reduced performance in machine learning tasks?
+        \paragraph{}By eliminating the pointer nodes, we have successfully integrated their information directly into the relationships between chunk nodes. The embedding now includes 8 preceding depth chunk nodes, 8 subsequent depth chunk nodes, and 5 basic information values, as outlined in section \ref{seq:embedding:basic_chunk_information}. This consolidation results in a compact representation of 21 values, enhancing the embedding's simplicity and efficiency. Although the graph now communicates information more effectively, the embedding has become less detailed. This change in richness could potentially impact the performance of machine learning tasks.
+
+    \subsubsection{Other Graph Embedding Techniques}
+        \paragraph{}In this work, our focus is primarily on the embedding techniques previously discussed, and we will not delve into more advanced graph embedding methods such as deep learning-based node2vec or Graph Convolutional Networks (GCN). These sophisticated techniques offer a different approach to graph embedding, capturing complex patterns and relationships within the data. For readers interested in a more comprehensive exploration of these advanced methods, especially in the context of detecting SSH keys, the master thesis of Florian Rascoussier provides an in-depth analysis and application of these techniques.
+
+\subsection{Raw User Data Embedding}
+    \paragraph{}In this section, we delve into the embedding of raw user data for each chunk, with the specific aim of identifying chunks that contain SSH keys. This task presents unique challenges, primarily due to the variability in data size across different chunks. Some chunks can be significantly large, with sizes reaching up to 60,000 bytes, which adds a layer of complexity to the embedding process.
+
+    \paragraph{}To tackle the challenges associated with embedding raw user data for chunk analysis, we integrate a variety of techniques into a cohesive approach. Simple extraction serves as a foundational method, standardizing data size through padding and trimming to create uniform embeddings, which simplifies subsequent analysis. Complementing this, we incorporate advanced embedding techniques like Word2Vec and transformers. Word2Vec, borrowed from natural language processing, helps decipher patterns and relationships within raw byte sequences. Transformers, renowned for their ability to capture long-range dependencies and intricate patterns, are particularly adept at handling the complexity of large data chunks, some of which can be as extensive as 60,000 bytes. Together, these methods form a robust framework, ensuring that we can effectively identify and isolate chunks containing SSH keys, regardless of their size or the complexity of the embedded data.
+
+    \subsubsection{Simple Extraction}
+        \paragraph{}In the realm of raw user data chunk embedding, two straightforward techniques stand out: trimming and padding. These methods provide a basic yet effective means of standardizing the size of the data for embedding, which is crucial for consistent analysis.
+        
+        \paragraph{Trim Method:}
+        \paragraph{}The trim method involves cutting down the raw user data to a predetermined fixed size. Given that SSH keys are always located at the beginning of a chunk, and considering the minimum size of a key is 12 bytes and the minimum chunk size is 16 bytes, we can confidently trim all user data to 12 bytes. This results in 1 byte per feature, and when combined with the 5 basic chunk information features, the total comes to 17 features. This method ensures a uniform data size, facilitating a more streamlined and efficient embedding process.
+        
+        \paragraph{Padding Method:}
+        \paragraph{}The padding method, on the other hand, involves augmenting smaller data sequences with additional zeros to match the size of the larger ones. While this technique ensures uniformity in data size, it results in significantly larger embeddings. These large embeddings can be cumbersome and challenging to work with, making them less practical for our purposes. As a result, we must explore alternative techniques to achieve our goal of efficient and useful data representation.

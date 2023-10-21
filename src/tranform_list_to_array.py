@@ -21,68 +21,21 @@ def transform_text(text):
 
 # Sample input text
 text = """
-\item Use case: port-forwarding, OpenSSH version: V\_8\_0\_P1, Key size: 64
-            \item Use case: port-forwarding, OpenSSH version: V\_8\_0\_P1, Key size: 32
-            \item Use case: port-forwarding, OpenSSH version: V\_7\_8\_P1, Key size: 16
-            \item Use case: port-forwarding, OpenSSH version: V\_7\_8\_P1, Key size: 64
-            \item Use case: port-forwarding, OpenSSH version: V\_7\_8\_P1, Key size: 32
-            \item Use case: scp, OpenSSH version: V\_8\_0\_P1, Key size: 64
-            \item Use case: scp, OpenSSH version: V\_8\_0\_P1, Key size: 32
-            \item Use case: scp, OpenSSH version: V\_7\_8\_P1, Key size: 64
-            \item Use case: scp, OpenSSH version: V\_7\_8\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_8\_7\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_8\_7\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_8\_7\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_8\_8\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_8\_8\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_8\_8\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_7\_0\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_7\_0\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_7\_0\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_8\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_8\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_6\_8\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_2\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_2\_P1, Key size: 24
-            \item Use case: basic, OpenSSH version: V\_6\_2\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_0\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_0\_P1, Key size: 24
-            \item Use case: basic, OpenSSH version: V\_6\_0\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_8\_1\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_8\_1\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_8\_1\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_1\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_1\_P1, Key size: 24
-            \item Use case: basic, OpenSSH version: V\_6\_1\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_7\_2\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_7\_2\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_7\_2\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_8\_0\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_8\_0\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_8\_0\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_3\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_3\_P1, Key size: 24
-            \item Use case: basic, OpenSSH version: V\_6\_3\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_9\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_9\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_6\_9\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_7\_1\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_7\_1\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_7\_1\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_7\_9\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_7\_9\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_7\_9\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_6\_7\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_6\_7\_P1, Key size: 24
-            \item Use case: basic, OpenSSH version: V\_6\_7\_P1, Key size: 32
-            \item Use case: basic, OpenSSH version: V\_7\_8\_P1, Key size: 16
-            \item Use case: basic, OpenSSH version: V\_7\_8\_P1, Key size: 64
-            \item Use case: basic, OpenSSH version: V\_7\_8\_P1, Key size: 32
-            \item Use case: client, OpenSSH version: V\_8\_0\_P1, Key size: 16
-            \item Use case: client, OpenSSH version: V\_8\_0\_P1, Key size: 64
-            \item Use case: client, OpenSSH version: V\_8\_0\_P1, Key size: 32
-            \item Use case: client, OpenSSH version: V\_7\_8\_P1, Key size: 16
-            \item Use case: client, OpenSSH version: V\_7\_8\_P1, Key size: 32
+    \item Use case: Performance\_Test, OpenSSH version: V\_8\_0\_P1, Key size: 32
+    \item Use case: Performance\_Test, OpenSSH version: V\_8\_0\_P1, Key size: 16
+    \item Use case: Performance\_Test, OpenSSH version: V\_8\_0\_P1, Key size: 24
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_8\_P1, Key size: 32
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_8\_P1, Key size: 16
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_8\_P1, Key size: 24
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_1\_P1, Key size: 32
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_1\_P1, Key size: 16
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_1\_P1, Key size: 24
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_9\_P1, Key size: 32
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_9\_P1, Key size: 16
+    \item Use case: Performance\_Test, OpenSSH version: V\_7\_9\_P1, Key size: 24
+    \item Use case: Performance\_Test, OpenSSH version: V\_8\_1\_P1, Key size: 32
+    \item Use case: Performance\_Test, OpenSSH version: V\_8\_1\_P1, Key size: 16
+    \item Use case: Performance\_Test, OpenSSH version: V\_8\_1\_P1, Key size: 24
 """
 
 # Transform and print the text

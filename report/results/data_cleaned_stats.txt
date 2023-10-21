@@ -1,0 +1,356 @@
+INPUT DIR: /root/phdtrack/phdtrack_data_cleaned/Training/
+Number of empty subdirectories: 63
+\textbf{Training}
+\begin{itemize}
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 64
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_3_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_3_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_3_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_1_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_1_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_0_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_0_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_2_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_2_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_2_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_7_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_7_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_7_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 64
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 64
+\end{itemize}
+Number of subdirectories with RAW files: 20
+[1044.25, 1061.0, 1072.75]
+Median number of RAW files: 1061.0
+min number of RAW files: 923
+max number of RAW files: 1079
+
+Subdirectories in the first quartile:
+/root/phdtrack/phdtrack_data_cleaned/Training/port-forwarding/V_8_0_P1/16 with 923 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/port-forwarding/V_8_0_P1/24 with 941 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_7_1_P1/24 with 1043 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_7_9_P1/24 with 1041 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_6_8_P1/24 with 1043 RAW files
+\textbf{Training}
+\begin{itemize}
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 24
+\end{itemize}
+
+Subdirectories in the fourth quartile:
+/root/phdtrack/phdtrack_data_cleaned/Training/scp/V_8_0_P1/24 with 1075 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_8_0_P1/24 with 1074 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_8_7_P1/24 with 1075 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_8_8_P1/24 with 1079 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Training/basic/V_7_2_P1/24 with 1073 RAW files
+\textbf{Training}
+\begin{itemize}
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 24
+\end{itemize}
+
+All keeping subdirectories :
+\textbf{Training}
+\begin{itemize}
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 24
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 24
+\end{itemize}
+END OF DIRECTORY /root/phdtrack/phdtrack_data_cleaned/Training/
+
+
+INPUT DIR: /root/phdtrack/phdtrack_data_cleaned/Performance_Test/
+Number of empty subdirectories: 0
+
+Number of subdirectories with RAW files: 15
+[100.0, 100.0, 100.0]
+Median number of RAW files: 100
+min number of RAW files: 100
+max number of RAW files: 101
+
+Subdirectories in the first quartile:
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_0_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_0_P1/24 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_8_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_8_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_8_P1/24 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_1_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_1_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_1_P1/24 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_9_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_9_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_1_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_1_P1/24 with 100 RAW files
+\textbf{phdtrack_data_cleaned}
+\begin{itemize}
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 24
+\end{itemize}
+
+Subdirectories in the fourth quartile:
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_0_P1/32 with 101 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_0_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_0_P1/24 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_8_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_8_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_8_P1/24 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_1_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_1_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_1_P1/24 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_9_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_9_P1/16 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_7_9_P1/24 with 101 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_1_P1/32 with 100 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_1_P1/16 with 101 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Performance_Test/V_8_1_P1/24 with 100 RAW files
+\textbf{phdtrack_data_cleaned}
+\begin{itemize}
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 24
+\end{itemize}
+
+All keeping subdirectories :
+\textbf{phdtrack_data_cleaned}
+\begin{itemize}
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_7_9_P1, Key size: 24
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 32
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 16
+    \item Use case: Performance_Test, OpenSSH version: V_8_1_P1, Key size: 24
+\end{itemize}
+END OF DIRECTORY /root/phdtrack/phdtrack_data_cleaned/Performance_Test/
+
+
+INPUT DIR: /root/phdtrack/phdtrack_data_cleaned/Validation/
+Number of empty subdirectories: 62
+\textbf{Validation}
+\begin{itemize}
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 64
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_3_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_3_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_3_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_1_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_1_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_0_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_0_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 64
+    \item Use case: basic, OpenSSH version: V_6_2_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_2_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_2_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_7_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_6_7_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_6_7_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 32
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 16
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 64
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 32
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 64
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 32
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 16
+\end{itemize}
+Number of subdirectories with RAW files: 20
+[177.0, 186.5, 199.5]
+Median number of RAW files: 186.5
+min number of RAW files: 151
+max number of RAW files: 209
+
+Subdirectories in the first quartile:
+/root/phdtrack/phdtrack_data_cleaned/Validation/port-forwarding/V_8_0_P1/24 with 151 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/port-forwarding/V_7_8_P1/24 with 170 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/scp/V_8_0_P1/24 with 174 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/scp/V_7_8_P1/24 with 177 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/basic/V_8_8_P1/24 with 171 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/basic/V_7_2_P1/24 with 177 RAW files
+\textbf{Validation}
+\begin{itemize}
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 24
+\end{itemize}
+
+Subdirectories in the fourth quartile:
+/root/phdtrack/phdtrack_data_cleaned/Validation/basic/V_7_1_P1/24 with 208 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/basic/V_7_9_P1/24 with 209 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/basic/V_6_9_P1/24 with 202 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/basic/V_6_8_P1/24 with 208 RAW files
+/root/phdtrack/phdtrack_data_cleaned/Validation/client/V_7_8_P1/24 with 200 RAW files
+\textbf{Validation}
+\begin{itemize}
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 24
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 24
+\end{itemize}
+
+All keeping subdirectories :
+\textbf{Validation}
+\begin{itemize}
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: port-forwarding, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: port-forwarding, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 16
+    \item Use case: scp, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 16
+    \item Use case: scp, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_0_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_1_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_9_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_7_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_8_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_6_8_P1, Key size: 24
+    \item Use case: basic, OpenSSH version: V_7_2_P1, Key size: 24
+    \item Use case: client, OpenSSH version: V_8_0_P1, Key size: 24
+    \item Use case: client, OpenSSH version: V_7_8_P1, Key size: 24
+\end{itemize}
+END OF DIRECTORY /root/phdtrack/phdtrack_data_cleaned/Validation/

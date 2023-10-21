@@ -9,7 +9,7 @@
     \section{Dataset cleaning results}\label{sec:annexes:dataset_cleaning_results}
         \paragraph{}The empty folder for the training part of the dataset after cleaning are : 
         \begin{longtable}{|c|c|c|}
-            \caption{List of empty Folders in the training subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:training} \\
+            \caption{List of empty Folders in the training subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:training_empty} \\
             \hline
             \textbf{Use Case} & \textbf{Version} & \textbf{Key Size} \\
             \hline
@@ -95,7 +95,7 @@
 
         \paragraph{}The empty folder for the validation part of the dataset after cleaning are : 
         \begin{longtable}{|c|c|c|}
-            \caption{List of empty Folders in the validation subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:validation} \\
+            \caption{List of empty Folders in the validation subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:validation_empty} \\
             \hline
             \textbf{Use Case} & \textbf{Version} & \textbf{Key Size} \\
             \hline
@@ -176,4 +176,125 @@
             client & V\_7\_8\_P1 & 16 \\
             client & V\_7\_8\_P1 & 32 \\
             % ... repeat for all files
+        \end{longtable}
+
+        \paragraph{}The folders left for the training part of the dataset after cleaning are :
+        \begin{longtable}{|c|c|c|}
+            \caption{List of kept Folders in the Training subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:training_kept} \\
+            \hline
+            \textbf{Use Case} & \textbf{Version} & \textbf{Key Size} \\
+            \hline
+            \endfirsthead
+            \multicolumn{3}{c}%
+            {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+            \hline
+            \textbf{Use Case} & \textbf{Version} & \textbf{Key Size} \\
+            \hline
+            \endhead
+            \hline
+            \multicolumn{3}{|r|}{{Continued on next page}} \\
+            \hline
+            \endfoot
+            \hline
+            \endlastfoot
+            port-forwarding & V\_8\_0\_P1 & 16 \\
+            port-forwarding & V\_8\_0\_P1 & 24 \\
+            port-forwarding & V\_7\_8\_P1 & 24 \\
+            scp & V\_8\_0\_P1 & 16 \\
+            scp & V\_8\_0\_P1 & 24 \\
+            scp & V\_7\_8\_P1 & 16 \\
+            scp & V\_7\_8\_P1 & 24 \\
+            basic & V\_8\_0\_P1 & 24 \\
+            basic & V\_7\_8\_P1 & 24 \\
+            basic & V\_7\_1\_P1 & 24 \\
+            basic & V\_7\_0\_P1 & 24 \\
+            basic & V\_7\_9\_P1 & 24 \\
+            basic & V\_8\_1\_P1 & 24 \\
+            basic & V\_6\_9\_P1 & 24 \\
+            basic & V\_8\_7\_P1 & 24 \\
+            basic & V\_8\_8\_P1 & 24 \\
+            basic & V\_6\_8\_P1 & 24 \\
+            basic & V\_7\_2\_P1 & 24 \\
+            client & V\_8\_0\_P1 & 24 \\
+            client & V\_7\_8\_P1 & 24 \\
+
+        \end{longtable}
+
+        \paragraph{}The folders left for the validation part of the dataset after cleaning are :
+        \begin{longtable}{|c|c|c|}
+            \caption{List of kept Folders in the Validation subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:validation_kept} \\
+            \hline
+            \textbf{Use Case} & \textbf{Version} & \textbf{Key Size} \\
+            \hline
+            \endfirsthead
+            \multicolumn{3}{c}%
+            {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+            \hline
+            \textbf{Use Case} & \textbf{Version} & \textbf{Key Size} \\
+            \hline
+            \endhead
+            \hline
+            \multicolumn{3}{|r|}{{Continued on next page}} \\
+            \hline
+            \endfoot
+            \hline
+            \endlastfoot
+            port-forwarding & V\_8\_0\_P1 & 16 \\
+            port-forwarding & V\_8\_0\_P1 & 16 \\
+            port-forwarding & V\_8\_0\_P1 & 24 \\
+            port-forwarding & V\_7\_8\_P1 & 24 \\
+            scp & V\_8\_0\_P1 & 16 \\
+            scp & V\_8\_0\_P1 & 24 \\
+            scp & V\_7\_8\_P1 & 16 \\
+            scp & V\_7\_8\_P1 & 24 \\
+            basic & V\_8\_0\_P1 & 24 \\
+            basic & V\_7\_8\_P1 & 24 \\
+            basic & V\_7\_1\_P1 & 24 \\
+            basic & V\_7\_0\_P1 & 24 \\
+            basic & V\_7\_9\_P1 & 24 \\
+            basic & V\_8\_1\_P1 & 24 \\
+            basic & V\_6\_9\_P1 & 24 \\
+            basic & V\_8\_7\_P1 & 24 \\
+            basic & V\_8\_8\_P1 & 24 \\
+            basic & V\_6\_8\_P1 & 24 \\
+            basic & V\_7\_2\_P1 & 24 \\
+            client & V\_8\_0\_P1 & 24 \\
+            client & V\_7\_8\_P1 & 24 \\
+        \end{longtable}
+
+        \paragraph{}The folders left for the performance test part of the dataset after cleaning are :
+        \begin{longtable}{|c|c|}
+            \caption{List of kept Folders in the Performance Test subdataset Categorized by OpenSSH Parameters} \label{tab:annexes:dataset_cleaning_results:performance_test_kept} \\
+            \hline
+            \textbf{Version} & \textbf{Key Size} \\
+            \hline
+            \endfirsthead
+            \multicolumn{2}{c}%
+            {{\bfseries \tablename\ \thetable{} -- continued from previous page}} \\
+            \hline
+            \textbf{Version} & \textbf{Key Size} \\
+            \hline
+            \endhead
+            \hline
+            \multicolumn{2}{|r|}{{Continued on next page}} \\
+            \hline
+            \endfoot
+            \hline
+            \endlastfoot
+            V\_8\_0\_P1 & 32 \\
+            V\_8\_0\_P1 & 16 \\
+            V\_8\_0\_P1 & 24 \\
+            V\_7\_8\_P1 & 32 \\
+            V\_7\_8\_P1 & 16 \\
+            V\_7\_8\_P1 & 24 \\
+            V\_7\_1\_P1 & 32 \\
+            V\_7\_1\_P1 & 16 \\
+            V\_7\_1\_P1 & 24 \\
+            V\_7\_9\_P1 & 32 \\
+            V\_7\_9\_P1 & 16 \\
+            V\_7\_9\_P1 & 24 \\
+            V\_8\_1\_P1 & 32 \\
+            V\_8\_1\_P1 & 16 \\
+            V\_8\_1\_P1 & 24 \\
+
         \end{longtable}
