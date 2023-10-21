@@ -2,6 +2,17 @@
         
     \paragraph{}Our next objective centers on the conversion of raw byte data into fixed-size embeddings (\ref{seq:background:traditional_statistical_embedding}, \ref{seq:background:deep_learning_models_for_raw_byte_embedding}), a pivotal step in preparing them for utilization in machine learning applications. Ensuring uniformity in embedding size across all memory structures holds paramount significance. Consistency in embedding dimensions is vital to empower machine learning algorithms for efficient data processing and analysis. This uniformity not only simplifies the integration of memory structures with varying sizes into a coherent classification framework but also acts as a defense against the adverse effects of the curse of dimensionality—a phenomenon that can introduce computational complexities and heighten the risk of overfitting in high-dimensional data spaces. Striking this equilibrium is essential, achieved by maintaining reasonably low embedding dimensions, fostering both efficient data processing and the preservation of essential information within the raw byte data. It's important to note that initially, each embedding will include the structure's file and the structure's address in the file. However, these details will be removed during the machine learning phase (quality or coherence) as the embedding aims to be free of key size or OpenSSH uses. Their presence will serve as a means to test coherence later in our analysis.
 
+\subsection{First Preprocessing}
+    \paragraph{}Initially, we possess some knowledge regarding the positions and characteristics of SSH keys. Leveraging this knowledge, we can narrow down the number of chunks to examine, thereby streamlining the analysis process.
+    
+    \subsubsection{Entropy-Based Approach}
+        \paragraph{}A distinctive feature of SSH keys is their inherent randomness, as referenced in section \ref{seq:background:traditional_statistical_embedding}. This randomness translates to a high entropy value for the keys. By focusing on chunks with high entropy, we can potentially isolate those that contain SSH keys.
+        
+        \paragraph{}To compute the entropy, we consider the minimal size of a key, which is 12 bytes as mentioned in section \ref{sec:methods:keys_analysis}. Given that a chunk has a minimum of 2 blocks, equivalent to 16 bytes as detailed in section \ref{sec:background:dataset:c_structures_and_chunks_allocation_understanding}, and the fact that keys are always positioned at the beginning of a chunk, we can extract the first 12 bytes of a chunk to compute its entropy.
+        
+        \paragraph{}Given the abundance of data at our disposal, it's feasible to focus solely on chunks with the highest entropy values. However, it's crucial to remember that this is a heuristic approach. There's a need to be vigilant and ensure that important nodes with slightly lower entropy, possibly due to random occurrences like two identical bytes in the initial 12 bytes, are not inadvertently excluded from the analysis.
+    
+
 \subsection{Basic Chunk Information}\label{seq:embedding:basic_chunk_information}
 
     \paragraph{}Every chunk in the heap dump is equipped with a set of fundamental details that provide insights into its structure and content. These basic pieces of information are essential for understanding the layout and composition of each chunk.
@@ -128,5 +139,4 @@
             \label{fig:graph_embedding:updated_graph}
         \end{figure}
 
-        - the embedding now more straightforward : only the number of chunk node before and after the actual node
-        
+        \paragraph{}By eliminating the pointer nodes, we've embedded their information directly into the relationships between chunk nodes. The embedding captures 8 preceding depth chunk nodes, 8 subsequent depth chunk nodes, and 5 basic information values as discussed in section \ref{seq:embedding:basic_chunk_information}. This results in a concise representation of 21 values, making the embedding more straightforward and efficient. While the graph now conveys information more efficiently, the embedding is less rich. This raises a question: could this streamlined representation lead to reduced performance in machine learning tasks?

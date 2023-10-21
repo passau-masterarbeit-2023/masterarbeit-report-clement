@@ -207,14 +207,14 @@
 
             \paragraph{}While the cleaning process did invalidate certain cases within the dataset, it's essential to emphasize that a significant portion remains intact and consequential. These preserved cases provide a robust foundation for our analysis, ensuring that our study is both comprehensive and grounded in meaningful data. The invalidated cases, though notable, do not diminish the overall value and depth of the dataset at our disposal.
     
-    \subsection{Keys Analysis}
+    \subsection{Keys Analysis}\label{sec:methods:keys_analysis}
 
         \paragraph{}The analysis of SSH keys within the heap dumps provides crucial insights into their characteristics and behaviors. These findings not only enhance our understanding of the data but also guide subsequent steps in the research process.
     
         \subsubsection{Keys Positions}
     
-            \paragraph{}Upon analyzing all the heap dumps, it became evident that all the SSH keys mentioned in the annotations are positioned at the beginning of their respective chunks. This consistent positioning greatly simplifies certain embedding processes and offers a streamlined approach to further analysis.
-    
+        \paragraph{}Upon analyzing all the heap dumps, it became evident that all the SSH keys mentioned in the annotations are positioned at the beginning of their respective chunks. These keys have a size ranging from a minimum of 12 bytes to a maximum of 64 bytes. Additionally, the size of the chunks in which these keys are found is consistently observed to be 32, 48, or 64 bytes. This consistent positioning and size uniformity greatly simplify certain embedding processes and offer a streamlined approach to further analysis.
+
         \subsubsection{Keys Entropy}
     
             \paragraph{}Another significant observation regarding the keys is their high entropy, as referenced in~\ref{sec:related_work:smartkex}. High entropy is indicative of randomness, which is a characteristic feature of cryptographic keys. Leveraging this high entropy~\ref{eq:shannon_entropy} can be instrumental in discriminating the keys from other data. However, it's essential to approach this method with caution. While high entropy can be a strong indicator, it's not foolproof. There's a possibility of encountering false positives, as other high entropy data might exist in the heap. Additionally, there might be instances of false negatives, especially when keys contain multiple repeated bytes by chance.

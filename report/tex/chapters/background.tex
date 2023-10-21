@@ -648,7 +648,7 @@
             
             \item \textbf{Size of \gls{chunk}}: This captures the \gls{chunk}'s byte size and integrates three flags: \texttt{A} (NON\_MAIN\_ARENA), \texttt{M} (IS\_MMAPPED), and \texttt{P} (PREV\_INUSE). These flags reside in the size field's last three \acrshort{lsb}s. This block is often referred to as the \textit{malloc header} block in subsequent discussions.
             
-            \item \textbf{User Data}: The actual memory segment returned for user utilization.
+            \item \textbf{User Data}: The actual memory segment returned for user utilization (it will be minimum 2 blocks, 16 bytes).
             
             \item \textbf{Size of Next \gls{chunk}}: Represents the size of the succeeding contiguous \gls{chunk}.
             
@@ -719,7 +719,7 @@
                 % Text inside rectangles
                 \node[text width=14cm, align=center] at (8,9.5) {Size of previous chunk. If unallocated, next P=0};
                 \node[text width=14cm, align=center] at (8,8.5) {Malloc header block: Size of chunk, in bytes |A|M|P};
-                \node[text width=14cm, align=center] at (8,7.5) {User data starts here...};
+                \node[text width=14cm, align=center] at (8,7.5) {User data starts here (minimum 2 blocks)...};
                 \node[text width=14cm, align=center] at (8,3.5) {(size of chunk, but used for application data)};
                 \node[text width=14cm, align=center] at (8,2.5) {Size of next chunk, in bytes |A|0|1};
             \end{tikzpicture}
