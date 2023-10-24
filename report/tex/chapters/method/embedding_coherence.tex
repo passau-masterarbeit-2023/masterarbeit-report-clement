@@ -1,0 +1,11 @@
+\section{Embedding Coherence}\label{chap:embedding_coherence}
+\paragraph{}A significant facet of this thesis revolves around the comparison of embeddings derived from various use cases, versions, and key sizes of OpenSSH. The objective is to discern whether there exists a coherent relationship among them. To facilitate this comparison, a clustering algorithm is employed to categorize the different embeddings and assess their mutual coherence.
+
+\subsection{Detailed Clustering Approach}
+    \paragraph{}For the clustering of embeddings, we opt for the OPTICS algorithm, as referenced in section~\ref{seq:background:optics}. OPTICS is particularly well-suited for this task due to its proficiency in handling data with varying cluster densities, a common characteristic of our embedding data.
+
+    \paragraph{}In our clustering approach, we utilize the cosine distance metric. This choice is strategic, as it mitigates the challenges posed by the curse of dimensionality, eliminating also the need for data scaling prior to clustering. The cosine distance provides a measure of similarity that is not influenced by the magnitude of the data, focusing solely on the direction of the data points in the high-dimensional space.
+
+    \paragraph{}To determine the optimal number of clusters for each embedding, we employ the xi parameter of the OPTICS algorithm. A range of xi values is tested, and the configuration yielding the highest silhouette score is selected. The silhouette score serves as a quantitative measure of the quality of the clustering, with higher values indicating more distinct and well-separated clusters.
+
+    \paragraph{}In our implementation, we resort to the brute force method to compute the cosine metrics, ensuring accuracy in our distance calculations at the expense of computational efficiency. This method systematically calculates the cosine distance between all possible pairs of data points, providing a comprehensive assessment of the similarities and differences among the embeddings

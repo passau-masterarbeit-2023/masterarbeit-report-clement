@@ -161,3 +161,53 @@
         
         \paragraph{Padding Method:}
         \paragraph{}The padding method, on the other hand, involves augmenting smaller data sequences with additional zeros to match the size of the larger ones. While this technique ensures uniformity in data size, it results in significantly larger embeddings. These large embeddings can be cumbersome and challenging to work with, making them less practical for our purposes. As a result, we must explore alternative techniques to achieve our goal of efficient and useful data representation.
+    
+    \subsubsection{Word2Vec}
+        \paragraph{}Word2Vec, extensively discussed in section \ref{seq:background:deep_learning_models_for_raw_byte_embedding}, stands out as a flexible tool originally crafted for identifying patterns within text data. Its capabilities, however, transcend textual analysis, rendering it apt for sequences of raw user data. In such scenarios, we interpret sequences of hexadecimal characters as words, while chunks are analogous to sentences.
+
+        \paragraph{}To augment the Word2Vec model's effectiveness, we can apply previously delineated filters for entropy and chunk size. The primary goal here is to leverage Word2Vec to generate comprehensive embedding vectors for each chunk, effectively converting them into meaningful sentences within the embedding space.
+        
+        \paragraph{}Word2Vec assigns a feature vector to each word. To derive the embedding for an entire sentence—or a chunk in our context—we calculate the mean of the feature vectors for all words in the sentence. Algorithm \ref{algo:embedding:generate_sentence_embedding_word2vec} elucidates this process, illustrating the transition from individual word embeddings to a collective sentence embedding. It is crucial to acknowledge that the model disregards out-of-vocabulary words, namely, words present in the dataset to be embedded but not encountered during the Word2Vec model's training phase.
+
+        \begin{algorithm}
+            \caption{Get Average Word Embedding (word2vec)}
+            \label{algo:embedding:generate_sentence_embedding_word2vec}
+            \begin{algorithmic}[1]
+            \Function{GetAverageEmbedding}{$word\_sequence, model$} \Comment{Model are the features for each word}
+                \State $embeddings \gets \text{empty list}$
+                \For{each $word$ in $word\_sequence$}
+                    \If{$word$ in $model.wv$}
+                        \State $embeddings$.append($model.wv[word]$)
+                    \EndIf
+                \EndFor
+                \If{length of $embeddings > 0$}
+                    \State \Return $\text{mean}(embeddings)$ \Comment{mean for each feature}
+                \Else
+                    \State \Return $\text{vector of size } model.vector\_size \text{ of zeros}$
+                \EndIf
+            \EndFunction
+            \end{algorithmic}
+        \end{algorithm}
+            
+        
+        \paragraph{}In our research, we employ distinct datasets for training, validation, and testing. The Word2Vec model is trained using the training dataset, and this trained model is then used to embed the validation and testing datasets. This approach, implemented using the Python package gensim~\cite{rehurek_software_2010}~\footnote{\url{https://pypi.org/project/gensim/}}, may not guarantee optimal performance due to the concurrent use of the same dataset for both training and embedding. However, it serves our purpose of comparing and analyzing various embedding techniques. Several hyperparameters are employed in this process, such as the embedding dimension, which will be further reduced to 8 to match other embeddings, the window size of the algorithm, and the word size. These hyperparameters are detailed in the annex. To minimize computation time and memory usage, we opt for lower values of hyperparameters, although a range of values are tested. It is worth noting that there is potential for further refinement of these parameters. For instance, considering a block is 8 bytes, one could set the window size to 8 bytes, or adjust it to the size of the smallest key, which is 12 bytes. However, such refinements are beyond the scope of this thesis.
+
+    \subsubsection{Transformers and Head Attention Algorithm}
+        \paragraph{}As we transition from the Word2Vec model, we explore the transformers and head attention algorithm, another influential model in the realm of natural language processing (NLP). In this model, sequences of hexadecimal characters are interpreted as words, while chunks are viewed as sentences. A distinctive feature of transformers is the requirement for all sentences to be of equal length, necessitating the padding of shorter sentences.
+        
+        \paragraph{}Implemented in Python using the Keras library~\footnote{\url{https://keras.io/}}, the architecture and parameters of the neural network are detailed in the annexes. The output of the neural network serves as the embedding, which can optionally be followed by a classifier neural network. For consistency in evaluation, we utilize the generated embedding in the same manner as other embeddings.
+        
+        \paragraph{}The training and embedding processes occur simultaneously within the transformers model, ensuring consistent processing of both the training and validation datasets. This integrated approach facilitates a seamless generation and evaluation of embeddings.
+        
+        \paragraph{}Similar to the Word2Vec model, the performance of the transformers model is contingent on the selection of hyperparameters. To mitigate computation time and memory usage, we opt for lower values of hyperparameters, while ensuring a comprehensive evaluation through testing a range of values. The key hyperparameters in our transformers implementation include:
+        
+        \begin{itemize}
+        \item \textbf{Transformer Units:} Number of units or neurons in the dense layers inside the transformer encoder, determining the dimensionality of the outputs of the multi-head attention mechanism and the size of the feed-forward neural network layers.
+        \item \textbf{Number of Heads:} Specifies the number of attention heads, influencing the model's capacity to focus on different segments of the input sequence.
+        \item \textbf{Dropout Rate:} Defines the dropout rate applied to the attention scores, aiding in the prevention of overfitting.
+        \item \textbf{Number of Transformer Layers:} Determines the number of transformer layers stacked in the model, each layer enhancing the model's ability to capture complex data patterns.
+        \item \textbf{Activation Function:} Specifies the activation function used in the dense layers inside the transformer encoder, introducing non-linearity to the model.
+        \end{itemize}
+        
+        \paragraph{}A notable distinction in our transformers implementation is the use of float64 as the input data type, which inherently limits the word size to 64 bits (8 bytes) for conversion into float64. This choice significantly increases the amount of memory required to run the model, subsequently constraining the size of the dataset that can be processed. This trade-off highlights the challenges and considerations involved in implementing complex NLP models like transformers, especially when dealing with large volumes of data.
+        
