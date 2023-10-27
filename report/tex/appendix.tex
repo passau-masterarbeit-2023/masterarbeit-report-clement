@@ -1,6 +1,134 @@
 % !TeX spellcheck = en\_US
 % !TeX encoding = UTF-8
-\chapter{Code}
+\chapter{Models}
+\section{Machin Learning Hyperparameters}
+\subsection{Random Forest Classifier}
+
+    \begin{table}[ht]
+        \centering
+        \caption{Default Parameters for Random Forest Classifier}
+        \begin{tabular}{lc}
+            \textbf{Parameter} & \textbf{Default Value} \\
+            bootstrap & True \\
+            ccp\_alpha & 0.0 \\
+            class\_weight & None \\
+            criterion & gini \\
+            max\_depth & None \\
+            max\_features & sqrt \\
+            max\_leaf\_nodes & None \\
+            max\_samples & None \\
+            min\_impurity\_decrease & 0.0 \\
+            min\_samples\_leaf & 1 \\
+            min\_samples\_split & 2 \\
+            min\_weight\_fraction\_leaf & 0.0 \\
+            n\_estimators & 100 \\
+            n\_jobs & -1 \\
+            oob\_score & False \\
+            random\_state & 42 \\
+            verbose & 0 \\
+            warm\_start & False \\
+        \end{tabular}
+    \end{table}
+
+    \subsection{OPTICS Clustering}
+
+    \begin{table}[ht]
+        \centering
+        \caption{Default Parameters for OPTICS Clustering}
+        \begin{tabular}{lc}
+            \textbf{Parameter} & \textbf{Default Value} \\
+            algorithm & brute \\
+            cluster\_method & xi \\
+            leaf\_size & 30 \\
+            max\_eps & inf \\
+            memory & None \\
+            metric & cosine \\
+            metric\_params & None \\
+            min\_cluster\_size & None \\
+            n\_jobs & -1 \\
+            p & 2 \\
+            predecessor\_correction & True \\
+            xi & 0.05 \\
+        \end{tabular}
+    \end{table}
+
+
+    \paragraph{Note for OPTICS:}
+    \begin{description}
+        \item[min\_samples:] Calculated dynamically for each embedding.
+        \item[eps:] Takes five distinct values: 0.01, 0.02, 0.03, 0.04, and 0.05.
+    \end{description}
+
+\section{Deep learning hyperparameters}
+    \subsection{Transformers:}
+        \begin{table}[ht]
+            \centering
+            \caption{Transformers Hyperparameters (Configurations 0–4)}
+            \begin{tabular}{lccccc}
+                & Config 0 & Config 1 & Config 2 & Config 3 & Config 4 \\
+                word character size & 16 & 16 & 8 & 8 & 16 \\
+                embedding dim & 8 & 16 & 8 & 16 & 8 \\
+                transformer units & 2 & 2 & 2 & 2 & 4 \\
+                num heads & 2 & 2 & 2 & 2 & 4 \\
+                num transformer layers & 2 & 2 & 2 & 2 & 4 \\
+                dropout rate & 0.1 & 0.1 & 0.1 & 0.1 & 0.3 \\
+                activation & relu & relu & relu & relu & relu \\
+            \end{tabular}
+        \end{table}
+
+        \begin{table}[ht]
+            \centering
+            \caption{Transformers Hyperparameters (Configurations 5–7)}
+            \begin{tabular}{lccc}
+                & Config 5 & Config 6 & Config 7 \\
+                word character size & 16 & 8 & 8 \\
+                embedding dim & 16 & 8 & 16 \\
+                transformer units & 4 & 4 & 4 \\
+                num heads & 4 & 4 & 4 \\
+                num transformer layers & 4 & 4 & 4 \\
+                dropout rate & 0.3 & 0.3 & 0.3 \\
+                activation & relu & relu & relu \\
+            \end{tabular}
+        \end{table}
+
+
+    \subsection{Word2Vec:}
+        \begin{table}[ht]
+            \centering
+            \caption{Word2Vec Hyperparameters (Configurations 0–4)}
+            \begin{tabular}{lccccc}
+                & Config 0 & Config 1 & Config 2 & Config 3 & Config 4 \\
+                output size & 8 & 8 & 8 & 8 & 16 \\
+                window character size & 8 & 8 & 16 & 16 & 8 \\
+                word character size & 2 & 4 & 2 & 4 & 2 \\
+                min count & 1 & 1 & 1 & 1 & 1 \\
+            \end{tabular}
+        \end{table}
+
+        \begin{table}[ht]
+            \centering
+            \caption{Word2Vec Hyperparameters (Configurations 5–9)}
+            \begin{tabular}{lccccc}
+                & Config 5 & Config 6 & Config 7 & Config 8 & Config 9 \\
+                output size & 16 & 16 & 16 & 100 & 100 \\
+                window character size & 8 & 16 & 16 & 8 & 8 \\
+                word character size & 4 & 2 & 4 & 2 & 4 \\
+                min count & 1 & 1 & 1 & 1 & 1 \\
+            \end{tabular}
+        \end{table}
+
+        \begin{table}[ht]
+            \centering
+            \caption{Word2Vec Hyperparameters (Configurations 10–11)}
+            \begin{tabular}{lcc}
+                & Config 10 & Config 11 \\
+                output size & 100 & 100 \\
+                window character size & 16 & 16 \\
+                word character size & 2 & 4 \\
+                min count & 1 & 1 \\
+            \end{tabular}
+        \end{table}
+
 
 \chapter{Math}
 
