@@ -9,3 +9,11 @@
     \paragraph{}To determine the optimal number of clusters for each embedding, we employ the xi parameter of the OPTICS algorithm. A range of xi values is tested, and the configuration yielding the highest silhouette score is selected. The silhouette score serves as a quantitative measure of the quality of the clustering, with higher values indicating more distinct and well-separated clusters.
 
     \paragraph{}In our implementation, we resort to the brute force method to compute the cosine metrics, ensuring accuracy in our distance calculations at the expense of computational efficiency. This method systematically calculates the cosine distance between all possible pairs of data points, providing a comprehensive assessment of the similarities and differences among the embeddings
+
+\subsection{Limits and Adaptation}
+    \paragraph{}Clustering algorithms, while powerful, come with their own set of challenges, particularly in terms of computational demands. They are known for their high memory consumption and intensive calculations, which can pose constraints when dealing with large datasets. As a result, there's often a need to limit the number of input data points or samples to ensure efficient processing.
+    
+    \paragraph{}A straightforward, albeit non-optimal, strategy to reduce the number of samples is random sampling. While this approach might not capture the full diversity and nuances of the dataset, it offers a feasible starting point for preliminary analyses. To maintain coherence and representativeness in the sampled data, it's essential to preserve the ratio of significant labels, such as keys and SSH structures (SSH\_STRUCT and SESSION\_STATE), to noise points. This ensures that the key characteristics of the dataset are retained in the sample.
+    
+    \paragraph{}However, it's worth noting that this sampling method doesn't guarantee that all possible file variations are represented in the sample. Despite its limitations, random sampling serves as an initial approach, providing a snapshot of the dataset's characteristics and offering insights that can guide further, more detailed analyses.
+    
