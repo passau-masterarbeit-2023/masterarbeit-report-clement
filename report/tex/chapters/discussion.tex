@@ -1,4 +1,22 @@
 \chapter{Discussion}\label{chap:discussion}
 
 
-Discuss the results. What is the outcome of your experimetns?
+
+
+\section{Limits}
+
+\paragraph{}This study, while comprehensive, acknowledges several limitations that warrant mention. Within the realm of data embedding, a notable constraint is the necessity to deactivate the entropy filter during the validation phase to prevent the inadvertent exclusion of keys. Additionally, the NLP models, such as Word2Vec and transformers, are highly sensitive to hyperparameter tuning. Due to time constraints, we have explored only a limited subset of these parameters, which may impact the robustness of our findings.
+
+\paragraph{}Memory consumption poses another significant challenge, particularly for NLP models and some simpler embedding techniques. The computational resources available for this study, specifically the server with 516 GB of RAM, restricted our ability to process some of the more demanding models.
+
+\paragraph{}In the evaluation of embedding performance, the decision to limit features to eight was arbitrary and could have been adjusted to better suit the characteristics of each embedding. While the Pearson algorithm was chosen for its ease of implementation, more sophisticated dimensionality reduction techniques, such as PCA, might have yielded more nuanced insights. Furthermore, the exclusion of time as a factor in the analysis was a deliberate choice to maintain consistency across models. However, time is a critical element in practical applications, such as SSH key detection, and should be considered in future evaluations.
+
+\paragraph{}The section on embedding coherence also presents its own set of challenges. Clustering, while a powerful tool, is difficult to interpret and optimize, requiring careful tuning of numerous hyperparameters. The time and memory demands of clustering have limited the depth of exploration in this thesis. Consequently, the results obtained were not as robust as desired, and the methods employed to manage data volume, such as random undersampling, were not ideal.
+
+\section{Future Work}
+
+\paragraph{}Looking ahead, there is ample opportunity for further research and enhancement in several areas. The embedding techniques could benefit from the application of more sophisticated or varied NLP models, along with extensive hyperparameter tuning. Improvements in the performance evaluation of embeddings could be achieved through the use of more advanced dimensionality reduction algorithms and a more detailed examination of processing time to better differentiate between models.
+
+\paragraph{}The exploration of embedding coherence in this thesis is merely an initial foray. Significant improvements could be realized with a more refined approach to dataset preparation and further tuning of clustering algorithms. As such, these areas present fruitful avenues for future research and development.
+
+
