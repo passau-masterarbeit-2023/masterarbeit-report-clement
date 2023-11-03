@@ -18,7 +18,9 @@
             \endfoot
             \hline
             \endlastfoot
-            25 & chunk\_extraction & False & True \\
+            24 & chunk\_extraction & False & False \\
+\hline
+25 & chunk\_extraction & False & True \\
 \hline
 26 & chunk\_extraction & True & False \\
 \hline
@@ -30,20 +32,20 @@
 
 \label{sec:annexe:timeout_instances}
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 \begin{tabular}{ll}
 \hline
 dataset & instance \\ 
 \hline
-25\_filtered\_chunk\_extraction\_-e\_none\_-s\_activate & Transformers 0 \\ 
-25\_filtered\_chunk\_extraction\_-e\_none\_-s\_activate & Transformers 1 \\ 
-26\_filtered\_chunk\_extraction\_-e\_only-max-entropy\_-s\_none & Transformers 2 \\ 
-26\_filtered\_chunk\_extraction\_-e\_only-max-entropy\_-s\_none & Transformers 3 \\ 
-26\_filtered\_chunk\_extraction\_-e\_only-max-entropy\_-s\_none & Transformers 4 \\ 
-26\_filtered\_chunk\_extraction\_-e\_only-max-entropy\_-s\_none & Transformers 5 \\ 
-26\_filtered\_chunk\_extraction\_-e\_only-max-entropy\_-s\_none & Transformers 6 \\ 
-26\_filtered\_chunk\_extraction\_-e\_only-max-entropy\_-s\_none & Transformers 7 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 0 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 1 \\ 
+26 chunk\_extraction (filtered entropy) & Transformers 2 \\ 
+26 chunk\_extraction (filtered entropy) & Transformers 3 \\ 
+26 chunk\_extraction (filtered entropy) & Transformers 4 \\ 
+26 chunk\_extraction (filtered entropy) & Transformers 5 \\ 
+26 chunk\_extraction (filtered entropy) & Transformers 6 \\ 
+26 chunk\_extraction (filtered entropy) & Transformers 7 \\ 
 \hline
 \end{tabular}
 \caption{Timeouts instances}
@@ -56,11 +58,99 @@ dataset & instance \\
 
 The list is empty.
 
+\section{Out of memory instances (Classifications)}
+
+\label{sec:annexe:out_of_memory_instances_classifications}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ll}
+\hline
+dataset & instance \\ 
+\hline
+24 chunk\_extraction & Transformers 0 \\ 
+24 chunk\_extraction & Transformers 1 \\ 
+24 chunk\_extraction & Transformers 2 \\ 
+24 chunk\_extraction & Transformers 3 \\ 
+24 chunk\_extraction & Transformers 4 \\ 
+24 chunk\_extraction & Transformers 5 \\ 
+24 chunk\_extraction & Transformers 6 \\ 
+24 chunk\_extraction & Transformers 7 \\ 
+24 chunk\_extraction & Word2vec 0 \\ 
+24 chunk\_extraction & Word2vec 1 \\ 
+24 chunk\_extraction & Word2vec 2 \\ 
+24 chunk\_extraction & Word2vec 3 \\ 
+24 chunk\_extraction & Word2vec 4 \\ 
+24 chunk\_extraction & Word2vec 5 \\ 
+24 chunk\_extraction & Word2vec 6 \\ 
+24 chunk\_extraction & Word2vec 7 \\ 
+24 chunk\_extraction & Word2vec 8 \\ 
+24 chunk\_extraction & Word2vec 9 \\ 
+24 chunk\_extraction & Word2vec 10 \\ 
+24 chunk\_extraction & Word2vec 11 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 2 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 3 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 4 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 5 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 6 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 7 \\ 
+25 chunk\_extraction (filtered chunk size) & Word2vec 10 \\ 
+25 chunk\_extraction (filtered chunk size) & Word2vec 11 \\ 
+\hline
+\end{tabular}
+\caption{Out of memory instances (Classifications)}
+\label{tab:annexe:out_of_memory_instances_classifications}
+\end{table}
+
+\section{Out of memory instances (Clustering)}
+
+\label{sec:annexe:out_of_memory_instances_clustering}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{ll}
+\hline
+dataset & instance \\ 
+\hline
+24 chunk\_extraction & Transformers 0 \\ 
+24 chunk\_extraction & Transformers 1 \\ 
+24 chunk\_extraction & Transformers 2 \\ 
+24 chunk\_extraction & Transformers 3 \\ 
+24 chunk\_extraction & Transformers 4 \\ 
+24 chunk\_extraction & Transformers 5 \\ 
+24 chunk\_extraction & Transformers 6 \\ 
+24 chunk\_extraction & Transformers 7 \\ 
+24 chunk\_extraction & Word2vec 0 \\ 
+24 chunk\_extraction & Word2vec 1 \\ 
+24 chunk\_extraction & Word2vec 2 \\ 
+24 chunk\_extraction & Word2vec 3 \\ 
+24 chunk\_extraction & Word2vec 4 \\ 
+24 chunk\_extraction & Word2vec 5 \\ 
+24 chunk\_extraction & Word2vec 6 \\ 
+24 chunk\_extraction & Word2vec 7 \\ 
+24 chunk\_extraction & Word2vec 8 \\ 
+24 chunk\_extraction & Word2vec 9 \\ 
+24 chunk\_extraction & Word2vec 10 \\ 
+24 chunk\_extraction & Word2vec 11 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 2 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 3 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 4 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 5 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 6 \\ 
+25 chunk\_extraction (filtered chunk size) & Transformers 7 \\ 
+25 chunk\_extraction (filtered chunk size) & Word2vec 10 \\ 
+25 chunk\_extraction (filtered chunk size) & Word2vec 11 \\ 
+\hline
+\end{tabular}
+\caption{Out of memory instances (Clustering)}
+\label{tab:annexe:out_of_memory_instances_clustering}
+\end{table}
+
 \section{Feature Engineering results}
 
 \label{sec:annexe:feature_engineering_results}
 
-\subsection{26}
+\subsection{26 chunk\_extraction (filtered entropy)}
 
 \begin{longtable}{|c|c|}
 \caption{Transformers 1 Feature Engineering Results on 26} \label{tab:26_transformers_1_feature_engineering_results}\\
@@ -100,7 +190,9 @@ Instance & Word2vec 1 \\ \hline
 \end{longtable}
 
 
-\subsection{25}
+\subsection{24 chunk\_extraction}
+
+\subsection{25 chunk\_extraction (filtered chunk size)}
 
 \begin{longtable}{|c|c|}
 \caption{Word2vec 3 Feature Engineering Results on 25} \label{tab:25_word2vec_3_feature_engineering_results}\\
@@ -121,7 +213,7 @@ Instance & Word2vec 3 \\ \hline
 \end{longtable}
 
 
-\subsection{27}
+\subsection{27 chunk\_extraction (filtered entropy and chunk size)}
 
 \begin{longtable}{|c|c|}
 \caption{Transformers 1 Feature Engineering Results on 27} \label{tab:27_transformers_1_feature_engineering_results}\\
@@ -165,7 +257,7 @@ Instance & Word2vec 3 \\ \hline
 
 \label{sec:annexe:clustering_results}
 
-\subsection{26}
+\subsection{26 chunk\_extraction (filtered entropy)}
 
 \begin{longtable}{|c|c|c|c|c|}
 \caption{Transformers 0 Clustering Results on 26} \label{tab:26_transformers_0_clustering_results}\\
@@ -265,7 +357,9 @@ Cluster ID & \multicolumn{2}{c|}{Label} & \multicolumn{2}{c|}{Number of Samples}
 \end{longtable}
 
 
-\subsection{25}
+\subsection{24 chunk\_extraction}
+
+\subsection{25 chunk\_extraction (filtered chunk size)}
 
 \begin{longtable}{|c|c|c|c|c|}
 \caption{Word2vec 3 Clustering Results on 25} \label{tab:25_word2vec_3_clustering_results}\\
@@ -306,7 +400,7 @@ Cluster ID & \multicolumn{2}{c|}{Label} & \multicolumn{2}{c|}{Number of Samples}
 \end{longtable}
 
 
-\subsection{27}
+\subsection{27 chunk\_extraction (filtered entropy and chunk size)}
 
 \begin{longtable}{|c|c|c|c|c|}
 \caption{Transformers 0 Clustering Results on 27} \label{tab:27_transformers_0_clustering_results}\\
@@ -640,11 +734,11 @@ Cluster ID & \multicolumn{2}{c|}{Label} & \multicolumn{2}{c|}{Number of Samples}
 
 \label{sec:annexe:classification_results}
 
-\subsection{26}
+\subsection{26 chunk\_extraction (filtered entropy)}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{img/annexes/26/26 - Metrics.png}
+\includegraphics[width=0.6\textwidth]{img/annexes/26/26 - Metrics.png}
 \caption{Metrics for the instances of the dataset26}
 \label{fig:26_metrics_instance}
 \end{figure}
@@ -763,11 +857,13 @@ Class & Metric Name & Metric Value \\
 \end{longtable}
 
 
-\subsection{25}
+\subsection{24 chunk\_extraction}
 
-\begin{figure}[h!]
+\subsection{25 chunk\_extraction (filtered chunk size)}
+
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{img/annexes/25/25 - Metrics.png}
+\includegraphics[width=0.6\textwidth]{img/annexes/25/25 - Metrics.png}
 \caption{Metrics for the instances of the dataset25}
 \label{fig:25_metrics_instance}
 \end{figure}
@@ -829,11 +925,11 @@ Class & Metric Name & Metric Value \\
 \end{longtable}
 
 
-\subsection{27}
+\subsection{27 chunk\_extraction (filtered entropy and chunk size)}
 
-\begin{figure}[h!]
+\begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth]{img/annexes/27/27 - Metrics.png}
+\includegraphics[width=0.6\textwidth]{img/annexes/27/27 - Metrics.png}
 \caption{Metrics for the instances of the dataset27}
 \label{fig:27_metrics_instance}
 \end{figure}
