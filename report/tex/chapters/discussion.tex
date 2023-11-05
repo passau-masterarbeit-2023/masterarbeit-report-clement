@@ -1,9 +1,18 @@
 \chapter{Discussion}\label{chap:discussion}
 
+\paragraph{}In this chapter, we delve into a critical examination of the results obtained from our study, as well as the limitations inherent within it.
+
+\section{Results}
+\paragraph{}The analysis yielded some unexpected insights, particularly regarding the performance of the models tested. Contrary to what one might assume, the more advanced deep learning models did not outshine all others. Instead, the simpler chunk\_start\_bytes\_embedding and chunk\_statistic\_embedding demonstrated notable effectiveness, with their impact varying according to the specific metric evaluated. The role of the entropy filter emerged as significant, especially in relation to the deep learning models and precision metrics. However, the application of this filter is double-edged; while it can enhance certain outcomes, it also has the potential to distort the validation dataset, thereby calling into question the reliability of the results. The nuances of this predicament are further explored in Section \ref{seq:discussion:limits}, where we dissect the implications of the entropy filter's use.
+
+\paragraph{}The performance gap between the deep learning models and the simpler ones was not as wide as anticipated, suggesting that a more thorough investigation into hyperparameter optimization could yield improvements for the deep learning approaches.
+
+\paragraph{}One particular instance achieved perfect recall, yet it was coupled with a relatively modest precision of 73.91\%. This level of recall is highly beneficial for detecting SSH keys, especially considering the existence of a brute force algorithm that can complement it.
+
+\paragraph{}On balance, the chunk\_start\_bytes\_embedding emerged as the most effective instance, boasting the highest accuracy and, when unfiltered, the best recall. This finding underscores the potential of simpler models in certain scenarios and invites further exploration into their optimal application.
 
 
-
-\section{Limits}
+\section{Limits}\label{seq:discussion:limits}
 
 \paragraph{}This study, while comprehensive, acknowledges several limitations that warrant mention. Within the realm of data embedding, a notable constraint is the necessity to deactivate the entropy filter during the validation phase to prevent the inadvertent exclusion of keys. Additionally, the NLP models, such as Word2Vec and transformers, are highly sensitive to hyperparameter tuning. Due to time constraints, we have explored only a limited subset of these parameters, which may impact the robustness of our findings.
 
@@ -15,8 +24,6 @@
 
 \section{Future Work}
 
-\paragraph{}Looking ahead, there is ample opportunity for further research and enhancement in several areas. The embedding techniques could benefit from the application of more sophisticated or varied NLP models, along with extensive hyperparameter tuning. Improvements in the performance evaluation of embeddings could be achieved through the use of more advanced dimensionality reduction algorithms and a more detailed examination of processing time to better differentiate between models.
+\paragraph{}Looking ahead, there is ample opportunity for further research and enhancement in several areas. The embedding techniques could benefit from the application of more sophisticated or varied NLP models, along with extensive hyperparameter tuning. Additionally, exploring a wider array of classification models could potentially yield improvements in predictive performance and offer insights into the most effective approaches for SSH key detection. Improvements in the performance evaluation of embeddings could be achieved through the use of more advanced dimensionality reduction algorithms and a more detailed examination of processing time to better differentiate between models.
 
 \paragraph{}The exploration of embedding coherence in this thesis is merely an initial foray. Significant improvements could be realized with a more refined approach to dataset preparation and further tuning of clustering algorithms. As such, these areas present fruitful avenues for future research and development.
-
-
