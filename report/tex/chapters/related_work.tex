@@ -29,7 +29,7 @@
 
     \paragraph{}\textbf{SmartKex} proposes two key extraction methods:
     \begin{itemize}
-        \item \textit{Brute-Force Baseline Method}: A conventional method that sifts through heap memory, identifying potential keys based on recognized patterns.
+        \item \textit{Brute-Force Baseline Method}:  A conventional method that sifts through heap memory to identify potential keys by testing decryption.
         \item \textit{Machine Learning-Assisted Method}: Utilizes a Random Forest algorithm, trained on an imbalanced dataset balanced using SMOTE. While this method offers high precision and recall, it's probabilistic, making it less exact than the brute-force approach.
     \end{itemize}
 
@@ -37,7 +37,7 @@
 
     \paragraph{}The brute-force approach of \textbf{SmartKex} encompasses the following steps \cite{fellicious_smartkex_2022}:
     \begin{enumerate}
-        \item \textit{Heap Dump Creation}: Binary files of the OpenSSH server process are generated (methodology unspecified in SmartKex) and are presumed to be based on a linux-x86\_64 architecture.
+        \item \textit{Heap Dump Creation}: Binary files of the OpenSSH server process are generated
         \item \textit{Data Trimming}: The method trims irrelevant memory pages based on Hamming distance to reduce heap size.
         \item \textit{Key Search}: The algorithm scans the heap, considering a 128-byte length as a potential key, iterating until the heap's end.
         \item \textit{Decryption Trials}: Each potential key undergoes decryption attempts on network packets. Failed attempts lead to the next potential key.
