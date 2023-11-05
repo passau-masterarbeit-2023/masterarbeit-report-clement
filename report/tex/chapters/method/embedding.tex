@@ -39,7 +39,7 @@
 
     With these basic details, one can gain a comprehensive understanding of each chunk's structure, content, and relative position within the heap.
 
-\subsection{Statistical embedding}
+\subsection{Statistical embedding}\label{sec:embedding:statistical}
     \paragraph{}Understanding the fundamental concepts of statistical embeddings enables us to delve deeper into the sophisticated processes and practical applications that underscore their significance in embedding tasks. By utilizing statistical techniques, data from high-dimensional spaces is condensed, preserving the inherent probabilistic connections and essential patterns as much as possible.
 
     \subsubsection{N-gram values}
@@ -88,7 +88,7 @@
             \label{fig:graph_embedding:graph_example}
         \end{figure}
 
-    \subsubsection{Graphs embedding}
+    \subsubsection{Graphs embedding} \label{sec:embedding:first_graph}
 
         \paragraph{}Our next step is to uncover deeper insights and semantic understanding from our constructed graph, focusing on semantic embedding. This is the process through which we reshape our graph into a low-dimensional vector space, with each vector acting as a repository for a \gls{chunk}'s immediate neighborhood. Through this transformative journey, our aim is to forge vector representations that empower the application of cutting-edge machine learning techniques.
 
@@ -132,7 +132,9 @@
         
         \paragraph{}We can apply this algorithm to every \gls{chunk} within each graph, delving to a depth of 8, which produces an embedding of 32 units: 8 for ancestor \glspl{pointer}, 8 for ancestor \glspl{chunk}, 8 for child \glspl{pointer}, and 8 for child \glspl{chunk}. To accurately represent the \gls{chunk}'s neighborhood, it's crucial not to omit details about its members. Thus, we incorporate the basic chunk information, which includes the block position in the chunk, chunk byte size, number of pointers in the chunk, number of value nodes in the chunk, and the chunk's index in the heap. This results in a final embedding size that is an aggregate of the neighborhood representation and the basic chunk information, summing up to 37 values. However, there are inherent challenges with this embedding. It tends to get polluted by the value node, which often lacks significant meaning. Moreover, the relationships between the structures are intricate, and there's potential to represent them in a more straightforward manner, as shown in the next section.
 
-    \subsubsection{Updated graph}
+        \paragraph{}\label{sec:embedding:first_graph_only_first_block}To enhance the quality of our embedding, we can introduce an additional layer of refinement: by retaining only the first block of each chunk, we effectively filter out noise nodes. This is based on the knowledge that keys are invariably located at the beginning of a chunk, allowing us to streamline our focus and reduce extraneous data.
+
+    \subsubsection{Updated graph}\label{sec:embedding:updated_graph}
 
         \paragraph{}Recognizing these challenges and the need for a clearer representation, we embarked on a series of refinements. Our approach focuses on enhancing the last graph by preserving the structure nodes and their interconnections via \glspl{pointer}. To simplify the visualization, we've decided to eliminate both the value nodes and the \gls{pointer} nodes. In addition, the relationships that previously connected the \gls{pointer} nodes to the value nodes will now link directly to the \gls{chunk} nodes, with the added detail of weighted edges. This strategy is driven by our aspiration to offer a more lucid graph, significantly reducing any extraneous noise, as show in the figure \ref{fig:graph_embedding:updated_graph}, the representation of the same file \path{./Validation/Validation/basic/V_8_1_P1/24/27107-1643980590-heap.raw}.
 
@@ -156,7 +158,7 @@
     \subsubsection{Simple Extraction}
         \paragraph{}In the realm of raw user data chunk embedding, two straightforward techniques stand out: trimming and padding. These methods provide a basic yet effective means of standardizing the size of the data for embedding, which is crucial for consistent analysis.
         
-        \paragraph{Trim Method:}
+        \paragraph{Trim Method:}\label{sec:embedding:trim_method}
         \paragraph{}The trim method involves cutting down the raw user data to a predetermined fixed size. Given that SSH keys are always located at the beginning of a chunk, and considering the minimum size of a key is 12 bytes and the minimum chunk size is 16 bytes, we can confidently trim all user data to 12 bytes. This results in 1 byte per feature, and when combined with the 5 basic chunk information features, the total comes to 17 features. This method ensures a uniform data size, facilitating a more streamlined and efficient embedding process.
         
         \paragraph{Padding Method:}

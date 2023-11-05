@@ -1,5 +1,5 @@
 \chapter{Machin Learning Results}
-\section{Datasets informations}
+\section{Datasets informations}\label{sec:annexe:all_dataset}
 
 
             \begin{longtable}{|c|c|c|c|}
@@ -41,14 +41,6 @@
 10 & chunk\_semantic\_embedding & True & False \\
 \hline
 11 & chunk\_semantic\_embedding & True & True \\
-\hline
-12 & chunk\_semantic\_embedding & False & False \\
-\hline
-13 & chunk\_semantic\_embedding & False & True \\
-\hline
-14 & chunk\_semantic\_embedding & True & False \\
-\hline
-15 & chunk\_semantic\_embedding & True & True \\
 \hline
 16 & chunk\_statistic\_embedding & False & False \\
 \hline
@@ -134,8 +126,6 @@ dataset & instance & nb\_features \\
 \hline
 dataset & instance \\ 
 \hline
-14 chunk\_semantic\_embedding (filtered entropy) & single instance \\ 
-15 chunk\_semantic\_embedding (filtered entropy and chunk size) & single instance \\ 
 16 chunk\_statistic\_embedding & single instance \\ 
 17 chunk\_statistic\_embedding (filtered chunk size) & single instance \\ 
 24 chunk\_extraction & Transformers 0 \\ 
@@ -182,9 +172,6 @@ dataset & instance \\
 \hline
 dataset & instance \\ 
 \hline
-12 chunk\_semantic\_embedding & single instance \\ 
-14 chunk\_semantic\_embedding (filtered entropy) & single instance \\ 
-15 chunk\_semantic\_embedding (filtered entropy and chunk size) & single instance \\ 
 16 chunk\_statistic\_embedding & single instance \\ 
 17 chunk\_statistic\_embedding (filtered chunk size) & single instance \\ 
 20 chunk\_start\_bytes\_embedding & single instance \\ 
@@ -308,49 +295,6 @@ Instance & single instance \\ \hline
 \multicolumn{2}{|c|}{\includegraphics[width=0.8\linewidth]{img/annexes/11/single instance_correlation_matrix.png}} \\
 \hline
 \end{longtable}
-
-
-\subsection{12 chunk\_semantic\_embedding}
-
-\begin{longtable}{|c|c|}
-\caption{single instance Feature Engineering Results on 12} \label{tab:12_single_instance_feature_engineering_results}\\
-\hline
-Dataset Name & 12 \\ \hline
-Instance & single instance \\ \hline
-\multirow{8}{*}{Best Features} & chns\_children\_3 \\ \cline{2-2}
- & chns\_children\_2 \\ \cline{2-2}
- & chunk\_number\_in\_heap \\ \cline{2-2}
- & ptrs\_children\_8 \\ \cline{2-2}
- & chunk\_vns \\ \cline{2-2}
- & chunk\_byte\_size \\ \cline{2-2}
- & ptrs\_children\_7 \\ \cline{2-2}
- & ptrs\_children\_6 \\ \cline{2-2}
-\noalign{\vskip 5mm}
-\multicolumn{2}{|c|}{\includegraphics[width=0.8\linewidth]{img/annexes/12/single instance_correlation_matrix.png}} \\
-\hline
-\end{longtable}
-
-
-\subsection{13 chunk\_semantic\_embedding (filtered chunk size)}
-
-\begin{longtable}{|c|c|}
-\caption{single instance Feature Engineering Results on 13} \label{tab:13_single_instance_feature_engineering_results}\\
-\hline
-Dataset Name & 13 \\ \hline
-Instance & single instance \\ \hline
-\multirow{8}{*}{Best Features} & chns\_children\_2 \\ \cline{2-2}
- & chns\_children\_3 \\ \cline{2-2}
- & chunk\_number\_in\_heap \\ \cline{2-2}
- & chunk\_vns \\ \cline{2-2}
- & chunk\_byte\_size \\ \cline{2-2}
- & ptrs\_children\_8 \\ \cline{2-2}
- & ptrs\_children\_7 \\ \cline{2-2}
- & ptrs\_children\_6 \\ \cline{2-2}
-\noalign{\vskip 5mm}
-\multicolumn{2}{|c|}{\includegraphics[width=0.8\linewidth]{img/annexes/13/single instance_correlation_matrix.png}} \\
-\hline
-\end{longtable}
-
 
 \subsection{18 chunk\_statistic\_embedding (filtered entropy)}
 
@@ -889,79 +833,6 @@ Cluster ID & \multicolumn{2}{c|}{Label} & \multicolumn{2}{c|}{Number of Samples}
 \hline
 \multicolumn{5}{|c|}{\includegraphics[width=0.8\linewidth]{img/annexes/11/clustering_pie_charts/single instance.png}} \\
 \end{longtable}
-
-
-\subsection{13 chunk\_semantic\_embedding (filtered chunk size)}
-
-\begin{longtable}{|c|c|c|c|c|}
-\caption{single instance Clustering Results on 13} \label{tab:13_single_instance_clustering_results}\\
-\hline
-\multicolumn{5}{|c|}{\textbf{General Information}} \\
-\hline
-\multicolumn{2}{|c|}{Min Samples} & \multicolumn{3}{c|}{234} \\
-\multicolumn{2}{|c|}{Total Duration} & \multicolumn{3}{c|}{4582.308006 s} \\
-\hline
-\multicolumn{5}{|c|}{\textbf{Clustering Information}} \\
-\hline
-EPS & Number of Clusters & Silhouette Score & Noise Points & Duration \\
-0.01 & 9 & -0.16028672456741333 & 3187 & 914.751199 s\\
-0.02 & 9 & -0.16060906648635864 & 3189 & 798.03534 s\\
-0.03 & 9 & -0.16189861297607422 & 3197 & 910.878093 s\\
-0.04 & 9 & -0.1636056900024414 & 3228 & 917.586341 s\\
-0.05 & 9 & -0.1794627606868744 & 3717 & 1030.724957 s\\
-\hline
-\multicolumn{5}{|c|}{\textbf{Best EPS Information}} \\
-\hline
-0.01 & 9 & -0.16028672456741333 & 3187 & 914.751199 s\\
-\hline
-\multicolumn{5}{|c|}{\textbf{Label Association}} \\
-\hline
-Cluster ID & \multicolumn{2}{c|}{Label} & \multicolumn{2}{c|}{Number of Samples} \\
-\hline
-\multirow{4}{*}{-1.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{3153} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{28} \\
-& \multicolumn{2}{c|}{2.0} & \multicolumn{2}{c|}{5} \\
-& \multicolumn{2}{c|}{4.0} & \multicolumn{2}{c|}{1} \\
-\hline
-\multirow{3}{*}{0.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{514} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{5} \\
-& \multicolumn{2}{c|}{4.0} & \multicolumn{2}{c|}{1} \\
-\hline
-\multirow{2}{*}{1.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{248} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{2} \\
-\hline
-\multirow{4}{*}{2.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{703} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{4} \\
-& \multicolumn{2}{c|}{2.0} & \multicolumn{2}{c|}{1} \\
-& \multicolumn{2}{c|}{4.0} & \multicolumn{2}{c|}{2} \\
-\hline
-\multirow{3}{*}{3.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{558} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{1} \\
-& \multicolumn{2}{c|}{2.0} & \multicolumn{2}{c|}{1} \\
-\hline
-\multirow{3}{*}{4.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{538} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{6} \\
-& \multicolumn{2}{c|}{4.0} & \multicolumn{2}{c|}{4} \\
-\hline
-\multirow{3}{*}{5.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{247} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{2} \\
-& \multicolumn{2}{c|}{4.0} & \multicolumn{2}{c|}{1} \\
-\hline
-\multirow{3}{*}{6.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{401} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{5} \\
-& \multicolumn{2}{c|}{4.0} & \multicolumn{2}{c|}{1} \\
-\hline
-\multirow{3}{*}{7.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{460} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{2} \\
-& \multicolumn{2}{c|}{2.0} & \multicolumn{2}{c|}{1} \\
-\hline
-\multirow{3}{*}{8.0} & \multicolumn{2}{c|}{0.0} & \multicolumn{2}{c|}{596} \\
-& \multicolumn{2}{c|}{1.0} & \multicolumn{2}{c|}{5} \\
-& \multicolumn{2}{c|}{2.0} & \multicolumn{2}{c|}{2} \\
-\hline
-\multicolumn{5}{|c|}{\includegraphics[width=0.8\linewidth]{img/annexes/13/clustering_pie_charts/single instance.png}} \\
-\end{longtable}
-
 
 \subsection{18 chunk\_statistic\_embedding (filtered entropy)}
 
@@ -1990,125 +1861,6 @@ Class & Metric Name & Metric Value \\
 & AUC & 0.77 \\ \hline
 & Duration (seconds) & 2.836076 \\ \hline
 \end{longtable}
-
-
-\subsection{12 chunk\_semantic\_embedding}
-
-\begin{longtable}{|c|c|c|}
-\caption{single instance Classification Results on 12} \label{tab:12_single_instance_classifiers_results} \\
-\hline
-Class & Metric Name & Metric Value \\
-\hline
-\multirow{4}{*}{0.0} & Precision & 0.9999964815031644 \\
- & Recall & 0.9848216886261227 \\
- & F1 Score & 0.992351076139109 \\
- & Support & 5194649.0 \\
- & Final Samples (after rebalancing) & 20964 \\
- & Initial Samples (before rebalancing) & 28781019 \\
-\hline
-\multirow{4}{*}{1.0} & Precision & 0.22153188626605197 \\
- & Recall & 0.9991967871485944 \\
- & F1 Score & 0.3626587198756155 \\
- & Support & 22410.0 \\
- & Final Samples (after rebalancing) & 20964 \\
- & Initial Samples (before rebalancing) & 125784 \\
-\hline
-\multirow{4}{*}{2.0} & Precision & 0.9589216944801027 \\
- & Recall & 1.0 \\
- & F1 Score & 0.9790301441677588 \\
- & Support & 3735.0 \\
- & Final Samples (after rebalancing) & 20964 \\
- & Initial Samples (before rebalancing) & 20964 \\
-\hline
-\multirow{4}{*}{4.0} & Precision & 1.0 \\
- & Recall & 1.0 \\
- & F1 Score & 1.0 \\
- & Support & 3735.0 \\
- & Final Samples (after rebalancing) & 20964 \\
- & Initial Samples (before rebalancing) & 20964 \\
-\hline
-\multirow{4}{*}{Macro Avg} & Precision & 0.7951125155623298 \\
- & Recall & 0.9960046189436793 \\
- & F1 Score & 0.8335099850456208 \\
- & Support & 5224529.0 \\
- & Final Samples (after rebalancing) & 83856 \\
- & Initial Samples (before rebalancing) & 28948731 \\
-\hline
-\multirow{4}{*}{Weighted Avg} & Precision & 0.9966279878519263 \\
- & Recall & 0.9849050507710838 \\
- & F1 Score & 0.9896460302576224 \\
- & Support & 5224529.0 \\
- & Final Samples (after rebalancing) & 83856 \\
- & Initial Samples (before rebalancing) & 28948731 \\
-\hline
-& Accuracy & 0.9849050507710838 \\ \hline
-& True Positives & 22392 \\ \hline
-& True Negatives & 5115803 \\ \hline
-& False Positives & 78686 \\ \hline
-& False Negatives & 18 \\ \hline
-& AUC & 0.99 \\ \hline
-& Duration (seconds) & 19.423944 \\ \hline
-\end{longtable}
-
-
-\subsection{13 chunk\_semantic\_embedding (filtered chunk size)}
-
-\begin{longtable}{|c|c|c|}
-\caption{single instance Classification Results on 13} \label{tab:13_single_instance_classifiers_results} \\
-\hline
-Class & Metric Name & Metric Value \\
-\hline
-\multirow{4}{*}{0.0} & Precision & 0.9975579764110913 \\
- & Recall & 0.9994816721526787 \\
- & F1 Score & 0.998518897759142 \\
- & Support & 4437346.0 \\
- & Final Samples (after rebalancing) & 24506437 \\
- & Initial Samples (before rebalancing) & 24506437 \\
-\hline
-\multirow{4}{*}{1.0} & Precision & 0.8339709810149426 \\
- & Recall & 0.515528781793842 \\
- & F1 Score & 0.6371783911976394 \\
- & Support & 22410.0 \\
- & Final Samples (after rebalancing) & 125784 \\
- & Initial Samples (before rebalancing) & 125784 \\
-\hline
-\multirow{4}{*}{2.0} & Precision & 1.0 \\
- & Recall & 1.0 \\
- & F1 Score & 1.0 \\
- & Support & 3735.0 \\
- & Final Samples (after rebalancing) & 20964 \\
- & Initial Samples (before rebalancing) & 20964 \\
-\hline
-\multirow{4}{*}{4.0} & Precision & 1.0 \\
- & Recall & 1.0 \\
- & F1 Score & 1.0 \\
- & Support & 3735.0 \\
- & Final Samples (after rebalancing) & 20964 \\
- & Initial Samples (before rebalancing) & 20964 \\
-\hline
-\multirow{4}{*}{Macro Avg} & Precision & 0.9578822393565085 \\
- & Recall & 0.8787526134866301 \\
- & F1 Score & 0.9089243222391954 \\
- & Support & 4467226.0 \\
- & Final Samples (after rebalancing) & 24674149 \\
- & Initial Samples (before rebalancing) & 24674149 \\
-\hline
-\multirow{4}{*}{Weighted Avg} & Precision & 0.9967414198610941 \\
- & Recall & 0.9970547717979793 \\
- & F1 Score & 0.9967086967712575 \\
- & Support & 4467226.0 \\
- & Final Samples (after rebalancing) & 24674149 \\
- & Initial Samples (before rebalancing) & 24674149 \\
-\hline
-& Accuracy & 0.9970547717979793 \\ \hline
-& True Positives & 11553 \\ \hline
-& True Negatives & 4435046 \\ \hline
-& False Positives & 2300 \\ \hline
-& False Negatives & 10857 \\ \hline
-& AUC & 0.76 \\ \hline
-& Duration (seconds) & 177.913497 \\ \hline
-\end{longtable}
-
 
 \subsection{18 chunk\_statistic\_embedding (filtered entropy)}
 

@@ -1,4 +1,37 @@
 \chapter{Results}\label{chap:results}
 
+\paragraph{}In this thesis, we undertake a thorough investigation of data embeddings and their effectiveness in predicting SSH keys within OpenSSH memory dumps. The results are methodically structured, starting with Data Preprocessing, where we lay a solid foundation by preparing the data for in-depth analysis. We proceed to evaluate Deep Learning Models, analyzing their architecture and limitations. This is succeeded by Feature Engineering, where we meticulously refine our data to improve model accuracy. Through Clustering analysis, we explore and identify underlying patterns within the data. Ultimately, we employ Classification techniques to accurately predict and categorize SSH keys, thus demonstrating the practical implications and utility of our research. 
+    
 
-Describe the experimental setup, the used datasets/parameters and the experimental results achieved
+\section{Data Preprocessing}
+
+\paragraph{}In the data preprocessing stage, we meticulously calculated each embedding four times, which included the deep learning models. This repetition was to test all combinations of the two filters—entropy and chunk size. The purpose of this thorough approach was to discern the effectiveness of each filter, both individually and in combination, providing us with a clearer understanding of their impact on the data and the subsequent results. The different datasets used are detailed in Section \ref{sec:annexe:all_dataset}. The dataset codes are explained in the following table~\ref{tab:results:dataset_codes}:
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|p{0.3\linewidth}|p{0.6\linewidth}|}
+    \hline
+    Dataset Code & Meaning \\ 
+    \hline
+    value\_node\_embedding & First graph embedding, with all nodes~\ref{sec:embedding:first_graph} \\ \hline
+    chunk\_top\_vn\_semantic\_embedding & First graph embedding, keeping only the first block of each chunk~\ref{sec:embedding:first_graph_only_first_block} \\ \hline
+    chunk\_semantic\_embedding & Second graph embedding~\ref{sec:embedding:updated_graph} \\ \hline
+    chunk\_statistic\_embedding & Statistical embedding~\ref{sec:embedding:statistical} \\ \hline
+    chunk\_start\_bytes\_embedding & Start bytes embedding~\ref{sec:embedding:trim_method} \\ \hline
+    chunk\_extraction & Raw byte extraction with filters, to be fed into the deep learning model\\ \hline
+    \end{tabular}
+    \caption{Meanings of Dataset Codes}
+    \label{tab:results:dataset_codes}
+\end{table}
+
+
+\section{Deep Learning Models}
+
+\paragraph{}The exploration of hyperparameters is documented in Section \ref{sec:annexes:deep_learning_hyperparameters}. During our experiments, we encountered instances where some models either ran out of memory, as noted in Sections \ref{sec:annexe:out_of_memory_instances_classifications} and \ref{sec:annexe:out_of_memory_instances_clustering}, or experienced timeouts, detailed in Section \ref{sec:annexe:timeout_instances}. Consequently, our discussion will be confined to the results yielded by the models that successfully completed their runs.
+
+\paragraph{}For each of the deep learning models that functioned as intended, we have the opportunity to pinpoint the most effective instance of each algorithm, be it Transformers or Word2Vec.
+
+\section{Feature Engineering}
+\paragraph{}During our feature engineering phase, we encountered a challenge that led to the elimination of certain embeddings. This was due to the invariance observed in the columns, an issue that is elaborated upon in Section \ref{sec:annexe:feature_engineering_fails}. The specific embedding that was rendered ineffective and subsequently removed was the semantic embedding of the first graph, as discussed in Section \ref{sec:embedding:graph_embedding}. This elimination was necessary regardless of whether the filter on the first block of each chunk was applied. The primary shortcoming of this embedding was its inability to generate a sufficient number of ancestors to provide useful information. This inadequacy arose because only a minor segment of the value nodes were being pointed to by pointers, which significantly limited the utility of the embedding. In contrast, the second graph managed to compress the information effectively, thereby validating the semantic embedding by conveying more meaningful data for each node.
+
+\paragraph{}The instances that successfully passed the feature engineering stage are meticulously recorded in Section \ref{sec:annexe:feature_engineering_results}. Here, the eight most significant columns are identified.

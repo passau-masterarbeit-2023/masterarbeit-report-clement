@@ -8,4 +8,4 @@
 \contentsline {lstlisting}{\numberline {6.4}pretty print JSON}{35}{lstlisting.6.4}%
 \contentsline {lstlisting}{\numberline {6.5}An extract of the JSON annotations}{36}{lstlisting.6.5}%
 \contentsline {algorithm}{\numberline {6.6}{\ignorespaces Generate Ancestor/Children Embedding}}{49}{algorithm.6.6}%
-\contentsline {algorithm}{\numberline {6.7}{\ignorespaces Get Average Word Embedding (word2vec)}}{52}{algorithm.6.7}%
+\contentsline {algorithm}{\numberline {6.7}{\ignorespaces Get Average Word Embedding (word2vec)}}{53}{algorithm.6.7}%
