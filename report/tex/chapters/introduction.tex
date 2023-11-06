@@ -15,11 +15,13 @@ General Requirements to the thesis:
 \end{comment}
 
 
-\paragraph*{}Digital forensics is a linchpin in cybersecurity, enabling the extraction of vital evidence from devices like PCs. This evidence is key for detecting malware and tracing intruder activities. Analyzing a device's main memory is a go-to technique in this field. The fusion of machine learning promises to amplify and streamline these analyses.
+\paragraph*{}Digital forensics is a linchpin in cybersecurity, enabling the extraction of vital evidence from devices such as personal computers. This evidence is key for detecting malware and tracing intruder activities. Analyzing a device's main memory is a go-to technique in this field. The fusion of machine learning promises to amplify and streamline these analyses.
  
 \paragraph*{}With the rising need for encrypted communication, \acrfull{ssh} protocols are now commonplace. However, these security-focused channels can inadvertently shield malicious actions, posing challenges to standard investigative approaches. Cutting-edge research offers solutions. The work in \citetitle*{fellicious_smartkex_2022}~\cite*{fellicious_smartkex_2022} highlights how machine learning can boost the extraction of session keys from OpenSSH memory images. In a complementary vein, \citetitle*{sentanoe_sshkex_2022}~\cite*{sentanoe_sshkex_2022} showcases the power of \acrfull{vmi} for direct SSH key extraction.
 
 \paragraph*{}Inspired by \citetitle*{fellicious_smartkex_2022}, this thesis zeroes in on a central challenge: data embedding. While previous studies set the stage for key extraction, the data embedding technique, especially windowing, can be optimized. The design of data embeddings is pivotal for machine learning efficacy, especially in nuanced tasks like memory analysis. This research introduces fresh embedding strategies, aiming to refine extraction and unearth deeper memory snapshot patterns. Merging graph embeddings with advanced machine learning, the goal is to craft a sophisticated toolkit for OpenSSH heap dump studies, bridging digital forensics and machine learning.
+
+\paragraph{}In this research, we delve deep into the realm of SSH key detection by exploring multiple embedding techniques: graph-based, statistical-based, and deep learning-based embeddings. Our approach is twofold. Firstly, we employ these embeddings in conjunction with a classifier model, comparing their performance to determine the most effective method for SSH key extraction from memory heap dumps. Secondly, to address the challenges of consistency across various OpenSSH versions and usages, we implement a clustering approach. This ensures that our embeddings not only accurately detect SSH keys but also maintain coherence and adaptability across different OpenSSH environments.
 
 
 \chapter{Research Questions}
@@ -37,3 +39,4 @@ General Requirements to the thesis:
 The \textbf{Methods} section is comprehensive, encompassing several key areas of exploration: the \textbf{Dataset Exploration} sub-section details the data under scrutiny; the \textbf{Embedding Techniques Used} sub-section describes the methods employed to process and analyze the data; the \textbf{Embedding Test on Performance} and \textbf{Embedding Test on Coherence} sub-sections evaluate the effectiveness of these techniques.
 
 The \textbf{Results} section presents the findings of the research, while the \textbf{Discussion} section reflects on the implications, limitations, and potential areas for further inquiry. Finally, the \textbf{Conclusion} summarizes the thesis, reaffirming its contributions and outcomes. Supporting materials and additional information are provided in the \textbf{Appendix}, which serves as a reference and complements the main text.
+
